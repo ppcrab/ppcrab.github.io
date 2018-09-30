@@ -87,7 +87,7 @@
 <meta property="og:description" content="gdb这种东西在进行pwn写脚本调试的时候经常用到，虽然你在linux里面编写C程序的时候也会用到它以及gcc 但是很显然，我们还是使用linux编写起来更为方便。不过呢，知道linux里面的gcc是一个什么东西，也是一个十分必要的事情，要不然不是显得太low了吗。所以，在我们进行gdb脚本调试之前我们先进行gdb调试一下我们的C程序，首先进行调试的程序是一个最简单的程序，1gcc -o b.ou">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://ppcrab.github.io/2018/09/24/oj纳新gdb调试入门/exa1_1.png">
-<meta property="og:updated_time" content="2018-09-25T15:04:47.028Z">
+<meta property="og:updated_time" content="2018-09-27T13:40:28.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="oj纳新gdb调试入门">
 <meta name="twitter:description" content="gdb这种东西在进行pwn写脚本调试的时候经常用到，虽然你在linux里面编写C程序的时候也会用到它以及gcc 但是很显然，我们还是使用linux编写起来更为方便。不过呢，知道linux里面的gcc是一个什么东西，也是一个十分必要的事情，要不然不是显得太low了吗。所以，在我们进行gdb脚本调试之前我们先进行gdb调试一下我们的C程序，首先进行调试的程序是一个最简单的程序，1gcc -o b.ou">
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  420
+                  638
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  2
                 </span>
               
             </div>
@@ -369,6 +369,7 @@
 <p>disass func_name用于反汇编一个函数</p>
 <p>disassemble 0x0 0x10用于反汇编一段内存地址，第一个参数是其实地址，第二个是终止地址</p>
 <p>查看 反汇编指令的另一个方法就是使用x<br>x/3i $pc<br>显示pc开始的3条指令</p>
+<p>gdb调试的一个重要的指令就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">x /nfu  </span><br><span class="line">//通过这个指令来查看相应的内存地址处的东西</span><br><span class="line">例如： x /8xb 0x5555555546b2</span><br><span class="line">0x5555555546b2 &lt;print_str+40&gt;:	0xc6	0x00	0x61	0xbf	0x0a	0x00	0x00	0x00</span><br><span class="line"></span><br><span class="line">/*  </span><br><span class="line">    x是 examine 的缩写</span><br><span class="line">    n表示要显示的内存单元的个数</span><br><span class="line">    f表示显示方式, 可取如下值 </span><br><span class="line">    x 按十六进制格式显示变量</span><br><span class="line">    d 按十进制格式显示变量</span><br><span class="line">    u 按十进制格式显示无符号整型</span><br><span class="line">    o 按八进制格式显示变量</span><br><span class="line">    t 按二进制格式显示变量</span><br><span class="line">    a 按十六进制格式显示变量</span><br><span class="line">    i 指令地址格式</span><br><span class="line">    c 按字符格式显示变量</span><br><span class="line">    f 按浮点数格式显示变量</span><br><span class="line">    u表示一个地址单元的长度 </span><br><span class="line">    b表示单字节</span><br><span class="line">    h表示双字节</span><br><span class="line">    w表示四字节</span><br><span class="line">    g表示八字节</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -558,7 +559,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">2.2k</span>
+    <span title="Site words total count">2.6k</span>
   
 </div>
 

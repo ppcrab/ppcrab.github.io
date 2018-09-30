@@ -324,7 +324,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  168
+                  348
                 </span>
               
 
@@ -365,6 +365,7 @@
           
             <p>最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。</p>
 <h3 id="微信小程序的注入分析"><a href="#微信小程序的注入分析" class="headerlink" title="微信小程序的注入分析"></a>微信小程序的注入分析</h3><p>微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。<br>所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。</p>
+<h3 id="First-使用burp进行手机抓包"><a href="#First-使用burp进行手机抓包" class="headerlink" title="First 使用burp进行手机抓包"></a>First 使用burp进行手机抓包</h3><p>获得应用程序，包括微信小程序的一些传输的详细信息，首先想到的肯定就是获取流量包。那么，首先面临的问题就是手机的root权限的问题，emmm,手机root之后的一个十分严重的问题就是—你的手机再也不能保修了~，好吧，我正在想要不要root掉我的手机，迟早root，我还想着等阵子去弄安卓系统呢。。到时候我的手机肯定是我的一个十分重要的研究对象。<br>有关的网址[<a href="https://www.zhihu.com/question/41990451]" target="_blank" rel="noopener">https://www.zhihu.com/question/41990451]</a><br>我要是还有个专门用来研究的手机就好了~~~~</p>
 
           
         
@@ -476,7 +477,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  893
+                  909
                 </span>
               
 
@@ -516,7 +517,8 @@
         
           
             <p>tips：我会一点点完善每一个知识点，可能是自己写的心得，或者是引用写的十分棒的大佬博客</p>
-<h3 id="n维数组在内存中的存储"><a href="#n维数组在内存中的存储" class="headerlink" title="n维数组在内存中的存储"></a>n维数组在内存中的存储</h3><h3 id="机器级数的表示"><a href="#机器级数的表示" class="headerlink" title="机器级数的表示"></a>机器级数的表示</h3><h3 id="数据的大端-小段的存储方式"><a href="#数据的大端-小段的存储方式" class="headerlink" title="数据的大端/小段的存储方式"></a>数据的大端/小段的存储方式</h3><h3 id="链接器的符号解析规则"><a href="#链接器的符号解析规则" class="headerlink" title="链接器的符号解析规则"></a>链接器的符号解析规则</h3><h3 id="核心转储文件"><a href="#核心转储文件" class="headerlink" title="核心转储文件"></a>核心转储文件</h3><p>核心转储文件这个名词正式的进入我的脑海。。是在我第二次看《程序员的自我修养》的时候，因为我第一次看这本书的时候，是一知半解的，很迷糊的感觉~，第二次就好多了，看的比较清楚了，能够比较清晰的思考其中的问题了（原谅我的菜啊~~~）</p>
+<h3 id="n维数组在内存中的存储"><a href="#n维数组在内存中的存储" class="headerlink" title="n维数组在内存中的存储"></a>n维数组在内存中的存储</h3><h3 id="机器级数的表示"><a href="#机器级数的表示" class="headerlink" title="机器级数的表示"></a>机器级数的表示</h3><h3 id="数据的大端-小端的存储方式"><a href="#数据的大端-小端的存储方式" class="headerlink" title="数据的大端/小端的存储方式"></a>数据的大端/小端的存储方式</h3><p>很简单的知识[<a href="http://www.ruanyifeng.com/blog/2016/11/byte-order.html]" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/11/byte-order.html]</a></p>
+<h3 id="链接器的符号解析规则"><a href="#链接器的符号解析规则" class="headerlink" title="链接器的符号解析规则"></a>链接器的符号解析规则</h3><h3 id="核心转储文件"><a href="#核心转储文件" class="headerlink" title="核心转储文件"></a>核心转储文件</h3><p>核心转储文件这个名词正式的进入我的脑海。。是在我第二次看《程序员的自我修养》的时候，因为我第一次看这本书的时候，是一知半解的，很迷糊的感觉~，第二次就好多了，看的比较清楚了，能够比较清晰的思考其中的问题了（原谅我的菜啊~~~）</p>
 <p>维基定义：核心文件（core file），也称核心转储（core dump），是操作系统在进程收到某些信号而终止运行时，将此时进程地址空间的内容以及有关进程状态的其他信息写出的一个磁盘文件。这种信息往往用于调试。linux下的是core文件（core dump），windows下的是Memory.dmp<br>使用：核心文件通常在系统收到特定的信号时由操作系统生成。信号可以由程序执行过程中的异常触发，也可以由外部程序发送。动作的结果一般是生成一个某个进程的内存转储的文件，文件包含了此进程当前的运行堆栈信息。有时程序并未经过彻底测试，这使得它在执行的时候一不小心就会遭到破坏。这可能会导致核心转储（core dump）。现在的UNIX系统极少会面临这样的问题。即使遇到，程序员可以通过核心映像调试程序来找到错误原因。</p>
 <p>其实这个东西引用十分广泛，有的时候当我们在运行某些软件，会遇到程序崩溃的问题。出现这种情况的原因有的时候是因为一些不知名错误，莫名奇妙的。有的时候就只是卡死了~。<br>windows10在面临这种情况的时候，会表示记录下程序出现的问题，然后发到（额，我忘了具体的名字了）一个地方去。我现在在想，应该就是这个东西了。（可以确定的是，windows蓝屏的时候一定有这个文件的存在，大佬们可以使用这个文件中的信息来进行错误诊断）<br>至于我们经常使用的linux，就会更经常见到这个东西了。<br>首先，gdb跟踪调试是linux环境下调试常用的方法，但在解决一些问题，如频繁创建线程，打印信息很多时，gdb调试会显得效率很低。这个时候，可以先生成内核转储文件，再针对生成的转储文件进行调试，从而大幅度提高调试效率。具体的命令可以很轻松的Google到，在此不再重复，因为本人现在还没有很深入的使用这个东西。<br>然后就是正常的程序的调试的时候也会产生这个东西，当然你得确保你的core文件选项是打开的使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -a</span><br></pre></td></tr></table></figure></p>
 <p>可以看到一系列的选项，第一行core file size是0的话就是没有打开，<br>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c xx</span><br></pre></td></tr></table></figure></p>
@@ -632,7 +634,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  420
+                  638
                 </span>
               
 
@@ -648,7 +650,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  2
                 </span>
               
             </div>
@@ -676,6 +678,7 @@
 <p>disass func_name用于反汇编一个函数</p>
 <p>disassemble 0x0 0x10用于反汇编一段内存地址，第一个参数是其实地址，第二个是终止地址</p>
 <p>查看 反汇编指令的另一个方法就是使用x<br>x/3i $pc<br>显示pc开始的3条指令</p>
+<p>gdb调试的一个重要的指令就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">x /nfu  </span><br><span class="line">//通过这个指令来查看相应的内存地址处的东西</span><br><span class="line">例如： x /8xb 0x5555555546b2</span><br><span class="line">0x5555555546b2 &lt;print_str+40&gt;:	0xc6	0x00	0x61	0xbf	0x0a	0x00	0x00	0x00</span><br><span class="line"></span><br><span class="line">/*  </span><br><span class="line">    x是 examine 的缩写</span><br><span class="line">    n表示要显示的内存单元的个数</span><br><span class="line">    f表示显示方式, 可取如下值 </span><br><span class="line">    x 按十六进制格式显示变量</span><br><span class="line">    d 按十进制格式显示变量</span><br><span class="line">    u 按十进制格式显示无符号整型</span><br><span class="line">    o 按八进制格式显示变量</span><br><span class="line">    t 按二进制格式显示变量</span><br><span class="line">    a 按十六进制格式显示变量</span><br><span class="line">    i 指令地址格式</span><br><span class="line">    c 按字符格式显示变量</span><br><span class="line">    f 按浮点数格式显示变量</span><br><span class="line">    u表示一个地址单元的长度 </span><br><span class="line">    b表示单字节</span><br><span class="line">    h表示双字节</span><br><span class="line">    w表示四字节</span><br><span class="line">    g表示八字节</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1149,7 +1152,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">2.2k</span>
+    <span title="Site words total count">2.6k</span>
   
 </div>
 

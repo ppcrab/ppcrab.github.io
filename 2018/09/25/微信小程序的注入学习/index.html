@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。 微信小程序的注入分析微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。">
+<meta name="description" content="最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。 微信小程序的注入分析微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。 First">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微信小程序的注入学习">
 <meta property="og:url" content="https://ppcrab.github.io/2018/09/25/微信小程序的注入学习/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。 微信小程序的注入分析微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。">
+<meta property="og:description" content="最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。 微信小程序的注入分析微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。 First">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-25T15:13:04.479Z">
+<meta property="og:updated_time" content="2018-09-27T13:58:44.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微信小程序的注入学习">
-<meta name="twitter:description" content="最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。 微信小程序的注入分析微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。">
+<meta name="twitter:description" content="最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。 微信小程序的注入分析微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。 First">
 
 
 
@@ -325,7 +325,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  168
+                  348
                 </span>
               
 
@@ -364,6 +364,7 @@
       
         <p>最近舍友开始弄了个微信小程序玩玩，我想微信小程序作为一种深网应该也属于web的一部分，觉得对这个东西注入应该挺有意思的。哈哈。所以就和xj大佬开始了微信小程序的注入学习。</p>
 <h3 id="微信小程序的注入分析"><a href="#微信小程序的注入分析" class="headerlink" title="微信小程序的注入分析"></a>微信小程序的注入分析</h3><p>微信小程序是一种深层次的网络，从谷歌百度搜不到。微信小程序的后台很多是使用js写的。具体的说就是nodejs。<br>所以现在一开始的注入学习是了解nodejs的特有漏洞还有它和数据库的传输过程的分析。</p>
+<h3 id="First-使用burp进行手机抓包"><a href="#First-使用burp进行手机抓包" class="headerlink" title="First 使用burp进行手机抓包"></a>First 使用burp进行手机抓包</h3><p>获得应用程序，包括微信小程序的一些传输的详细信息，首先想到的肯定就是获取流量包。那么，首先面临的问题就是手机的root权限的问题，emmm,手机root之后的一个十分严重的问题就是—你的手机再也不能保修了~，好吧，我正在想要不要root掉我的手机，迟早root，我还想着等阵子去弄安卓系统呢。。到时候我的手机肯定是我的一个十分重要的研究对象。<br>有关的网址[<a href="https://www.zhihu.com/question/41990451]" target="_blank" rel="noopener">https://www.zhihu.com/question/41990451]</a><br>我要是还有个专门用来研究的手机就好了~~~~</p>
 
       
     </div>
@@ -539,7 +540,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#微信小程序的注入分析"><span class="nav-number">1.</span> <span class="nav-text">微信小程序的注入分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#微信小程序的注入分析"><span class="nav-number">1.</span> <span class="nav-text">微信小程序的注入分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#First-使用burp进行手机抓包"><span class="nav-number">2.</span> <span class="nav-text">First 使用burp进行手机抓包</span></a></li></ol></div>
             
 
           </div>
@@ -574,7 +575,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">2.2k</span>
+    <span title="Site words total count">2.6k</span>
   
 </div>
 
