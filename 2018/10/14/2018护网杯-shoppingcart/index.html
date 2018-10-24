@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-14T09:44:41.086Z">
+<meta property="og:updated_time" content="2018-10-16T12:55:12.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018护网杯_shoppingcart">
 <meta name="twitter:description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
@@ -325,7 +325,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  465
+                  461
                 </span>
               
 
@@ -365,7 +365,8 @@
         <p>对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。</p>
 <h3 id="突破口—-strtoul"><a href="#突破口—-strtoul" class="headerlink" title="突破口—-strtoul"></a>突破口—-strtoul</h3><p>strtoul()函数我之前就没用过<del>~</del>，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把字符串类型的一串字符转换成相应的int类型的数字（第三个参数对应着转换的进制），再详细的记录我觉得没有太大的必要，用的时候自己去搜就好。<br>这个函数使用的时候需要注意的一点就是返回值，返回值为无符号long型数值，如果是负数会返回一个大正数。也就是说，这个这个东西虽然是转换字符串类型为int类型的，但是并不是对于任何的数值都是这么的好用，对于’-100’这种数值就无能为力了，而且还有返回数值emmm，虽然十分奇怪，真搞不懂为什么这种函数还会存在于C语言的库函数之中，明摆着是用来搞事情的吗。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">    char buffer [256];</span><br><span class="line">    unsigned long ul;</span><br><span class="line">    printf (&quot;Enter an unsigned number: &quot;);</span><br><span class="line">    fgets (buffer, 256, stdin);</span><br><span class="line">    ul = strtoul (buffer, NULL, 10);</span><br><span class="line">    printf (&quot;Value entered: %lu.\n&quot;, ul);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">linux下的运行结果是</span><br><span class="line">Enter an unsigned number: -100</span><br><span class="line">Value entered: 4294967196.</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-<h3 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h3><p>十分尴尬，我还是没有弄明白怎么使用这个东西，当我弄明白之后再更新进度</p>
+<h3 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h3><h3 id="The-other-idea"><a href="#The-other-idea" class="headerlink" title="The other idea"></a>The other idea</h3><p>找到了一篇写的很详细的<a href="https://bbs.pediy.com/thread-247277.htm" target="_blank" rel="noopener">博客</a><br>讲的很不错：</p>
+<h2 id="小白讲解："><a href="#小白讲解：" class="headerlink" title="小白讲解："></a>小白讲解：</h2><p><a href="https://blog.csdn.net/qq_38623623/article/details/72599473" target="_blank" rel="noopener">解引用</a></p>
 
       
     </div>
@@ -399,6 +400,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/16/Hackergame2018/" rel="prev" title="Hackergame2018">
+                Hackergame2018 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -479,7 +484,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -541,7 +546,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#突破口—-strtoul"><span class="nav-number">1.</span> <span class="nav-text">突破口—-strtoul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞的利用"><span class="nav-number">2.</span> <span class="nav-text">漏洞的利用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#突破口—-strtoul"><span class="nav-number">1.</span> <span class="nav-text">突破口—-strtoul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞的利用"><span class="nav-number">2.</span> <span class="nav-text">漏洞的利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-other-idea"><span class="nav-number">3.</span> <span class="nav-text">The other idea</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小白讲解："><span class="nav-number"></span> <span class="nav-text">小白讲解：</span></a></div>
             
 
           </div>
@@ -576,7 +581,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">3.9k</span>
+    <span title="Site words total count">4.6k</span>
   
 </div>
 

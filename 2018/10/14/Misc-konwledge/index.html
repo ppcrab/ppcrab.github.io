@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="使用python编写脚本的时候，有的时候会遇到base64编码转换的问题，解决的方法可以是选择上网进行在线转换，然后直接进行粘贴复制就行，但是python这么牛逼的语言怎么可能没有这样的功能呢。下面的这个脚本是2018护网杯的签到题目，我做这道题目的时候使用的是直接从网上解码出来的16进制数字粘贴复制然后进行脚本运算，但是显然这种方法更加的简单一些。123456789101112import ba">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-14T09:29:56.321Z">
+<meta property="og:updated_time" content="2018-10-23T14:39:42.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Misc_konwledge">
 <meta name="twitter:description" content="使用python编写脚本的时候，有的时候会遇到base64编码转换的问题，解决的方法可以是选择上网进行在线转换，然后直接进行粘贴复制就行，但是python这么牛逼的语言怎么可能没有这样的功能呢。下面的这个脚本是2018护网杯的签到题目，我做这道题目的时候使用的是直接从网上解码出来的16进制数字粘贴复制然后进行脚本运算，但是显然这种方法更加的简单一些。123456789101112import ba">
@@ -325,7 +325,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  292
+                  380
                 </span>
               
 
@@ -363,6 +363,9 @@
 
       
         <p>使用python编写脚本的时候，有的时候会遇到base64编码转换的问题，解决的方法可以是选择上网进行在线转换，然后直接进行粘贴复制就行，但是python这么牛逼的语言怎么可能没有这样的功能呢。<br>下面的这个脚本是2018护网杯的签到题目，我做这道题目的时候使用的是直接从网上解码出来的16进制数字粘贴复制然后进行脚本运算，但是显然这种方法更加的简单一些。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line">import sys</span><br><span class="line">a = &quot;AAoHAR1XICciX1IlXiBUVFFUIyRRJFRQVyUnVVMnUFcgIiNXXhs=&quot;</span><br><span class="line"></span><br><span class="line">b=base64.b64decode(a.encode(&apos;utf-8&apos;)) </span><br><span class="line">c = b.decode(&apos;utf-8&apos;)</span><br><span class="line">              //这两步十分重要，也就是我想用这个例子来说明的base转码技巧</span><br><span class="line">for i in range(200):</span><br><span class="line">    for a in c:</span><br><span class="line">        f=ord(a)^i</span><br><span class="line">        print(chr(f),end=&quot;&quot;)//这里也有一个小小的python语法技巧，如果你想要这个循环里的结果（这里就是异或的结果f）在一行输出，就要使用&apos;,end+&quot;&quot; &apos;这种类似的方式，当然end=&quot;1&quot;什么的，自然会有相应的结果。</span><br><span class="line">    print()</span><br></pre></td></tr></table></figure></p>
+<p>png的高度更改的格式是第二行的第六列，宽度是</p>
+<h3 id="outguess的使用方式："><a href="#outguess的使用方式：" class="headerlink" title="outguess的使用方式："></a>outguess的使用方式：</h3><p>加密：<br> outguess -k “my secret key” -d hidden.txt demo.jpg out.jpg<br> 加密之后，demo.jpg会覆盖out.jpg,<br> hidden.txt中的内容是要隐藏的东西</p>
+<p>解密：<br> outguess -k “my secret key” -r out.jpg hidden.txt<br> 解密之后，解密内容放在hidden.txt中</p>
 
       
     </div>
@@ -451,8 +454,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -471,7 +483,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -524,6 +536,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#outguess的使用方式："><span class="nav-number">1.</span> <span class="nav-text">outguess的使用方式：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -552,7 +580,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">3.9k</span>
+    <span title="Site words total count">4.6k</span>
   
 </div>
 
