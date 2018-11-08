@@ -261,6 +261,363 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/11/02/pwnable-tw-calc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/02/pwnable-tw-calc/" itemprop="url">pwnable.tw_calc</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-02T10:58:10+08:00">
+                2018-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>主要参考网站 <a href="https://www.freebuf.com/articles/others-articles/132283.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/others-articles/132283.html</a></p>
+<p>对于这道题目 我们一开始要做的肯定是进行程序的使用啊，先用一下，然后看怎么运行的，这样对我们接下来的分析也是有帮助的。</p>
+<p><img src="/2018/11/02/pwnable-tw-calc/first_run.PNG" alt="first_run"></p>
+<p>很容易的我们就进行了这样简单的功能测试，当然，很重要的一点是有的计算器程序的漏洞点，或者说是bug点，就是除数为0，还有最小int数 -2147483648除以-1的情况</p>
+<p><img src="file:///D:/GIT/Hexo/source/_posts/pwnable-tw-calc/scend_runtojudge.PNG?lastModify=1541127495" alt="scend_runtojudge"></p>
+<p>好像-号不能代表负数？，然后这样测试了几次发现这个计算器真垃圾~，只能处理一定的情况，并不是对于所有的情况都能处理 <img src="/2018/11/02/pwnable-tw-calc/something_run.PNG" alt="something_run"></p>
+<p>又试了试这种情况就更好玩了，发现了一个事情，如果这个我们之前猜测的正确的话，那-2147483648也应该当作负数处理啊，有点和之前猜测的不一样。intesting，可是我们没有更加合适的猜测，继续进行ida反编译过程。</p>
+<p>main函数里面只有一个calc函数有点作用，这个函数里面有以get_expr(),init_pool(),parse_expr()三个函数看起来起的作用大。依次分析。</p>
+<p>get_expr()的作用就是将输入的东西依次读入，判断输入的东西是否符合条件（所以前面括号不符合就gg）并且放在s中。</p>
+<p>init_pool()的作用是传入申请的int v1的地址，然后开辟了100个int变量的空间</p>
+<p>  <img src="/2018/11/02/pwnable-tw-calc/intestting_int.PNG" alt="intestting_int"></p>
+<p>这就很有意思了，这个操作反正在我自己写代码的时候没有用过，居然这么开辟空间的，连指针都没有申请，直接取地址。但是自己又写了写代码实验一番，发现居然可以~~~，还是自己太young。。。，反正就是差不多把v1当作一个数组的[0]这个位置，然后v2就是紧接着的空间，这一点从他们在申请的时候在栈上的分配就能看的出来，额，现在一想，这可能是逆向的时候判断的问题？，可能源码写的时候不是这么写的，而是看起来正常的操作。。。。emmm，不管了，反正实现的功能肯定是一样的，看看接下来的操作是什么吧。看起来最后的函数parse_expr才是大头啊。</p>
+<p>首先这个东西传入的参数是我们之前已经保存下来的用户输入的字符串的首地址以及我们开辟的int栈，在这个函数里面咱们就改个名字，分别以orgin_chr,还有num来命名，这样看起代码来更加舒服。</p>
+<p>开始就是一个判断的for循环，然后里面就是一个if判断语句，判断第i个字符是否是操作符，也就是加减乘除这些东西，不是的话就进行下一个循环，（其实我还没有想明白为什么最后的那个0x0也满足进入这个循环的条件 <img src="/2018/11/02/pwnable-tw-calc/doubt.PNG" alt="doubt"></p>
+<p>我觉得这个判断条件应该是直接隶属于for循环的，这样就能行得通了。</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/bug1.PNG" alt="bug1"></p>
+<p>只要有零就是错误，垃圾玩意。bug，但是没啥用</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/emm.PNG" alt=" ![emm](pwnable-tw-calc\emm.PNG)"></p>
+<p>看到这的时候其实还是有疑惑的，因为从上面的逻辑来说这个操作不是很合理，因为这一步的操作没有考虑,v9是什么，操作符，s1的操作符前面的数字（至于为什么就得知道atoi函数作用是什么了）</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/1.PNG" alt="1"></p>
+<p>这一步的V4 = （*num）++不就是把calc里面的v1给++了吗，所以这一步就是num[num[0]+1]=v9;</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/lianxu.PNG" alt="lianxu"></p>
+<p>检验连续的两个操作符情况，这种情况会将报错退出。实际情况也是这样。</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/s_char.PNG" alt="s_char"></p>
+<p>s[v7]中保存的就是前一个操作数~,也就是类似于输入1+1-3这种情况他是在到-这个操作符的时候，就会把1+1运算出来，显然，这里会把运算结果给放在一个地方，好用于第二次的运算，下面的程序证明了这一点</p>
+<p>对于这个程序还有一个地方是值得注意的： </p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/i_1.PNG" alt="i_1"></p>
+<p>   也就是这里的i_(我自己改了名字)，还有下面这里</p>
+<p><img src="/2018/11/02/pwnable-tw-calc/i_2.PNG" alt="i_2"></p>
+<p>第一次进入if语句之后，正常情况下，肯定是i_=i，仔细一想应该就是1了;之后进入倒是可以确定数值，1。so，正常情况这个东西肯定就是一个定值1，但是这里明显可以操作~</p>
+<p>至于第二个语句还有一点很重要，那就是它改变了字符串复制的位置，导致memcpy每一次进入这个if语句都只是把一个操作符以及这个操作符之前的数字复制了下来。</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/emm.PNG" alt="emm"></p>
+<p>这个时候你再看这个v9就很有清楚了emmm</p>
+<p>当你阅读到这里的时候，应该已经讲这个程序真正的读明白了，所以（*num)代表的是参与操作的数字的数量，并且正常情况下这个东西是2.</p>
+<p>比如2+3-2-&gt;*num在运算到+的时候加上了1成了1，但是在运算到-的时候再次加1，成了2,but在经历完eval（）函数之后又成了1.</p>
+<p>并且在eval（）函数中可以知道：</p>
+<p>num[0]（v1）,num[1],num[2]：num[num[0]-1]  (x)=num[num[0]]</p>
+<p>漏洞点在哪呢？</p>
+<p>第一次进行num[0]++的判断语句那里！</p>
+<p>如果我们没有进入到这个判断的话~也就是判断失败，也就是v9等于0，也就是s1里面的操作符前面没有数字，也就是输入的字符串以操作符打头~：比如-21；</p>
+<p>会出现什么后果，第一次通过-进入循环之后num[0]还是0，所以运行到+的时候也就是num[num[0]-1] = num[0]   num[1]=21</p>
+<p>也就是num[0] =num[0]-num[1] = -21; </p>
+<p>这个时候输出的东西实际上就是num[num[0]-1],num[-22],就是栈上的一个位置</p>
+<p>输入+300-20之类的呢？的到的输出是-20</p>
+<p>但是这个时候居然没有修改成功num[300],岂不是白忙活？原来是循环的时候将特定的地址给清零了就是bzero()函数，但是类似于+357-111这样的就不会其实num[357]这个地方就是v4。</p>
+<p>返回地址容易就能看出来是num[361]</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/栈空间.PNG" alt="栈空间"></p>
+<p>接下来就是构造rop链了实现操作了，</p>
+<p>由于堆栈不可执行，所以直接进行shellcode的操作是gg了，幸运的是，这里的链接全部是静态的（ldd文件会有提示）。所以我们就需要调execve(“/bin/sh”)就可以了</p>
+<p> <img src="/2018/11/02/pwnable-tw-calc/rop链的栈图像.jpg" alt="rop链的栈图像"></p>
+<p>通过ROPgadget来寻找其中的汇编语句，来构造rop链：</p>
+<p>再详细的东西就不画瓢了，看这个网站就行，写的很好</p>
+<p><a href="https://www.freebuf.com/articles/others-articles/132283.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/others-articles/132283.html</a></p>
+<p>有一点这个网站没有解释：ebp应该是无符号数，但是被当作有符号数输出，输出的是负数，需要加上0x100000000（2^9）才是无符号数的真实值。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/30/逆向学习的记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/30/逆向学习的记录/" itemprop="url">逆向学习的记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-30T17:03:23+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  627
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>感觉自己的逆向水平垃圾的一匹，准备记录一波督促自己学习。我会把自己觉得很新颖的</p>
+<h3 id="1，入门级别"><a href="#1，入门级别" class="headerlink" title="1，入门级别"></a>1，入门级别</h3><p>入门级别的逆向题型中最简单的是字符串搜索，只是使用了ida这个工具进行逆向罢了。不再复述。<br>再稍稍微微难一些的逆向就是逆向之后就是显而易见的程序代码，而且还是最简单的程序代码，最常见的就是一个输入的字符串进行了异或操作来和程序代码中原有的字符串进行比较，在这个里面，程序中的字符串直接就出现在了程序的数据段里面，需要注意的一个小细节就是ida提取数组的快捷键是shift+E 可以直接将数组导出而不用一个一个的进行输出了，这种情况（C语言代码十分简单）下，难点就是最异或操作的熟悉程度了。<br>然后就是一些不能直接从后台ida里面看出来要比较的数组的长度甚至是数据本身的。这种时候就要进行动态调试了，这时候，最常见的断点就是cmp处，因为输入的和原有的要进行比较啊。所以这个端点处，我们就可以观察寄存器的数值了。这种情况需要对汇编语言熟悉，越熟悉越容易理解。tips：使用ida的动态调试功能的辅助程序在dbgsrv文件夹里面，需要调试的程序的路径不能包含中文字符。</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>python反编译也是存在的。。。是我孤陋寡闻了。这时候需要用到的工具就不是ida了<br>这个时候就是去改脚本了，或者说这个时候就是和密码学联系起来的事情了，这时候，有一些小技巧。或者说是对于密码学脚本来说的小技巧，那就是去找返回值，去找返回语句，因为好多密码学的脚本都是把解密的那一部分放置在了一个函数里面，那么只需要改动最后返回值的判断条件，或者说，返回你想要的东西不就完了吗。<br><img src="/2018/10/30/逆向学习的记录/蓝盾逆向.png" alt=""><br>但是逆向回来的程序在自己的电脑上跑的时候。经常会有bug出现，所以~还是得经常使用python才能搞好；</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/24/虚拟机工具搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -324,7 +681,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  5
+                  147
                 </span>
               
 
@@ -363,7 +720,12 @@
       
         
           
-            <p><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a>   </p>
+            <h3 id="python-2-7环境安装"><a href="#python-2-7环境安装" class="headerlink" title="python 2.7环境安装"></a>python 2.7环境安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python2.7 python2.7-dev</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential libssl-dev libevent-dev libjpeg-dev libxml2-dev libxslt-dev//很多pip安装的包都需要libssl和libevent编译环境</span><br><span class="line"> sudo apt-get install python-pip</span><br><span class="line"> //安装 virtualenv</span><br><span class="line">2 sudo pip install virtualenv//virtualenv是 Python 多版本管理的利器，不同版本的开发调试全靠它了（如果没有安装不同版本的Python则不需要安装了），命令如下</span><br></pre></td></tr></table></figure>
+<h3 id="ropgad："><a href="#ropgad：" class="headerlink" title="ropgad："></a>ropgad：</h3><p><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a>   </p>
+<h3 id="pwndbg"><a href="#pwndbg" class="headerlink" title="pwndbg"></a>pwndbg</h3><p>git clone <a href="https://github.com/pwndbg/pwndbg" target="_blank" rel="noopener">https://github.com/pwndbg/pwndbg</a><br>cd pwndbg<br>./setup.sh</p>
+<h3 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h3><p>git clone <a href="https://github.com/devttys0/binwalk" target="_blank" rel="noopener">https://github.com/devttys0/binwalk</a><br>cd binwalk<br>sudo python setup.py install</p>
+<h4 id="32位运行库的安装"><a href="#32位运行库的安装" class="headerlink" title="32位运行库的安装"></a>32位运行库的安装</h4><p>sudo apt-get install  lib32ncurses5 lib32z1</p>
 
           
         
@@ -1469,322 +1831,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/24/二进制-你可能需要知道的一些知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/24/二进制-你可能需要知道的一些知识/" itemprop="url">二进制-你可能需要知道的一些知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-24T19:05:14+08:00">
-                2018-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  968
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  3
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>tips：我会一点点完善每一个知识点，可能是自己写的心得，或者是引用写的十分棒的大佬博客</p>
-<h3 id="n维数组在内存中的存储"><a href="#n维数组在内存中的存储" class="headerlink" title="n维数组在内存中的存储"></a>n维数组在内存中的存储</h3><h3 id="机器级数的表示"><a href="#机器级数的表示" class="headerlink" title="机器级数的表示"></a>机器级数的表示</h3><h3 id="数据的大端-小端的存储方式"><a href="#数据的大端-小端的存储方式" class="headerlink" title="数据的大端/小端的存储方式"></a>数据的大端/小端的存储方式</h3><p>很简单的知识[<a href="http://www.ruanyifeng.com/blog/2016/11/byte-order.html]" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/11/byte-order.html]</a></p>
-<h3 id="链接器的符号解析规则"><a href="#链接器的符号解析规则" class="headerlink" title="链接器的符号解析规则"></a>链接器的符号解析规则</h3><h3 id="核心转储文件"><a href="#核心转储文件" class="headerlink" title="核心转储文件"></a>核心转储文件</h3><p>核心转储文件这个名词正式的进入我的脑海。。是在我第二次看《程序员的自我修养》的时候，因为我第一次看这本书的时候，是一知半解的，很迷糊的感觉~，第二次就好多了，看的比较清楚了，能够比较清晰的思考其中的问题了（原谅我的菜啊~~~）</p>
-<p>维基定义：核心文件（core file），也称核心转储（core dump），是操作系统在进程收到某些信号而终止运行时，将此时进程地址空间的内容以及有关进程状态的其他信息写出的一个磁盘文件。这种信息往往用于调试。linux下的是core文件（core dump），windows下的是Memory.dmp<br>使用：核心文件通常在系统收到特定的信号时由操作系统生成。信号可以由程序执行过程中的异常触发，也可以由外部程序发送。动作的结果一般是生成一个某个进程的内存转储的文件，文件包含了此进程当前的运行堆栈信息。有时程序并未经过彻底测试，这使得它在执行的时候一不小心就会遭到破坏。这可能会导致核心转储（core dump）。现在的UNIX系统极少会面临这样的问题。即使遇到，程序员可以通过核心映像调试程序来找到错误原因。</p>
-<p>其实这个东西引用十分广泛，有的时候当我们在运行某些软件，会遇到程序崩溃的问题。出现这种情况的原因有的时候是因为一些不知名错误，莫名奇妙的。有的时候就只是卡死了~。<br>windows10在面临这种情况的时候，会表示记录下程序出现的问题，然后发到（额，我忘了具体的名字了）一个地方去。我现在在想，应该就是这个东西了。（可以确定的是，windows蓝屏的时候一定有这个文件的存在，大佬们可以使用这个文件中的信息来进行错误诊断）<br>至于我们经常使用的linux，就会更经常见到这个东西了。<br>首先，gdb跟踪调试是linux环境下调试常用的方法，但在解决一些问题，如频繁创建线程，打印信息很多时，gdb调试会显得效率很低。这个时候，可以先生成内核转储文件，再针对生成的转储文件进行调试，从而大幅度提高调试效率。具体的命令可以很轻松的Google到，在此不再重复，因为本人现在还没有很深入的使用这个东西。<br>然后就是正常的程序的调试的时候也会产生这个东西，当然你得确保你的core文件选项是打开的使用命令</p>
-<p>核心转储文件在进行gdb调试 做pwn题目的时候会有十分大的作用，使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c unlimited来开启core dump</span><br></pre></td></tr></table></figure></p>
-<p>然后就能在程序崩溃的时候产生相关的信息了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -a</span><br></pre></td></tr></table></figure>
-<p>可以看到一系列的选项，第一行core file size是0的话就是没有打开，<br>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c xx</span><br></pre></td></tr></table></figure></p>
-<p>xx指的是core文件限定的大小，或者使用’umlimited’不去限定大小。<br>然后你就可以使用core来进行gdb调试了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/24/oj纳新gdb调试入门/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/24/oj纳新gdb调试入门/" itemprop="url">oj纳新gdb调试入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-24T14:55:46+08:00">
-                2018-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  638
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>gdb这种东西在进行pwn写脚本调试的时候经常用到，虽然你在linux里面编写C程序的时候也会用到它以及gcc 但是很显然，我们还是使用linux编写起来更为方便。不过呢，知道linux里面的gcc是一个什么东西，也是一个十分必要的事情，要不然不是显得太low了吗。所以，在我们进行gdb脚本调试之前我们先进行gdb调试一下我们的C程序，首先进行调试的程序是一个最简单的程序，<br><img src="/2018/09/24/oj纳新gdb调试入门/exa1_1.png" alt=""><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o b.out exa.c</span><br></pre></td></tr></table></figure></p>
-<p>gcc -S 会生成一个.s文件，然后直接进行cat这个这个.s文件就可以看到这个程序的汇编代码了。<br>gcc -g 可以产生调试信息，在linux中是core文件<br>gcc -E 只把源文件进行预处理之后的结果输出来。不做编译，汇编，连接的动作。<br>gcc -c表示只编译(compile)源文件但不链接，会把.c或.cc的c源程序编译成目标文件，一般是.o文件。<br>gcc -o用于指定输出(out)文件名。不用-o的话，一般会在当前文件夹下生成默认的a.out文件作为可执行程序。<br>gcc -v把整个编译过程中的输出信息都给打印出来<br>gcc -Wall 显示编译中的所有的警告</p>
-<p>disass func_name用于反汇编一个函数</p>
-<p>disassemble 0x0 0x10用于反汇编一段内存地址，第一个参数是其实地址，第二个是终止地址</p>
-<p>查看 反汇编指令的另一个方法就是使用x<br>x/3i $pc<br>显示pc开始的3条指令</p>
-<p>gdb调试的一个重要的指令就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">x /nfu  </span><br><span class="line">//通过这个指令来查看相应的内存地址处的东西</span><br><span class="line">例如： x /8xb 0x5555555546b2</span><br><span class="line">0x5555555546b2 &lt;print_str+40&gt;:	0xc6	0x00	0x61	0xbf	0x0a	0x00	0x00	0x00</span><br><span class="line"></span><br><span class="line">/*  </span><br><span class="line">    x是 examine 的缩写</span><br><span class="line">    n表示要显示的内存单元的个数</span><br><span class="line">    f表示显示方式, 可取如下值 </span><br><span class="line">    x 按十六进制格式显示变量</span><br><span class="line">    d 按十进制格式显示变量</span><br><span class="line">    u 按十进制格式显示无符号整型</span><br><span class="line">    o 按八进制格式显示变量</span><br><span class="line">    t 按二进制格式显示变量</span><br><span class="line">    a 按十六进制格式显示变量</span><br><span class="line">    i 指令地址格式</span><br><span class="line">    c 按字符格式显示变量</span><br><span class="line">    f 按浮点数格式显示变量</span><br><span class="line">    u表示一个地址单元的长度 </span><br><span class="line">    b表示单字节</span><br><span class="line">    h表示双字节</span><br><span class="line">    w表示四字节</span><br><span class="line">    g表示八字节</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1839,7 +1885,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1920,7 +1966,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">4.6k</span>
+    <span title="Site words total count">7.2k</span>
   
 </div>
 
