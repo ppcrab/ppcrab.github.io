@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://ppcrab.github.io/archives/page/2/index.html">
+<meta name="description" content="很重要的一点是要找到一个不变的在链接库中的地址，我的意思是，可以通过给出的程序泄露出某一个某一个地址，而这个地址在链接库中的相对位置（偏移）是不变的，这个时候，我们就能通过减去这个偏移（vmmap这个指令可以看到程序加载的时候的链接库的内存地址的范围，然后我们就能通过这个算出来偏移但是一般情况下，这个链接库的版本不一样，偏移也是不一样的，所以我们可以使用readelf来看一下给的libc以及自己电">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn_动态链接库系列">
+<meta property="og:url" content="https://ppcrab.github.io/2018/11/13/pwn-动态链接库系列/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很重要的一点是要找到一个不变的在链接库中的地址，我的意思是，可以通过给出的程序泄露出某一个某一个地址，而这个地址在链接库中的相对位置（偏移）是不变的，这个时候，我们就能通过减去这个偏移（vmmap这个指令可以看到程序加载的时候的链接库的内存地址的范围，然后我们就能通过这个算出来偏移但是一般情况下，这个链接库的版本不一样，偏移也是不一样的，所以我们可以使用readelf来看一下给的libc以及自己电">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-13T12:00:22.984Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="pwn_动态链接库系列">
+<meta name="twitter:description" content="很重要的一点是要找到一个不变的在链接库中的地址，我的意思是，可以通过给出的程序泄露出某一个某一个地址，而这个地址在链接库中的相对位置（偏移）是不变的，这个时候，我们就能通过减去这个偏移（vmmap这个指令可以看到程序加载的时候的链接库的内存地址的范围，然后我们就能通过这个算出来偏移但是一般情况下，这个链接库的版本不一样，偏移也是不一样的，所以我们可以使用readelf来看一下给的libc以及自己电">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://ppcrab.github.io/archives/page/2/"/>
+  <link rel="canonical" href="https://ppcrab.github.io/2018/11/13/pwn-动态链接库系列/"/>
 
 
 
 
 
-  <title>Archive | Hexo</title>
+  <title>pwn_动态链接库系列 | Hexo</title>
   
 
 
@@ -152,7 +156,7 @@
    
    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
    
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -246,226 +250,184 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/11/13/pwn-动态链接库系列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">pwn_动态链接库系列</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-13T19:03:08+08:00">
+                2018-11-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 15 posts in total. Keep on posting.
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/10/11/Strings-Using/" itemprop="url">
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">Strings_Using</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  283
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-10-11T14:03:36+08:00"
-              content="2018-10-11" >
-          10-11
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/24/二进制-你可能需要知道的一些知识/" itemprop="url">
-              
-                <span itemprop="name">二进制-你可能需要知道的一些知识</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-24T19:05:14+08:00"
-              content="2018-09-24" >
-          09-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/24/oj纳新gdb调试入门/" itemprop="url">
-              
-                <span itemprop="name">oj纳新gdb调试入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-24T14:55:46+08:00"
-              content="2018-09-24" >
-          09-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>很重要的一点是要找到一个不变的在链接库中的地址，我的意思是，可以通过给出的程序泄露出某一个某一个地址，而这个地址在链接库中的相对位置（偏移）是不变的，这个时候，我们就能通过减去这个偏移（vmmap这个指令可以看到程序加载的时候的链接库的内存地址的范围，然后我们就能通过这个算出来偏移但是一般情况下，这个链接库的版本不一样，偏移也是不一样的，所以我们可以使用readelf来看一下给的libc以及自己电脑的libc的一些情况，进行对比计算从而得到真正我们想要的偏移值）</p>
+<p>然后这个时候，我们可以进行ida内部搜索来找到system以及bin/sh的地址然后计算，但是，也可以直接使用pwntools来进行脚本内操作，另外system的偏移可以使用readelf -s来进行查找</p>
+<p>elf = ELF(‘pwn’)</p>
+<blockquote>
+<p>hex(elf.address)</p>
+<p>hex(elf.symbols[‘write’])</p>
+<p>hex(elf.got[‘write’])</p>
+<p>hex(elf.plt[‘write’])</p>
+</blockquote>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/19/OJ二进制专项1/" itemprop="url">
-              
-                <span itemprop="name">OJ二进制专项1</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-19T22:19:12+08:00"
-              content="2018-09-19" >
-          09-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/09/博客搭建/" itemprop="url">
-              
-                <span itemprop="name">Hexo博客搭建</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-09T14:27:24+08:00"
-              content="2018-09-09" >
-          09-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/02/pwnable-tw-calc/" rel="next" title="pwnable.tw_calc">
+                <i class="fa fa-chevron-left"></i> pwnable.tw_calc
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/13/pwnable-tw-silver-bullet/" rel="prev" title="pwnable.tw-silver_bullet">
+                pwnable.tw-silver_bullet <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -473,6 +435,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -715,6 +681,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
