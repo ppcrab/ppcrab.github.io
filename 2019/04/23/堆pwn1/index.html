@@ -82,17 +82,17 @@
 <meta name="description" content="这周刚好要讲堆的一些东西，就先总结一下一些堆的知识 堆，利用起来要分情况的。网上常见的各种利用，比如double free，off by one等其实本质都差不太多，说是套路也不全是。 首先就是最喜闻乐见的堆溢出，堆溢出这东西，和栈溢出差的可不是一星半点。栈溢出可以直接进行返回地址的覆盖，但是堆溢出的时候，虽然将后者覆盖了。但是也是得看咋利用的。 首先我们知道的是，在堆这个数据结构中，还有chun">
 <meta property="og:type" content="article">
 <meta property="og:title" content="堆利用-1">
-<meta property="og:url" content="https://ppcrab.github.io/2019/04/23/堆利用-1/index.html">
+<meta property="og:url" content="https://ppcrab.github.io/2019/04/23/堆pwn1/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="这周刚好要讲堆的一些东西，就先总结一下一些堆的知识 堆，利用起来要分情况的。网上常见的各种利用，比如double free，off by one等其实本质都差不太多，说是套路也不全是。 首先就是最喜闻乐见的堆溢出，堆溢出这东西，和栈溢出差的可不是一星半点。栈溢出可以直接进行返回地址的覆盖，但是堆溢出的时候，虽然将后者覆盖了。但是也是得看咋利用的。 首先我们知道的是，在堆这个数据结构中，还有chun">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://ppcrab.github.io/2019/04/23/堆利用-1/r.PNG">
-<meta property="og:image" content="https://ppcrab.github.io/2019/04/23/堆利用-1/2.PNG">
-<meta property="og:updated_time" content="2019-04-23T14:02:26.864Z">
+<meta property="og:image" content="https://ppcrab.github.io/2019/04/23/堆pwn1/堆利用-1/r.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/04/23/堆pwn1/堆利用-1/2.PNG">
+<meta property="og:updated_time" content="2019-04-24T12:22:48.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="堆利用-1">
 <meta name="twitter:description" content="这周刚好要讲堆的一些东西，就先总结一下一些堆的知识 堆，利用起来要分情况的。网上常见的各种利用，比如double free，off by one等其实本质都差不太多，说是套路也不全是。 首先就是最喜闻乐见的堆溢出，堆溢出这东西，和栈溢出差的可不是一星半点。栈溢出可以直接进行返回地址的覆盖，但是堆溢出的时候，虽然将后者覆盖了。但是也是得看咋利用的。 首先我们知道的是，在堆这个数据结构中，还有chun">
-<meta name="twitter:image" content="https://ppcrab.github.io/2019/04/23/堆利用-1/r.PNG">
+<meta name="twitter:image" content="https://ppcrab.github.io/2019/04/23/堆pwn1/堆利用-1/r.PNG">
 
 
 
@@ -122,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="https://ppcrab.github.io/2019/04/23/堆利用-1/"/>
+  <link rel="canonical" href="https://ppcrab.github.io/2019/04/23/堆pwn1/"/>
 
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/23/堆利用-1/">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/23/堆pwn1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -373,12 +373,12 @@
 <p>那么问题来了，free的chunk块会被分配到什么地方呢。</p>
 <p>这一点十分重要，如果搞不清楚这一点，那么堆的利用也就无从谈起了。</p>
 <h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>对于一些比较小的chunk块，也就是size在(0x10~0x40)之间的这些，会在free后直接进入单项链表fastbin中，</p>
-<p>这个时候我们会要怎么利用呢，很简单，不是单向链表吗，我们如果能修改其中的指针不久完了？修改完，岂不是下一次申请的堆地址我们就能控制了？当然，这时候需要做的是伪造chunk块，因为它又一个检查size的值的操作。</p>
+<p>这个时候我们会要怎么利用呢，很简单，不是单向链表吗，我们如果能修改其中的指针不久完了？修改完，岂不是下一次申请的堆地址我们就能控制了？当然，这时候需要做的是伪造chunk块，因为它有一个检查size的值的操作。</p>
 <h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>unsorted bin   这个东西的利用主要是为了泄露堆地址以及libc地址</p>
-<p> <img src="/2019/04/23/堆利用-1/r.PNG" alt="r"></p>
+<p> <img src="/2019/04/23/堆pwn1/堆利用-1/r.PNG" alt="r"></p>
 <p> 在这个图中，我们可以清楚的看到对于第二个堆块有一个指针指向了上一个属于unsorted bin的free chunk块，也就是堆地址。第二个地址其实是一个libc的地址，libc的首地址可以通过减去偏移算出来。</p>
 <p>所谓的利用就是，当我们再次申请同样大小的数据块的时候，内存会自动给我们分配这两个内存区域，因为快~</p>
-<p>然后我们就可以填充一定的字符，然后输出的时候就可以把后面的字符顺带着输出出来 <img src="/2019/04/23/堆利用-1/2.PNG" alt="2"></p>
+<p>然后我们就可以填充一定的字符，然后输出的时候就可以把后面的字符顺带着输出出来 <img src="/2019/04/23/堆pwn1/堆利用-1/2.PNG" alt="2"></p>
 <p>free 块放入unsorted bin的条件是     比较小或者比较大，很有意思的说法。。。或者说0x200以下的放不进fastbin中就会进入unsortedbin中。</p>
 
       
@@ -413,6 +413,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/24/堆pwn2-chunk块的伪造/" rel="prev" title="chunk块的伪造">
+                chunk块的伪造 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -493,7 +497,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -590,7 +594,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9k</span>
+    <span title="Site words total count">9.6k</span>
   
 </div>
 

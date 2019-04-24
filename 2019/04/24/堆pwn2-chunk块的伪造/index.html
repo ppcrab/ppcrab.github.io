@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
+<meta name="description" content="chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。 这一次的chunk块伪造的主要点在于fastbin利用的时候。 情形一，堆溢出如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是： 1，被覆盖的chunk处于fastbin中 ，否则就没有fd 2，被覆盖的c">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2018护网杯_shoppingcart">
-<meta property="og:url" content="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/index.html">
+<meta property="og:title" content="chunk块的伪造">
+<meta property="og:url" content="https://ppcrab.github.io/2019/04/24/堆pwn2-chunk块的伪造/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
+<meta property="og:description" content="chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。 这一次的chunk块伪造的主要点在于fastbin利用的时候。 情形一，堆溢出如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是： 1，被覆盖的chunk处于fastbin中 ，否则就没有fd 2，被覆盖的c">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-16T12:55:12.598Z">
+<meta property="og:updated_time" content="2019-04-24T12:21:16.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018护网杯_shoppingcart">
-<meta name="twitter:description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
+<meta name="twitter:title" content="chunk块的伪造">
+<meta name="twitter:description" content="chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。 这一次的chunk块伪造的主要点在于fastbin利用的时候。 情形一，堆溢出如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是： 1，被覆盖的chunk处于fastbin中 ，否则就没有fd 2，被覆盖的c">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/"/>
+  <link rel="canonical" href="https://ppcrab.github.io/2019/04/24/堆pwn2-chunk块的伪造/"/>
 
 
 
 
 
-  <title>2018护网杯_shoppingcart | Hexo</title>
+  <title>chunk块的伪造 | Hexo</title>
   
 
 
@@ -264,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/24/堆pwn2-chunk块的伪造/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -281,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">2018护网杯_shoppingcart</h1>
+          <h1 class="post-title" itemprop="name headline">chunk块的伪造</h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-14T17:32:13+08:00">
-                2018-10-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-24T18:32:43+08:00">
+                2019-04-24
               </time>
             
 
@@ -325,7 +325,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  461
+                  636
                 </span>
               
 
@@ -341,7 +341,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  2
                 </span>
               
             </div>
@@ -362,11 +362,20 @@
       
 
       
-        <p>对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。</p>
-<h3 id="突破口—-strtoul"><a href="#突破口—-strtoul" class="headerlink" title="突破口—-strtoul"></a>突破口—-strtoul</h3><p>strtoul()函数我之前就没用过<del>~</del>，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把字符串类型的一串字符转换成相应的int类型的数字（第三个参数对应着转换的进制），再详细的记录我觉得没有太大的必要，用的时候自己去搜就好。<br>这个函数使用的时候需要注意的一点就是返回值，返回值为无符号long型数值，如果是负数会返回一个大正数。也就是说，这个这个东西虽然是转换字符串类型为int类型的，但是并不是对于任何的数值都是这么的好用，对于’-100’这种数值就无能为力了，而且还有返回数值emmm，虽然十分奇怪，真搞不懂为什么这种函数还会存在于C语言的库函数之中，明摆着是用来搞事情的吗。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">    char buffer [256];</span><br><span class="line">    unsigned long ul;</span><br><span class="line">    printf (&quot;Enter an unsigned number: &quot;);</span><br><span class="line">    fgets (buffer, 256, stdin);</span><br><span class="line">    ul = strtoul (buffer, NULL, 10);</span><br><span class="line">    printf (&quot;Value entered: %lu.\n&quot;, ul);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">linux下的运行结果是</span><br><span class="line">Enter an unsigned number: -100</span><br><span class="line">Value entered: 4294967196.</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-<h3 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h3><h3 id="The-other-idea"><a href="#The-other-idea" class="headerlink" title="The other idea"></a>The other idea</h3><p>找到了一篇写的很详细的<a href="https://bbs.pediy.com/thread-247277.htm" target="_blank" rel="noopener">博客</a><br>讲的很不错：</p>
-<h2 id="小白讲解："><a href="#小白讲解：" class="headerlink" title="小白讲解："></a>小白讲解：</h2><p><a href="https://blog.csdn.net/qq_38623623/article/details/72599473" target="_blank" rel="noopener">解引用</a></p>
+        <p>chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。</p>
+<p>这一次的chunk块伪造的主要点在于fastbin利用的时候。</p>
+<h3 id="情形一，堆溢出"><a href="#情形一，堆溢出" class="headerlink" title="情形一，堆溢出"></a>情形一，堆溢出</h3><p>如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是：</p>
+<p>1，被覆盖的chunk处于fastbin中 ，否则就没有fd</p>
+<p>2，被覆盖的chunk块应该是最后一个进入fastbin中的，要不然轮到这个fd起作用就得等一阵子，比较麻烦，不是不可以。</p>
+<p>然后我们申请一个同样大小的malloc，就会得到这个chunk块，这时候fd就起作用了。会作用到我们下一次申请的时候malloc返回的地址。也就是达到了任意地址写的目的</p>
+<p>那么chunk块的伪造呢？这时候我们在目的地址出应该让目的地址+8的位置为size，也就是我们所利用的这个fastbin链的大小。</p>
+<p>常常。。题目中可能会出现一些记录总的malloc地址个数的东西，这时候我们就能用了。</p>
+<h3 id="任意地址free"><a href="#任意地址free" class="headerlink" title="任意地址free"></a>任意地址free</h3><p>这种时候我们要做的事情就比较多了一点，比起来上面的堆溢出，我们需要认为的构造出一个堆溢出的环境出来。也就是初始的chunk的伪造。</p>
+<p>我们可以在正常申请的堆中输入以下数据</p>
+<p><code>p64(0)+p64(0)+p64(0)+p64(size)</code></p>
+<p>然后呢，如果本来free的地址是addr,也就是我们正常申请的地方的地址。由于存在任意地址free的漏洞，我们可以把它改成free，addr+0x10的地址，这时候我们就能把一个伪造的chunk块放入fastbin块中了。然后，我们再次申请这个大小的堆，就会得到地址为addr+0x20的堆，so，我们进行edit第一个堆数据时候就能做到堆溢出，搞到第二个堆块了。然后就是和堆溢出一样了。</p>
+<p>顺便一提的是，第二次伪造chunk块的时候除了上文提到的利用记录chunk块的数量，还可以利用记录chunk块本身大小size的地址进行伪造。</p>
+<p>任意地址free的前提就是知道堆的首地址，也就是堆地址的泄露，由于写过，此处不再重复。</p>
 
       
     </div>
@@ -391,8 +400,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/14/Misc-konwledge/" rel="next" title="Misc_konwledge">
-                <i class="fa fa-chevron-left"></i> Misc_konwledge
+              <a href="/2019/04/23/堆pwn1/" rel="next" title="堆利用-1">
+                <i class="fa fa-chevron-left"></i> 堆利用-1
               </a>
             
           </div>
@@ -400,10 +409,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/16/Hackergame2018/" rel="prev" title="Hackergame2018">
-                Hackergame2018 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -546,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#突破口—-strtoul"><span class="nav-number">1.</span> <span class="nav-text">突破口—-strtoul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞的利用"><span class="nav-number">2.</span> <span class="nav-text">漏洞的利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-other-idea"><span class="nav-number">3.</span> <span class="nav-text">The other idea</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小白讲解："><span class="nav-number"></span> <span class="nav-text">小白讲解：</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#情形一，堆溢出"><span class="nav-number">1.</span> <span class="nav-text">情形一，堆溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任意地址free"><span class="nav-number">2.</span> <span class="nav-text">任意地址free</span></a></li></ol></div>
             
 
           </div>
