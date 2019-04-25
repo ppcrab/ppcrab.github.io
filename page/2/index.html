@@ -261,6 +261,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/16/Hackergame2018/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/16/Hackergame2018/" itemprop="url">Hackergame2018</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T22:45:17+08:00">
+                2018-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  493
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这个比赛虽然没有一直在弄，但是还是看了其中的好几个题目。<br>学习了好几个姿势~</p>
+<h3 id="在程序初始化阶段进行操作"><a href="#在程序初始化阶段进行操作" class="headerlink" title="在程序初始化阶段进行操作~"></a>在程序初始化阶段进行操作~</h3><p>使用gcc 的 <strong>attribute</strong>((constructor)) 一系列操作可以做到在程序初始化阶段进行一些操作。<br>比如这个C语言作业题目就是在程序初始化阶段就定义了一些代码。</p>
+<h3 id="触发-SIGFPE-的情况"><a href="#触发-SIGFPE-的情况" class="headerlink" title="触发 SIGFPE 的情况"></a>触发 SIGFPE 的情况</h3><p>不仅除以 0 可能会触发 SIGFPE，最小的 INT 除以 -1 也可能会触发。这就很难受了，我知道这个题目的第一步就是去将异常情况触发，然后运行_err函数，但是。。。我不知道怎么弄。现在知道了，居然除了除以0，还能 -2147483648/-1。吐血</p>
+<h3 id="linux命令。"><a href="#linux命令。" class="headerlink" title="linux命令。"></a>linux命令。</h3><p>进入vim命令行中之后，可以使用esc退出，然后输入‘：’，就可以输入想要运行的命令了，输入完毕后直接回车。cat - 中的 - 表示标准输入，cat 会试图从你的标准输入中读取，并不能看到 - 文件的内容。绕过的办法有多种，最简单的就是 cat ./-。不得不说linux命令还是很值的学习的。<br>除此之外还有好几种方式可以达到执行linux命令的结果，比如进入linux下的gdb模式。就可以输入命令了，相比之下，还比进入vim更快呢。</p>
+<h3 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h3><p>逆向的赛题是有一定的思路的，一般我们先会运行一下这个程序，看看主函数一开始干了什么，然后去找主函数，看看有没有什么发现。然后再去找字符串，从字符串入手，如果到现在还是没有十分明确的思路，那么只能从系统函数入手，一般加密的程序会涉及到字符串的一些操作，比如字符串倒转啊strrev(),字符串比较啊，字符串复制啊。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1711,7 +1866,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1792,7 +1947,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9.6k</span>
+    <span title="Site words total count">10.4k</span>
   
 </div>
 
