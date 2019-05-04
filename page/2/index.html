@@ -261,6 +261,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/24/虚拟机工具搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/24/虚拟机工具搭建/" itemprop="url">虚拟机工具搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-24T23:18:47+08:00">
+                2018-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  147
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="python-2-7环境安装"><a href="#python-2-7环境安装" class="headerlink" title="python 2.7环境安装"></a>python 2.7环境安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python2.7 python2.7-dev</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential libssl-dev libevent-dev libjpeg-dev libxml2-dev libxslt-dev//很多pip安装的包都需要libssl和libevent编译环境</span><br><span class="line"> sudo apt-get install python-pip</span><br><span class="line"> //安装 virtualenv</span><br><span class="line">2 sudo pip install virtualenv//virtualenv是 Python 多版本管理的利器，不同版本的开发调试全靠它了（如果没有安装不同版本的Python则不需要安装了），命令如下</span><br></pre></td></tr></table></figure>
+<h3 id="ropgad："><a href="#ropgad：" class="headerlink" title="ropgad："></a>ropgad：</h3><p><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a>   </p>
+<h3 id="pwndbg"><a href="#pwndbg" class="headerlink" title="pwndbg"></a>pwndbg</h3><p>git clone <a href="https://github.com/pwndbg/pwndbg" target="_blank" rel="noopener">https://github.com/pwndbg/pwndbg</a><br>cd pwndbg<br>./setup.sh</p>
+<h3 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h3><p>git clone <a href="https://github.com/devttys0/binwalk" target="_blank" rel="noopener">https://github.com/devttys0/binwalk</a><br>cd binwalk<br>sudo python setup.py install</p>
+<h4 id="32位运行库的安装"><a href="#32位运行库的安装" class="headerlink" title="32位运行库的安装"></a>32位运行库的安装</h4><p>sudo apt-get install  lib32ncurses5 lib32z1</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/16/Hackergame2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1655,168 +1811,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/09/博客搭建/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/09/博客搭建/" itemprop="url">Hexo博客搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-09T14:27:24+08:00">
-                2018-09-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  676
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Hexo博客的搭建其实比较简单，所以详细的步骤就不再赘述了，但是在这其中也遇到了一些坑，记录一下。并且这是我的第一个博客文章，感觉还不错。<br>我在搭建博客的时候主要是参考了这篇<a href="https://juejin.im/entry/5a574864f265da3e3c6c1217" target="_blank" rel="noopener">博客</a>,这篇博客的步骤十分详细，基本上不需要多长时间就能搭建完成自己的hexo博客，但是在换主题的时候有一些坑一定要注意。</p>
-<h3 id="在Hexo官网上有一些主题不能用！一定要注意。"><a href="#在Hexo官网上有一些主题不能用！一定要注意。" class="headerlink" title="在Hexo官网上有一些主题不能用！一定要注意。"></a>在Hexo官网上有一些主题不能用！一定要注意。</h3><p>我用了好几个都是不能在本地显示CSS的更不用说是访问网页了，最后我还是找的比较成熟的主题next（搭建的方法很容易就能搜的到）并且我本人觉得这个主题还不错。<br>还有一个<a href="https://bleachz.github.io/" target="_blank" rel="noopener">我们蓝鲸社团大佬的博客</a>,用作参考也是一个十分不错的选择。</p>
-<h3 id="里面有点小问题"><a href="#里面有点小问题" class="headerlink" title="里面有点小问题"></a>里面有点小问题</h3><p><img src="/2018/09/09/博客搭建/1.png" alt=""><br>这里是有解决的方法的：<br>1.把主页配置文件_config.yml 里的post_asset_folder:这个选项设置为true<br>2.在你的hexo目录下执行这样一句话npm install hexo-asset-image –save，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git<br>3 等待一小段时间后，再运行hexo n “xxxx”来生成md博文时，/source/_posts文件夹内除了xxxx.md文件还有一个同名的文件夹，这个文件夹的作用是来放置博客中引用到的图片文件的<br>另外，在使用canvas_nest的时候，要注意的一点是修改next主题配置文件的时候，不需要再手动添加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ canvas_nest: <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
-<p>在这个配置文件里面有这一项，如果重复加入的话会出错的</p>
-<h3 id="高级进阶"><a href="#高级进阶" class="headerlink" title="高级进阶"></a>高级进阶</h3><p>如果你现在是对js以及你使用的主题不是很熟悉的话，我觉得下面这个教程是十分适合的<br><a href="https://segmentfault.com/a/1190000009009697" target="_blank" rel="noopener">This is a tutorial</a><br>哈哈，当然，你可能会遇到一些问题，比如在你给menu配置icon的时候，使用教程的方法发现无法显示。那是因为新版的next主题的使用方法是<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">home: / || home</span><br><span class="line"><span class="comment">#about: /about/ || user</span></span><br><span class="line"><span class="comment">#tags: /tags/ || tags</span></span><br><span class="line"><span class="comment">#categories: /categories/ || th</span></span><br><span class="line">archives: /archives/ || archive</span><br><span class="line"><span class="comment">#schedule: /schedule/ || calendar</span></span><br><span class="line"><span class="comment">#sitemap: /sitemap.xml || sitemap</span></span><br><span class="line"><span class="comment">#commonweal: /404/ || heartbeat</span></span><br><span class="line">music: /music ||music</span><br><span class="line">book: /book ||book</span><br></pre></td></tr></table></figure></p>
-<p>看到了没，只需要在后面加上||和你想用的icon就可以了<br>还有就是你的网站的icon的配置，也有所改变<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">small: /images/favicon.ico</span><br><span class="line">medium: /images/favicon.ico</span><br><span class="line">apple_touch_icon: /images/favicon.ico</span><br><span class="line">safari_pinned_tab: /images/favicon.ico</span><br></pre></td></tr></table></figure></p>
-<p>实际上，我把下面所有的都改了，然后就出现了相应的效果。。。<br>至于音乐外联。。。我失败了，只有从网易弄。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1866,7 +1865,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1947,7 +1946,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">10.4k</span>
+    <span title="Site words total count">11.1k</span>
   
 </div>
 

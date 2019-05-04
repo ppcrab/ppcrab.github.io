@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
+<meta name="description" content="前两天突然想搞一道迷宫的misc，搞了半天，把迷宫的创建以及路径的找寻都弄完了。 但是把题目挂在服务器之后，又出现了一点小问题。 因为我用的是C++ 的vector容器，所以数据的存储删除都比较方便深度优先搜索。如果我选择继续使用python重构的话，似乎我还得重新弄个类出来。太麻烦了，不是说python是各种语言的粘合剂吗。我直接搞不就完了。 所以开始我的第一次python与C++的交互之路。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2018护网杯_shoppingcart">
-<meta property="og:url" content="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/index.html">
+<meta property="og:title" content="记一次迷宫问题引发的pythonC++交互分析">
+<meta property="og:url" content="https://ppcrab.github.io/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
+<meta property="og:description" content="前两天突然想搞一道迷宫的misc，搞了半天，把迷宫的创建以及路径的找寻都弄完了。 但是把题目挂在服务器之后，又出现了一点小问题。 因为我用的是C++ 的vector容器，所以数据的存储删除都比较方便深度优先搜索。如果我选择继续使用python重构的话，似乎我还得重新弄个类出来。太麻烦了，不是说python是各种语言的粘合剂吗。我直接搞不就完了。 所以开始我的第一次python与C++的交互之路。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-30T13:47:46.941Z">
+<meta property="og:updated_time" content="2019-05-04T15:57:26.071Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018护网杯_shoppingcart">
-<meta name="twitter:description" content="对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。 突破口—-strtoulstrtoul()函数我之前就没用过~，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把">
+<meta name="twitter:title" content="记一次迷宫问题引发的pythonC++交互分析">
+<meta name="twitter:description" content="前两天突然想搞一道迷宫的misc，搞了半天，把迷宫的创建以及路径的找寻都弄完了。 但是把题目挂在服务器之后，又出现了一点小问题。 因为我用的是C++ 的vector容器，所以数据的存储删除都比较方便深度优先搜索。如果我选择继续使用python重构的话，似乎我还得重新弄个类出来。太麻烦了，不是说python是各种语言的粘合剂吗。我直接搞不就完了。 所以开始我的第一次python与C++的交互之路。">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/"/>
+  <link rel="canonical" href="https://ppcrab.github.io/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/"/>
 
 
 
 
 
-  <title>2018护网杯_shoppingcart | Hexo</title>
+  <title>记一次迷宫问题引发的pythonC++交互分析 | Hexo</title>
   
 
 
@@ -264,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -281,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">2018护网杯_shoppingcart</h1>
+          <h1 class="post-title" itemprop="name headline">记一次迷宫问题引发的pythonC++交互分析</h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-14T17:32:13+08:00">
-                2018-10-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-04T23:33:49+08:00">
+                2019-05-04
               </time>
             
 
@@ -325,7 +325,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  461
+                  679
                 </span>
               
 
@@ -341,7 +341,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  2
                 </span>
               
             </div>
@@ -362,11 +362,34 @@
       
 
       
-        <p>对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。</p>
-<h3 id="突破口—-strtoul"><a href="#突破口—-strtoul" class="headerlink" title="突破口—-strtoul"></a>突破口—-strtoul</h3><p>strtoul()函数我之前就没用过<del>~</del>，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把字符串类型的一串字符转换成相应的int类型的数字（第三个参数对应着转换的进制），再详细的记录我觉得没有太大的必要，用的时候自己去搜就好。<br>这个函数使用的时候需要注意的一点就是返回值，返回值为无符号long型数值，如果是负数会返回一个大正数。也就是说，这个这个东西虽然是转换字符串类型为int类型的，但是并不是对于任何的数值都是这么的好用，对于’-100’这种数值就无能为力了，而且还有返回数值emmm，虽然十分奇怪，真搞不懂为什么这种函数还会存在于C语言的库函数之中，明摆着是用来搞事情的吗。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">    char buffer [256];</span><br><span class="line">    unsigned long ul;</span><br><span class="line">    printf (&quot;Enter an unsigned number: &quot;);</span><br><span class="line">    fgets (buffer, 256, stdin);</span><br><span class="line">    ul = strtoul (buffer, NULL, 10);</span><br><span class="line">    printf (&quot;Value entered: %lu.\n&quot;, ul);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">linux下的运行结果是</span><br><span class="line">Enter an unsigned number: -100</span><br><span class="line">Value entered: 4294967196.</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-<h3 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h3><h3 id="The-other-idea"><a href="#The-other-idea" class="headerlink" title="The other idea"></a>The other idea</h3><p>找到了一篇写的很详细的<a href="https://bbs.pediy.com/thread-247277.htm" target="_blank" rel="noopener">博客</a><br>讲的很不错：</p>
-<h2 id="小白讲解："><a href="#小白讲解：" class="headerlink" title="小白讲解："></a>小白讲解：</h2><p><a href="https://blog.csdn.net/qq_38623623/article/details/72599473" target="_blank" rel="noopener">解引用</a></p>
+        <p>前两天突然想搞一道迷宫的misc，搞了半天，把迷宫的创建以及路径的找寻都弄完了。</p>
+<p>但是把题目挂在服务器之后，又出现了一点小问题。</p>
+<p>因为我用的是C++ 的vector容器，所以数据的存储删除都比较方便深度优先搜索。如果我选择继续使用python重构的话，似乎我还得重新弄个类出来。太麻烦了，不是说python是各种语言的粘合剂吗。我直接搞不就完了。</p>
+<p>所以开始我的第一次python与C++的交互之路。</p>
+<p>众所周知，python的底层语言是C，所以C++的符号表他是不认识的，这时候就得</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line">   </span><br><span class="line"> <span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StructPointerTest</span>  </span></span><br><span class="line"><span class="class">   &#123;</span>  </span><br><span class="line">    <span class="keyword">char</span> dicr[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">int</span> realsize;  </span><br><span class="line">   </span><br><span class="line">   &#125;StructPointerTest, *StructPointer;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">findway</span><span class="params">(<span class="keyword">int</span> ending_x,<span class="keyword">int</span> ending_y)</span></span>;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">find_direct</span><span class="params">(<span class="keyword">int</span> x_p,<span class="keyword">int</span> y_p,<span class="keyword">int</span> ending_x,<span class="keyword">int</span> ending_y)</span></span>;</span><br><span class="line">   <span class="function">StructPointer <span class="title">seta</span><span class="params">(<span class="keyword">char</span> **ma)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最主要的还是把函数给框进去，因为python 在交互的时调用的是这几个函数，所以一些用到的变量其实是不需要框进去的。</p>
+<p>喜闻乐见：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -o libpymazing.so -shared -fPIC ma.cpp</span><br></pre></td></tr></table></figure>
+<p>编译了libc库</p>
+<p>python端要做的是什么？</p>
+<p>需要用的一个核心的东西是</p>
+<figure class="highlight plain"><figcaption><span>ctypes import *```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">https://docs.python.org/3.6/library/ctypes.html#structures-and-unions</span><br><span class="line"></span><br><span class="line">这是官方文档</span><br><span class="line"></span><br><span class="line">简单的用法大约是：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">so = cdll.LoadLibrary</span><br><span class="line">dll = so(&quot;./libpymazing.so&quot;)</span><br><span class="line"></span><br><span class="line">dll.seta.restype = POINTER(StructPointer)</span><br><span class="line"></span><br><span class="line">cjia = dll.seta(c)</span><br></pre></td></tr></table></figure>
+<p>最需要注意的一点是：</p>
+<p>变量！</p>
+<p>其一，创建：</p>
+<p>c = c_char * 30 相当于创建char c[30],int,float都可以这么来</p>
+<p>c = (c_char_p*)(*a) 相当于创建 char **a;如果a是list，这一步操作可以转换成指针然后就能进行下一步的操作。当然这是二维list转二维指针，还有一维list转以为指针。需要注意的是，没有int这种类型的指针！我可去他妈的，烦的一批，还得再令行转换</p>
+<p>其二，返回：</p>
+<p>如果返回的是一个int数，char 字符，好说，直接返回即可，可是如果想要返回数组？抱歉，不提供直接服务。</p>
+<p>具体的操作是这么来的：</p>
+<p>C++ 端</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StructPointerTest</span>  </span></span><br><span class="line"><span class="class">   &#123;</span>  </span><br><span class="line">    <span class="keyword">char</span> dicr[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">int</span> realsize;  </span><br><span class="line">   </span><br><span class="line">   &#125;StructPointerTest, *StructPointer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">StructPointer <span class="title">seta</span><span class="params">(<span class="keyword">char</span> **num)</span></span>&#123;</span><br><span class="line"> StructPointer p(StructPointer)malloc(sizeof(StructPointerTest));</span><br><span class="line"> ·····</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>python端的操作是这个样子，也就是创建一个结构体：</p>
+<p>class StructPointer(Structure):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_fields_ = [(<span class="string">"dir"</span>, c_char * <span class="number">30</span>),</span><br><span class="line">            (<span class="string">"size"</span>, c_int)]</span><br></pre></td></tr></table></figure></p>
+<p>就这样子了~，不过奇怪的是我写的这个exp有时候什么问题都没有，有时候就会出现一些内存访问的问题，好像指针的返回哪里有点毛病emmmm</p>
+<p>等以后找到原因了再来写一波，现在就这样了，睡觉哈哈哈哈</p>
+<p>项目地址：<a href="https://github.com/ppcrab/-.git" target="_blank" rel="noopener">https://github.com/ppcrab/-.git</a></p>
 
       
     </div>
@@ -391,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/14/Misc-konwledge/" rel="next" title="Misc_konwledge">
-                <i class="fa fa-chevron-left"></i> Misc_konwledge
+              <a href="/2019/04/25/return-to-dl-resolve-菜鸡初学习/" rel="next" title="return to dl-resolve--菜鸡初学习">
+                <i class="fa fa-chevron-left"></i> return to dl-resolve--菜鸡初学习
               </a>
             
           </div>
@@ -400,10 +423,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/16/Hackergame2018/" rel="prev" title="Hackergame2018">
-                Hackergame2018 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -455,17 +474,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -536,22 +546,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#突破口—-strtoul"><span class="nav-number">1.</span> <span class="nav-text">突破口—-strtoul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞的利用"><span class="nav-number">2.</span> <span class="nav-text">漏洞的利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-other-idea"><span class="nav-number">3.</span> <span class="nav-text">The other idea</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小白讲解："><span class="nav-number"></span> <span class="nav-text">小白讲解：</span></a></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
