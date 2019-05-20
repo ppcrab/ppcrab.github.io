@@ -79,13 +79,23 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://ppcrab.github.io/archives/page/3/index.html">
+<meta name="description" content="今天准备记录以下double free的一些运用。 double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？ 先看一个指针一次free之后会出现什么。   也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。 所以我们能够再">
+<meta property="og:type" content="article">
+<meta property="og:title" content="double free的以此运用">
+<meta property="og:url" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天准备记录以下double free的一些运用。 double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？ 先看一个指针一次free之后会出现什么。   也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。 所以我们能够再">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/正常free.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/double%20free.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/malloc13.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/mallloc2.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/malloc3.PNG">
+<meta property="og:updated_time" content="2019-05-09T15:07:01.289Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="double free的以此运用">
+<meta name="twitter:description" content="今天准备记录以下double free的一些运用。 double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？ 先看一个指针一次free之后会出现什么。   也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。 所以我们能够再">
+<meta name="twitter:image" content="https://ppcrab.github.io/2019/05/09/double-free的一次运用/正常free.PNG">
 
 
 
@@ -115,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://ppcrab.github.io/archives/page/3/"/>
+  <link rel="canonical" href="https://ppcrab.github.io/2019/05/09/double-free的一次运用/"/>
 
 
 
 
 
-  <title>Archive | Hexo</title>
+  <title>double free的以此运用 | Hexo</title>
   
 
 
@@ -152,7 +162,7 @@
    
    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
    
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -246,189 +256,192 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/09/double-free的一次运用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">double free的以此运用</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T21:31:34+08:00">
+                2019-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 24 posts in total. Keep on posting.
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/24/二进制-你可能需要知道的一些知识/" itemprop="url">
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">二进制-你可能需要知道的一些知识</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  405
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-24T19:05:14+08:00"
-              content="2018-09-24" >
-          09-24
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/24/oj纳新gdb调试入门/" itemprop="url">
-              
-                <span itemprop="name">oj纳新gdb调试入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-24T14:55:46+08:00"
-              content="2018-09-24" >
-          09-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/19/OJ二进制专项1/" itemprop="url">
-              
-                <span itemprop="name">OJ二进制专项1</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-19T22:19:12+08:00"
-              content="2018-09-19" >
-          09-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>今天准备记录以下double free的一些运用。</p>
+<p>double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？</p>
+<p>先看一个指针一次free之后会出现什么。</p>
+<p> <img src="/2019/05/09/double-free的一次运用/正常free.PNG" alt="正常free"></p>
+<p>也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。</p>
+<p>所以我们能够再次进行free这个地方了。so crazing </p>
+<p>再次free之后会出现什么</p>
+<p> <img src="/2019/05/09/double-free的一次运用/double free.PNG" alt="double free"></p>
+<p>出现了什么？居然出现了一个指针，而且恰好是这个堆的地址！</p>
+<p>why？</p>
+<p>其实原理就是和之前的fastbin的利用差不多，毕竟都是放在了一个链表中。只是这里的链表指向的是自身而已。我有时间会找一下源码~~放在这里</p>
+<p>所以说，下面的利用就是再申请一个同样大小的地址空间，so，我们就可以写入数据了，这时候我们只需要在这个地方写入一个地址，下次进行申请就会从这个地方进行申请了。</p>
+<p>就像fastbin中的利用一模一样~~只是那个是利用的堆溢出改写的fd而已，这里不需要栈溢出，因为下一个指向的地址我们已经可写，so</p>
+<p> <img src="/2019/05/09/double-free的一次运用/malloc13.PNG" alt="malloc13"></p>
+<p>再次申请 <img src="/2019/05/09/double-free的一次运用/mallloc2.PNG" alt="mallloc2"></p>
+<p>再次申请就是我们第一次写入的地址了</p>
+<p> <img src="/2019/05/09/double-free的一次运用/malloc3.PNG" alt="malloc3"></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/09/博客搭建/" itemprop="url">
-              
-                <span itemprop="name">Hexo博客搭建</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-09T14:27:24+08:00"
-              content="2018-09-09" >
-          09-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/" rel="next" title="记一次迷宫问题引发的pythonC++交互分析">
+                <i class="fa fa-chevron-left"></i> 记一次迷宫问题引发的pythonC++交互分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/14/堆溢出方向-free-hook的修改/" rel="prev" title="堆溢出方向----_free_hook的修改">
+                堆溢出方向----_free_hook的修改 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -436,6 +449,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -678,6 +695,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
