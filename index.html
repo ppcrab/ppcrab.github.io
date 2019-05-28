@@ -324,7 +324,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  0
+                  1k
                 </span>
               
 
@@ -340,7 +340,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  4
                 </span>
               
             </div>
@@ -363,7 +363,39 @@
       
         
           
-            
+            <p>2019强网杯中出现了随机数相关的题目，准备整理一波与随机数有关的题目。</p>
+<h3 id="随机数简介"><a href="#随机数简介" class="headerlink" title="随机数简介"></a>随机数简介</h3><p>对于常见的随机数来说，有C，python，java等。准确的说这些随机数是伪随机数。因为他们往往是随着随机数种子的不同才会产生不同的序列。所以说，只要我们能控制随机数种子，我们就能知道随之而来的随机数序列。随机数也就不再随机了。</p>
+<p>相比较而言<a href="http://kuanghy.github.io/2015/12/30/dev-random" target="_blank" rel="noopener"> linux下的/dev/urandom以及/dev/random</a>更像是随机数。</p>
+<h3 id="各种语言随机数实现"><a href="#各种语言随机数实现" class="headerlink" title="各种语言随机数实现"></a>各种语言随机数实现</h3><h4 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">( <span class="keyword">void</span> )</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="keyword">int</span> i;</span><br><span class="line">srand( (<span class="keyword">unsigned</span>)time( <span class="literal">NULL</span> ) );          <span class="comment">//初始化随机数</span></span><br><span class="line">    <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; <span class="number">10</span>;i++ )                          <span class="comment">//打印出10个随机数</span></span><br><span class="line">          <span class="built_in">printf</span>( <span class="string">"%d\n"</span>, rand() );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里面采用的随机数种子是利用时间进行的，这样的话，每次程序的运行就会有不同的随机数产生。</p>
+<h4 id="python"><a href="#python" class="headerlink" title="python"></a>python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">random.seed(int(time.time()))</span><br><span class="line">recv = random.randint(<span class="number">0</span>,<span class="number">2</span>**<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<p>我之前以为<a href="https://www.jianshu.com/p/be588891aace" target="_blank" rel="noopener">python 产生的随机数</a>应该是和C一样的。但是现在看来好像并非如此。我记的之前还用过来着。。。。</p>
+<p>忘了，反正python 的random库功能确实多。不愧是python</p>
+<h4 id="java"><a href="#java" class="headerlink" title="java"></a>java</h4><p><a href="https://www.cnblogs.com/skywang12345/p/3341423.html" target="_blank" rel="noopener">java的随机数</a>有点多，第二种和python的很像。第三种则是最常见的。</p>
+<h3 id="随机数的破解"><a href="#随机数的破解" class="headerlink" title="随机数的破解"></a>随机数的破解</h3><h4 id="pwn题目中的破解"><a href="#pwn题目中的破解" class="headerlink" title="pwn题目中的破解"></a>pwn题目中的破解</h4><p>在pwn题目中也会出现随机数这个东西，常常会使用随机数充当地址或者说是判断的标志。</p>
+<p>通常我们需要做的是覆盖随机数种子，因为如果我们可以控制随机数的种子，那么这个随机数序列也就不再是随机的了。then，如果使用的随机数是上文提到的urandom的话，那就要看能否更改随机数产生后的一些东西了。或者说别往随机数这里想，基本上没啥戏了。</p>
+<p>总的来说，我暂时没有遇到什么比较深的利用。</p>
+<h4 id="java随机数的破解"><a href="#java随机数的破解" class="headerlink" title="java随机数的破解"></a>java随机数的破解</h4><p>java随机数的产生是利用了一个经典的算法 LCG，也就是线性同余法。</p>
+<h5 id="上文提到的第一种产生方式"><a href="#上文提到的第一种产生方式" class="headerlink" title="上文提到的第一种产生方式"></a>上文提到的第一种产生方式</h5><p>时间就是种子</p>
+<h5 id="上文提到的第二种随机数产生的方式"><a href="#上文提到的第二种随机数产生的方式" class="headerlink" title="上文提到的第二种随机数产生的方式"></a>上文提到的第二种随机数产生的方式</h5><p>Math.random</p>
+<p>实际上是在内部调用java.util.Random()的，他有一个致命的弱点，它和系统时间有关，也就是说在相隔时间很短的两个random很有可能会得到两个相同的一模一样的double。</p>
+<h5 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h5><p>先来看一下java中Random类干了些什么</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">     * Creates a new random number generator. This constructor sets </span></span><br><span class="line"><span class="comment">     * the seed of the random number generator to a value very likely </span></span><br><span class="line"><span class="comment">     * to be distinct from any other invocation of this constructor. </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Random</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>(seedUniquifier() ^ System.nanoTime());  </span><br><span class="line">    &#125;  </span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">seedUniquifier</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// L'Ecuyer, "Tables of Linear Congruential Generators of  </span></span><br><span class="line">        <span class="comment">// Different Sizes and Good Lattice Structure", 1999  </span></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;  </span><br><span class="line">            <span class="keyword">long</span> current = seedUniquifier.get();  </span><br><span class="line">            <span class="keyword">long</span> next = current * <span class="number">181783497276652981L</span>;  </span><br><span class="line">            <span class="keyword">if</span> (seedUniquifier.compareAndSet(current, next))  </span><br><span class="line">                <span class="keyword">return</span> next;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">   </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicLong seedUniquifier  </span><br><span class="line">        = <span class="keyword">new</span> AtomicLong(<span class="number">8682522807148012L</span>);  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Random</span><span class="params">(<span class="keyword">long</span> seed)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (getClass() == Random.class)  </span><br><span class="line">            <span class="keyword">this</span>.seed = <span class="keyword">new</span> AtomicLong(initialScramble(seed));  </span><br><span class="line">        <span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="comment">// subclass might have overriden setSeed  </span></span><br><span class="line">            <span class="keyword">this</span>.seed = <span class="keyword">new</span> AtomicLong();  </span><br><span class="line">            setSeed(seed);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">initialScramble</span><span class="params">(<span class="keyword">long</span> seed)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> (seed ^ multiplier) &amp; mask;  </span><br><span class="line">    &#125;  </span><br><span class="line">    。。。</span><br></pre></td></tr></table></figure>
+<p>各种骚操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public int nextInt() &#123;  </span><br><span class="line">    return next(32);  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">protected int next(int bits) &#123;  </span><br><span class="line">    long oldseed, nextseed;  </span><br><span class="line">    AtomicLong seed = this.seed;  </span><br><span class="line">    do &#123;  </span><br><span class="line">        oldseed = seed.get();  </span><br><span class="line">        nextseed = (oldseed * multiplier + addend) &amp; mask;  //线性同余</span><br><span class="line">    &#125; while (!seed.compareAndSet(oldseed, nextseed));  </span><br><span class="line">    return (int)(nextseed &gt;&gt;&gt; (48 - bits));  //有个右移操作</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上</p>
+<p>[ <img src="/2019/05/28/随机数的破解相关/捕获.PNG" alt="捕获">]</p>
+<p>我们已经知道了所需要的参数</p>
+<p>所以我们完全可以使用暴力破解的方式得到没有进行右移操作之前的数，从而得到seed</p>
+<p>简单的说就是已经知道了两个相邻的随机数，我们可以预测这一串随机数。</p>
+<p><img src="https://cy-pic.kuaizhan.com/g3/9a/c0/dbe5-cb0c-4234-b884-8d721e590fd371" alt="https://cy-pic.kuaizhan.com/g3/9a/c0/dbe5-cb0c-4234-b884-8d721e590fd371"></p>
+<h4 id="python-random的破解"><a href="#python-random的破解" class="headerlink" title="python random的破解"></a>python random的破解</h4><h3 id="线性同余算法的破解"><a href="#线性同余算法的破解" class="headerlink" title="线性同余算法的破解"></a>线性同余算法的破解</h3><p>实际上，这是一种十分不安全的算法，由于有大佬做的博客十分详细，我就不再重复的造轮子了。gg</p>
+<p>甚是详细</p>
+<p><a href="http://zeroyu.xyz/2018/11/02/Cracking-LCG/" target="_blank" rel="noopener">http://zeroyu.xyz/2018/11/02/Cracking-LCG/</a></p>
+<p>gcd算法自己搞就好，望上一搜一堆</p>
+<h3 id="本文参考链接："><a href="#本文参考链接：" class="headerlink" title="本文参考链接："></a>本文参考链接：</h3><p><a href="https://blog.csdn.net/angelkeepmoving/article/details/52191857" target="_blank" rel="noopener">https://blog.csdn.net/angelkeepmoving/article/details/52191857</a></p>
+<p><a href="https://t1174779123.iteye.com/blog/2037719" target="_blank" rel="noopener">https://t1174779123.iteye.com/blog/2037719</a></p>
+
           
         
       
@@ -629,7 +661,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  56
+                  81
                 </span>
               
 
@@ -671,6 +703,7 @@
             <p>最近想写一些ctf线下攻防相关的东西</p>
 <p>想自己搭建一些环境然后玩玩，这一篇主要是介绍awd环境搭建相关信息。</p>
 <p>希望这一系列不会太监~</p>
+<h4 id="搞到了一份来自大佬的环境配置关怀"><a href="#搞到了一份来自大佬的环境配置关怀" class="headerlink" title="搞到了一份来自大佬的环境配置关怀"></a>搞到了一份来自大佬的环境配置关怀</h4><p><a href="https://github.com/sleicasper/ADplatform" target="_blank" rel="noopener">孙磊大佬玩过的awd，tql</a></p>
 
           
         
@@ -1999,7 +2032,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">11.9k</span>
+    <span title="Site words total count">13k</span>
   
 </div>
 
