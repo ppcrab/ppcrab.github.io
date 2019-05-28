@@ -261,6 +261,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/11/段寄存器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/11/段寄存器/" itemprop="url">段寄存器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-11T20:16:13+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  305
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="fs段寄存器"><a href="#fs段寄存器" class="headerlink" title="fs段寄存器"></a>fs段寄存器</h3><p>在80X86中，段寄存器和与其对应存放偏移地址的寄存器之间有一种默认组合关系。<br>fs和gs都是80386起增加的两个辅助段寄存器,在这之前只有一个辅助段寄存器ES,增加这两个寄存器是为了减轻ES寄存器的负担,并能更好地配合适用于通用寄存器组的基址和变址寄存器.<br>这两个是通用的段寄存器，语法上同其它的段寄存器一样，不能直接用立即数给它赋值。</p>
+<h3 id="附加段寄存器"><a href="#附加段寄存器" class="headerlink" title="附加段寄存器"></a>附加段寄存器</h3><p>包括es.fs.gs<br>作用：<br>  附加段寄存器ES，主要是用在字符串的操作上，由于在用一些串操作指令的时候，默认的目的串的段地址在ES中存放，所以必须设置Es。<br>在处理数据的时候,往往需要用到两个数据段,特别是在字符串的处理方面,使用两个数据段简便了许多的操作.<br>例如:字符串的匹配,查找,复制等等,设置了DS:SI,和ES:DI,很多的串操作指令就派上用场了,如REP REPNE CMPS等等… </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/11/Strings-Using/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1087,7 +1239,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
