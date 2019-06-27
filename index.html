@@ -261,6 +261,258 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/06/27/数据结构期末复习总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/27/数据结构期末复习总结/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-27T17:05:57+08:00">
+                2019-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本次总结以网上搜查为主，实在是重复造轮子效率低下，主要原因是我不会~</p>
+<p>考虑到是以期末考试为主，所以csdn平台是本地参考网站的大部分来源。。。。不得不说，虽然csdn比较烂，然而水水期末考试还是相当有帮助的。</p>
+<h3 id="题型"><a href="#题型" class="headerlink" title="题型"></a>题型</h3><p>10道选择      20分</p>
+<p>4道简答        40分</p>
+<p>4道编程题     40分</p>
+<h3 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h3><h4 id="单链表插入和删除"><a href="#单链表插入和删除" class="headerlink" title="单链表插入和删除"></a>单链表插入和删除</h4><p><a href="https://blog.csdn.net/sunming0129/article/details/79904415" target="_blank" rel="noopener">https://blog.csdn.net/sunming0129/article/details/79904415</a></p>
+<h4 id="链表合并（集合归并问题）有序表合并"><a href="#链表合并（集合归并问题）有序表合并" class="headerlink" title="链表合并（集合归并问题）有序表合并"></a>链表合并（集合归并问题）有序表合并</h4><p><a href="https://blog.csdn.net/mozha_666/article/details/79681210" target="_blank" rel="noopener">https://blog.csdn.net/mozha_666/article/details/79681210</a></p>
+<p>链表类算法的最关键的点其实就是链表的创建，搞明白了链表是如何创建的，合并，插入，删除都搞明白了</p>
+<h3 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h3><h4 id="进出栈（队列）的顺序"><a href="#进出栈（队列）的顺序" class="headerlink" title="进出栈（队列）的顺序"></a>进出栈（队列）的顺序</h4><h5 id="栈："><a href="#栈：" class="headerlink" title="栈："></a>栈：</h5><p>​    先进后出</p>
+<p>​    中缀转后缀：</p>
+<p>​           操作数直接转输出</p>
+<p>​    操作符使用栈处理</p>
+<p>​    新操作符与栈顶元素比较，若优先级小于等于栈顶，则栈顶弹出。然后新操作入栈，否则新操作符直接压入。</p>
+<p>​    对于”(“，直接入栈，只有在新操作符为“）”时，将其上所有元素弹出。</p>
+<p>​    链表实现和数组实现</p>
+<p>如果进出栈的顺序不确定，输出序列符合何种规律</p>
+<p>一个栈的进栈序列是a，b，c，d，e，则栈的不可能的输出序列是   C   。</p>
+<p> A．edcba      B．decba    C．dceab      D．abcde  <br>设有一个栈，元素依次进栈的顺序为A、B、C、D、E。下列   C   是不可能的出栈序列。 </p>
+<p> A．A,B,C,D,E   B．B,C,D,E,A    C．E,A,B,C,D     D．E,D,C,B,A</p>
+<p>关键在于进栈的序列是知道的，然而什么时候出栈不知道，即进出栈是可以穿插进行的，只需要进栈总的序列满足题意即可</p>
+<h5 id="队列："><a href="#队列：" class="headerlink" title="队列："></a>队列：</h5><ul>
+<li><p>先进先出</p>
+</li>
+<li><p>数组实现</p>
+</li>
+<li><p>用于服务器区块的响应，使用排队论解决响应与阻塞问题。</p>
+<p>​</p>
+</li>
+</ul>
+<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p><a href="https://blog.csdn.net/you_will_know_me/article/details/77102567" target="_blank" rel="noopener">https://blog.csdn.net/you_will_know_me/article/details/77102567</a></p>
+<p><a href="https://www.cnblogs.com/lisen10/p/10850063.html" target="_blank" rel="noopener">https://www.cnblogs.com/lisen10/p/10850063.html</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getnext</span><span class="params">(SString *t, <span class="keyword">int</span> *next)</span></span></span><br><span class="line"><span class="function"></span>&#123;  <span class="comment">/*串t即作为目标串又作为模式串*/</span></span><br><span class="line">    <span class="keyword">int</span> j,k;</span><br><span class="line">    j=<span class="number">0</span>;k=<span class="number">-1</span>;next[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(j&lt;t-&gt;curlen<span class="number">-1</span>)  &#123;</span><br><span class="line">       <span class="keyword">if</span>(k==<span class="number">-1</span>||t-&gt;str[j]==t-&gt;str[k]) &#123;</span><br><span class="line">          j++;k++;</span><br><span class="line">          <span class="keyword">if</span>(t-&gt;str[j]!=t-&gt;str[k])</span><br><span class="line">              next[j]=k;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">              next[j]=next[k];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span> k=next[k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>i和j怎样变换</p>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><h4 id="左右子树如何变换？（用递归算法能否实现）"><a href="#左右子树如何变换？（用递归算法能否实现）" class="headerlink" title="左右子树如何变换？（用递归算法能否实现）"></a>左右子树如何变换？（用递归算法能否实现）</h4><p><a href="https://zhidao.baidu.com/question/551935782.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/551935782.html</a></p>
+<p>第一个回答是用的递归算法的实现，第二个则是定义了一个新的结构体，十分有意思。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">exchangeLR(&amp;root); <span class="comment">//root为树的根节点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">exchangeLR</span><span class="params">(TreeNode *root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">TreeNode *tmp;</span><br><span class="line"><span class="keyword">if</span> (root == <span class="literal">NULL</span>)</span><br><span class="line"><span class="keyword">return</span>;</span><br><span class="line"><span class="comment">// 左子树交换</span></span><br><span class="line">exChangeLR(root-&gt;left);</span><br><span class="line"><span class="comment">// 右子树交换</span></span><br><span class="line">exChangeLR(root-&gt;right);</span><br><span class="line"><span class="comment">// 交换当前结点的左右子树</span></span><br><span class="line">tmp = root-&gt;left;</span><br><span class="line">root-&gt;left = root-&gt;right;</span><br><span class="line">root-&gt;right = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//看起来十分正确的样子~</span></span><br><span class="line"><span class="comment">//原来节点结构体：</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">Element X;</span><br><span class="line">Node* pLeft;</span><br><span class="line">Node* pRight;</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line"><span class="comment">//现在从新定义一个结构</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">Element X;</span><br><span class="line">NewNode* pRight;</span><br><span class="line">NewNode* pLeft;</span><br><span class="line">&#125;NewNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后用新树的根指向原树的根</span></span><br></pre></td></tr></table></figure>
+<h4 id="几个基本性质"><a href="#几个基本性质" class="headerlink" title="几个基本性质"></a>几个基本性质</h4><h4 id="会写三种遍历顺序"><a href="#会写三种遍历顺序" class="headerlink" title="会写三种遍历顺序"></a>会写三种遍历顺序</h4><p><a href="https://blog.csdn.net/u010521845/article/details/61413910" target="_blank" rel="noopener">https://blog.csdn.net/u010521845/article/details/61413910</a></p>
+<h4 id="哈弗曼树的构造方法"><a href="#哈弗曼树的构造方法" class="headerlink" title="哈弗曼树的构造方法"></a>哈弗曼树的构造方法</h4><p><a href="https://blog.csdn.net/u010521845/article/details/61413910" target="_blank" rel="noopener">https://blog.csdn.net/u010521845/article/details/61413910</a></p>
+<p>哈夫曼编码相比于next数组的构造，手算起来更加简单，老师好像讲过next数组也有一种手算的方法，然而。我好像忘了 gg</p>
+<h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p><a href="https://blog.csdn.net/weixin_42110638/article/details/84146813" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42110638/article/details/84146813</a></p>
+<p>这是一个写的十分详细的介绍图的博客，以下介绍图的内容中有大部分是从中摘抄</p>
+<h4 id="图的性质（连通图、连通分量、度等）"><a href="#图的性质（连通图、连通分量、度等）" class="headerlink" title="图的性质（连通图、连通分量、度等）"></a>图的性质（连通图、连通分量、度等）</h4><p>离散自己复习</p>
+<h4 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h4><p>图的遍历图和树的遍历类似，那就是从图中某一顶点出发访遍图中其余顶点，且使每一个顶点仅被访问一次，这个过程就叫做图的遍历。</p>
+<p>对于图的遍历来说，如何避免因回路陷入死循环，就需要科学地设计遍历方案，通过有两种遍历次序方案：深度优先遍历和广度优先遍历。</p>
+<h6 id="深度优先遍历"><a href="#深度优先遍历" class="headerlink" title="深度优先遍历"></a>深度优先遍历</h6><p>深度优先遍历（Depth_First_Search）,也称为深度优先搜索，简称DFS。</p>
+<p><img src="https://img-blog.csdnimg.cn/20181116230627808.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjExMDYzOA==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>为了更好的理解深度优先遍历。请看下面的图解：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181218175743769" alt=""></p>
+<pre><code>//dfs算法
+void Visit( Vertex V )
+
+{
+printf(&quot; %d&quot;, V);
+}
+
+void DFS( MGraph Graph, Vertex V, void (*Visit)(Vertex) )
+
+{
+
+Vertex j;
+Visited[V] = true;//表示从V开始访问
+Visit(V);//访问V，其实抛开题来讲这里一般都是打印V
+for(j = 0;j &lt; Graph-&gt;Nv;j++)
+{
+    if(Graph-&gt;G[V][j] == 1 &amp;&amp; !Visited[j])//邻接矩阵等于1代表有边，此时如果还没被访问就递归调用
+        DFS(Graph,j,Visit);
+}
+
+
+void DFS(int v)//邻接矩阵的dfs
+{
+    visited[v] = 1;
+    cout&lt;&lt;v&lt;&lt;&quot; &quot;;
+    for(int i = 0;i &lt; Nv;i++)
+    {
+        if((G[v][i] == 1) &amp;&amp; !visited[i])//邻接矩阵等于1代表有边(连通)，此时如果还没被访问就递归调用
+            DFS(i);
+    }
+}
+</code></pre><h5 id="广度优先遍历"><a href="#广度优先遍历" class="headerlink" title="广度优先遍历"></a>广度优先遍历</h5><p>广度优先遍历（Breadth_First_Search）,又称为广度优先搜索，简称BFS。</p>
+<p><img src="https://img-blog.csdnimg.cn/20181116234319898.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjExMDYzOA==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181218175743798" alt=""></p>
+<h4 id="AOE网路"><a href="#AOE网路" class="headerlink" title="AOE网路"></a>AOE网路</h4><p><a href="https://blog.csdn.net/qq_38071429/article/details/80407544" target="_blank" rel="noopener">https://blog.csdn.net/qq_38071429/article/details/80407544</a></p>
+<h4 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h4><p><a href="https://blog.csdn.net/weixin_42110638/article/details/84246833" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42110638/article/details/84246833</a></p>
+<h4 id="关键路径"><a href="#关键路径" class="headerlink" title="关键路径"></a>关键路径</h4><p>见AOE网络 </p>
+<h4 id="迪杰斯特拉算法"><a href="#迪杰斯特拉算法" class="headerlink" title="迪杰斯特拉算法"></a>迪杰斯特拉算法</h4><p><a href="https://blog.csdn.net/kprogram/article/details/81225176" target="_blank" rel="noopener">https://blog.csdn.net/kprogram/article/details/81225176</a></p>
+<p>比较简单</p>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>估计是我翘课了。我对这里没有印象</p>
+<p>课件<a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E4%B9%9D%E7%AB%A0__%E6%9F%A5%E6%89%BE.ppsx" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E4%B9%9D%E7%AB%A0__%E6%9F%A5%E6%89%BE.ppsx</a></p>
+<h4 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h4><p><a href="https://blog.csdn.net/barkzhang/article/details/7776629" target="_blank" rel="noopener">https://blog.csdn.net/barkzhang/article/details/7776629</a></p>
+<h4 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h4><p><a href="https://www.cnblogs.com/zhuli19901106/p/3802505.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhuli19901106/p/3802505.html</a></p>
+<h4 id="哈希查找几种处理冲突的方法"><a href="#哈希查找几种处理冲突的方法" class="headerlink" title="哈希查找几种处理冲突的方法"></a>哈希查找几种处理冲突的方法</h4><p><a href="https://blog.csdn.net/Iamthedoctor123/article/details/79334800" target="_blank" rel="noopener">https://blog.csdn.net/Iamthedoctor123/article/details/79334800</a></p>
+<h4 id="会计算等概率条件下平均查找长度"><a href="#会计算等概率条件下平均查找长度" class="headerlink" title="会计算等概率条件下平均查找长度"></a>会计算等概率条件下平均查找长度</h4><p><a href="https://blog.csdn.net/SunnyYoona/article/details/84686162" target="_blank" rel="noopener">https://blog.csdn.net/SunnyYoona/article/details/84686162</a></p>
+<h3 id="内部排序"><a href="#内部排序" class="headerlink" title="内部排序"></a>内部排序</h3><p>这一部分网上的资料要零散，而且少，估计是太简单？反正讲课的时候只用了两三节课左右讲解这里，估计不是重点</p>
+<p>课件<a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E5%8D%81%E7%AB%A0_%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F.ppsx" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E5%8D%81%E7%AB%A0_%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F.ppsx</a></p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p><a href="https://www.cnblogs.com/WJQ2017/p/8340156.html" target="_blank" rel="noopener">https://www.cnblogs.com/WJQ2017/p/8340156.html</a></p>
+<p><a href="https://blog.csdn.net/weixin_34059951/article/details/87958541" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34059951/article/details/87958541</a></p>
+<h4 id="快速排序的划分"><a href="#快速排序的划分" class="headerlink" title="快速排序的划分"></a>快速排序的划分</h4><h4 id="快速排序划分的应用"><a href="#快速排序划分的应用" class="headerlink" title="快速排序划分的应用"></a>快速排序划分的应用</h4><h4 id="各种排序的时间复杂度"><a href="#各种排序的时间复杂度" class="headerlink" title="各种排序的时间复杂度"></a>各种排序的时间复杂度</h4><p><a href="https://blog.csdn.net/JxufeCarol/article/details/82825563" target="_blank" rel="noopener">https://blog.csdn.net/JxufeCarol/article/details/82825563</a>  </p>
+<h3 id="其他参考资料网站"><a href="#其他参考资料网站" class="headerlink" title="其他参考资料网站"></a>其他参考资料网站</h3><p>总结博客：<a href="https://blog.csdn.net/u010521845/article/details/61413910" target="_blank" rel="noopener">https://blog.csdn.net/u010521845/article/details/61413910</a></p>
+<p>有关题目<a href="https://wenku.baidu.com/view/33a07baa0242a8956bece4e4.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/33a07baa0242a8956bece4e4.html</a></p>
+<p><a href="https://wenku.baidu.com/view/6a4ac8dcdc88d0d233d4b14e852458fb770b38bb.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/6a4ac8dcdc88d0d233d4b14e852458fb770b38bb.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/28/随机数的破解相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1742,161 +1994,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/01/CyberNumble/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/01/CyberNumble/" itemprop="url">CyberNumble</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-01T20:47:32+08:00">
-                2019-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  134
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这是一个十分有意思的题目，虽然被归到了pwn，但是又和普通的pwn不太一样，不过真的很有意思~~</p>
-<p>fscanf 函数 在将从文本中读进来的数据当作字符串的时候，遇到空白字符是会停止的</p>
-<p>mprotect函数可以更改区域的执行权限</p>
-<p>64位参数传递 比如rdi寄存器，传递的是参数的地址。。。而不是直接的参数</p>
-<p>事实证明，一个没有free的指针往往是有用的</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1951,7 +2048,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2032,7 +2129,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">13k</span>
+    <span title="Site words total count">14.6k</span>
   
 </div>
 
