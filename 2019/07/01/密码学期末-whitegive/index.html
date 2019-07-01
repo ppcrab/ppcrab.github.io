@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="老师是个好老师，然而我个渣渣还是担心白给 elgamal签名算法，有公式，推导相关内容https://blog.mythsman.com/2015/10/07/3/  例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多) Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 （a） Alice对消息x=47的签名过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学期末-whitegive">
+<meta property="og:url" content="https://ppcrab.github.io/2019/07/01/密码学期末-whitegive/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="老师是个好老师，然而我个渣渣还是担心白给 elgamal签名算法，有公式，推导相关内容https://blog.mythsman.com/2015/10/07/3/  例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多) Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 （a） Alice对消息x=47的签名过">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/24/F6olQK.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20181005104343810?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20181005104448993?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/2018100510495112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20181005105046900?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329112158788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NTMyMTQw,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-07-01T13:35:12.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="密码学期末-whitegive">
+<meta name="twitter:description" content="老师是个好老师，然而我个渣渣还是担心白给 elgamal签名算法，有公式，推导相关内容https://blog.mythsman.com/2015/10/07/3/  例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多) Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 （a） Alice对消息x=47的签名过">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/12/24/F6olQK.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ppcrab.github.io/2019/07/01/密码学期末-whitegive/"/>
+
+
+
+
+
+  <title>密码学期末-whitegive | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+
+
+   <a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;"  src="https://ppcrab.github.io/" alt="Fork me on  GitHub"></a>
+   
+
+
+
+
+
+
+  
+  
+    
+  
+   
+   <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            喜欢的一些音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            我读过的一些书籍以及笔记
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/01/密码学期末-whitegive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">密码学期末-whitegive</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-01T21:32:24+08:00">
+                2019-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>老师是个好老师，然而我个渣渣还是担心白给</p>
+<h3 id="elgamal签名算法，有公式，推导相关内容"><a href="#elgamal签名算法，有公式，推导相关内容" class="headerlink" title="elgamal签名算法，有公式，推导相关内容"></a>elgamal签名算法，有公式，推导相关内容</h3><p><a href="https://blog.mythsman.com/2015/10/07/3/" target="_blank" rel="noopener">https://blog.mythsman.com/2015/10/07/3/</a></p>
+<p><img src="https://s1.ax1x.com/2018/12/24/F6olQK.png" alt="img"></p>
+<p>例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多)</p>
+<p>Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 <br>（a） Alice对消息x=47的签名过程中，通过伪随机数发生器产生随机数k=13，请计算签名),(γ,δ) <br>提示：γ=(α^k)modp,β = (x-aγ)^(k^-1)mod(p-1)<br>（b） 如果Alice裸露了随机数k，Oscar能否计算出Alice的私钥？如果可以，请写出计算方法。 <br>（c） Alice每次签名都使用默认的随机数生成器的种子，因此每次签名使用的随机数k总<br>是相同的。请问Oscar能否根据Alice的已知签名对Alice造成安全威胁？如果可以，请写出计算方法。 </p>
+<p>（d） 如果Alice在签名前先计算消息x的hash值()z=hx，其中h是hash函数，然后计算z的签名。为了保证方案的安全性，对hash函数h有哪些要求？</p>
+<h3 id="rsa加密"><a href="#rsa加密" class="headerlink" title="rsa加密"></a>rsa加密</h3><p><a href="https://www.kancloud.cn/kancloud/rsa_algorithm/48486" target="_blank" rel="noopener">https://www.kancloud.cn/kancloud/rsa_algorithm/48486</a></p>
+<p>它的安全性基于<strong>大整数的因数分解</strong>的困难性。</p>
+<p>任意生成两个大素数 <strong>p</strong> 和 <strong>q</strong>，由他们计算 <strong>n = p·q</strong> 是容易的，但由 <strong>n</strong> 分解出 <strong>p</strong> 和 <strong>q</strong> 是困难的。</p>
+<p>也很容易由 <strong>p</strong> 和 <strong>q</strong> 计算出 <strong>n</strong> 的欧拉函数 <strong>φ(n) = (p-1)·(q-1)</strong> ，这样，我们选定一个与 <strong>φ(n)</strong> 互素的数 <strong>e</strong> 作为加密因子，可由<strong>扩展Euclid算法</strong>计算出解密因子 <strong>d</strong> （即私钥），其中 <strong>d e≡ 1(mod φ(n))</strong>。</p>
+<p>总结下就是这样：</p>
+<p>任意选取两个大素数 <strong>p</strong> 和 <strong>q</strong>，</p>
+<p><strong>n = p·q</strong></p>
+<p><strong>φ(n) = (p-1)·(q-1)</strong></p>
+<p><strong>e·d ≡ 1 (mod φ(n))</strong></p>
+<p>加密算法：<strong>c ≡ me (mod n)</strong></p>
+<p>解密算法：<strong>m ≡ cd (mod n)</strong></p>
+<p>公钥为 <strong>(n,e)</strong> ，私钥为 <strong>d</strong></p>
+<h4 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h4><p>要求生成密钥的时候就生成密钥d，公钥e随机选取与欧拉函数互质就好</p>
+<h4 id="签名算法对应RSA密码体制中的加密过程。"><a href="#签名算法对应RSA密码体制中的加密过程。" class="headerlink" title="签名算法对应RSA密码体制中的加密过程。"></a>签名算法对应RSA密码体制中的加密过程。</h4><p>设待签名的消息为 m，则签名者A先利用一个安全的Hash函数 h 来产生一个消息摘要 h(m)，然后签名者用自己的私钥计算签名</p>
+<p> s≡h(m)^d mod n ，将 (s,m)发送给消息接收者 B。</p>
+<h4 id="验证算法"><a href="#验证算法" class="headerlink" title="验证算法"></a>验证算法</h4><p><em>验证算法对应RSA密码体制中的解密过程。</em></p>
+<p>签名接收者 B 收到消息 m 和 签名 s 后，先利用 A 使用的Hash函数 h 来产生一个消息摘要 h(m)，然后检验同余式 h(m)≡s^e mod n是否成立。若成立，则说明签名有效，否则签名无效。</p>
+<h4 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h4><p>引入Hash函数使得单纯地对消息本身进行签名具有更好的抗攻击性。而且，若攻击者截取一段发往签名者的密文，将其盲化（乘上一个盲化因子 <strong>R</strong> 的 <strong>e</strong> 次方）后发送给签名者让其签名，攻击者就能从中计算出密文对应的明文。另外，对于大消息来说，将其映射到固定长度再签名，大大提升了签名的效率。</p>
+<h3 id="门限方案的考法：给出几个share，你们会重构出秘密值就可以"><a href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以" class="headerlink" title="门限方案的考法：给出几个share，你们会重构出秘密值就可以"></a>门限方案的考法：给出几个share，你们会重构出秘密值就可以</h3><p>需要用到插值多项式的公式</p>
+<p>假设现在存在多项式</p>
+<p><img src="https://img-blog.csdn.net/20181005104343810?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>这时候，秘密就被藏在这里，假设是常数项1</p>
+<p>then，我们有以下几个share</p>
+<p><img src="https://img-blog.csdn.net/20181005104448993?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>由门限方案的特点我们知道，我们这时候至少需要知道3个share才能得到原多项式。而得到的方法可以试二次多项式，或者是插值多项式，一样的。</p>
+<p><img src="https://img-blog.csdn.net/2018100510495112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p><img src="https://img-blog.csdn.net/20181005105046900?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h3 id="存在性伪造大题"><a href="#存在性伪造大题" class="headerlink" title="存在性伪造大题"></a>存在性伪造大题</h3><p>伪造：伪造一个没有经过认证的(M,MAC)对</p>
+<p>存在性伪造：如果攻击者只能够对一个不由他控制的消息进行伪造，那么这种攻击被称为存在性伪造攻击</p>
+<p>选择性伪造：能够对他选择的消息进行伪造攻击</p>
+<p>Mac的伪造：</p>
+<p>  用hash函数构造</p>
+<p>  用分组密码构造</p>
+<p>  用伪随机函数构造</p>
+<p>  其他</p>
+<h3 id="【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><a href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少" class="headerlink" title="【实在不忍心了】参考例题会考 但考的题很少很少少少少少"></a>【实在不忍心了】参考例题会考 但考的题很少很少少少少少</h3><p><a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf</a></p>
+<h3 id="那些古典密码的密钥空间大小要看一看"><a href="#那些古典密码的密钥空间大小要看一看" class="headerlink" title="那些古典密码的密钥空间大小要看一看"></a>那些古典密码的密钥空间大小要看一看</h3><p><a href="https://www.cnblogs.com/FZfangzheng/p/9136108.html" target="_blank" rel="noopener">https://www.cnblogs.com/FZfangzheng/p/9136108.html</a></p>
+<p>置换密码：</p>
+<p>就是置换π，π的描述中其实包含了分组长度m的信息，密钥空间大小 m!（第一个有m种选择，第二个有m-1种…）<br>代换：</p>
+<p>​    移位密码：</p>
+<p>​            凯撒密码是k=3的移位密码</p>
+<p>​            密钥k-&gt;空间26</p>
+<p>​    简单代换：</p>
+<p>​            26!</p>
+<p>多表代换：</p>
+<p>​    维吉尼亚密码：</p>
+<p>​    密钥空间和密钥长度有关为26^m</p>
+<h3 id="双线性映射"><a href="#双线性映射" class="headerlink" title="双线性映射"></a>双线性映射</h3><p>记住双线性性质，题目给出两个式子，你们套用性质，计算出两个式子是相等的</p>
+<p>双线性映射<br>抽象意义的双线性映射描述如下：</p>
+<p>设G1、G2都是阶为p的循环群，p是素数。如果映射e: G1 × G1 → G2 满足以下性质：<br>（1）双线性性。<br>对于任意a，b∈Zp和R，S∈G1，有e(Ra, Sb) = e(R, S)ab；</p>
+<p>（2）非退化性。<br>存在R，S∈G1，使得e(R, S) ≠ 1G2。这里1G2代表G2群的单位元；</p>
+<p>存在有效的算法对任意的R，S∈G1，计算e(R, S)！</p>
+<p><img src="https://img-blog.csdnimg.cn/20190329112158788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NTMyMTQw,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>虽然不会，但是看起来老师的意思是说要用到推论四</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>DES：数据加密标准，对称密码算法，用于加密；</p>
+<p>AES: 高级加密标准，对称密码算法，用于加密；</p>
+<p>RSA：最流行的公钥密码算法，加密和数字签名；</p>
+<p>ECC：椭圆曲线密码，采用ElGamal算法，公钥密码算法，安全性高，密钥量小，灵活性好；</p>
+<p>DSA：数字签名算法，是数字签名的一部分，公钥密码算法，数字签名。</p>
+<p>MD5(SHA-1)：数字摘要算法，数字签名，保证消息的完整性。</p>
+<h3 id="其他参考网站"><a href="#其他参考网站" class="headerlink" title="其他参考网站"></a>其他参考网站</h3><p><a href="https://comydream.github.io/2018/12/24/cryptography-protocol/index.html" target="_blank" rel="noopener">https://comydream.github.io/2018/12/24/cryptography-protocol/index.html</a></p>
+<p><a href="https://blog.csdn.net/z784561257/article/details/82942581" target="_blank" rel="noopener">https://blog.csdn.net/z784561257/article/details/82942581</a></p>
+<p><a href="https://lingyibin.iteye.com/blog/787060" target="_blank" rel="noopener">https://lingyibin.iteye.com/blog/787060</a></p>
+<p><a href="https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html</a>（题目，有答案，但是没有详解）</p>
+<p><a href="https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html</a>（题目，有答案）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/27/数据结构期末复习总结/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/photo/hello.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://oj.blue-whale.me" target="_blank" title="Blue_Whaleoj">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Blue_Whaleoj</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://bleachz.github.io/" target="_blank" title="DALAO">
+                      
+                        <i class="fa fa-fw fa-globe"></i>DALAO</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#elgamal签名算法，有公式，推导相关内容"><span class="nav-number">1.</span> <span class="nav-text">elgamal签名算法，有公式，推导相关内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rsa加密"><span class="nav-number">2.</span> <span class="nav-text">rsa加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#密钥生成"><span class="nav-number">2.1.</span> <span class="nav-text">密钥生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#签名算法对应RSA密码体制中的加密过程。"><span class="nav-number">2.2.</span> <span class="nav-text">签名算法对应RSA密码体制中的加密过程。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证算法"><span class="nav-number">2.3.</span> <span class="nav-text">验证算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安全性"><span class="nav-number">2.4.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以"><span class="nav-number">3.</span> <span class="nav-text">门限方案的考法：给出几个share，你们会重构出秘密值就可以</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在性伪造大题"><span class="nav-number">4.</span> <span class="nav-text">存在性伪造大题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><span class="nav-number">5.</span> <span class="nav-text">【实在不忍心了】参考例题会考 但考的题很少很少少少少少</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那些古典密码的密钥空间大小要看一看"><span class="nav-number">6.</span> <span class="nav-text">那些古典密码的密钥空间大小要看一看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双线性映射"><span class="nav-number">7.</span> <span class="nav-text">双线性映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">8.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他参考网站"><span class="nav-number">9.</span> <span class="nav-text">其他参考网站</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">16.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+
+  
+</body>
+</html>

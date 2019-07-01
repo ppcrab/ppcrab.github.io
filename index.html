@@ -261,6 +261,227 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/01/密码学期末-whitegive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/01/密码学期末-whitegive/" itemprop="url">密码学期末-whitegive</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-01T21:32:24+08:00">
+                2019-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>老师是个好老师，然而我个渣渣还是担心白给</p>
+<h3 id="elgamal签名算法，有公式，推导相关内容"><a href="#elgamal签名算法，有公式，推导相关内容" class="headerlink" title="elgamal签名算法，有公式，推导相关内容"></a>elgamal签名算法，有公式，推导相关内容</h3><p><a href="https://blog.mythsman.com/2015/10/07/3/" target="_blank" rel="noopener">https://blog.mythsman.com/2015/10/07/3/</a></p>
+<p><img src="https://s1.ax1x.com/2018/12/24/F6olQK.png" alt="img"></p>
+<p>例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多)</p>
+<p>Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 <br>（a） Alice对消息x=47的签名过程中，通过伪随机数发生器产生随机数k=13，请计算签名),(γ,δ) <br>提示：γ=(α^k)modp,β = (x-aγ)^(k^-1)mod(p-1)<br>（b） 如果Alice裸露了随机数k，Oscar能否计算出Alice的私钥？如果可以，请写出计算方法。 <br>（c） Alice每次签名都使用默认的随机数生成器的种子，因此每次签名使用的随机数k总<br>是相同的。请问Oscar能否根据Alice的已知签名对Alice造成安全威胁？如果可以，请写出计算方法。 </p>
+<p>（d） 如果Alice在签名前先计算消息x的hash值()z=hx，其中h是hash函数，然后计算z的签名。为了保证方案的安全性，对hash函数h有哪些要求？</p>
+<h3 id="rsa加密"><a href="#rsa加密" class="headerlink" title="rsa加密"></a>rsa加密</h3><p><a href="https://www.kancloud.cn/kancloud/rsa_algorithm/48486" target="_blank" rel="noopener">https://www.kancloud.cn/kancloud/rsa_algorithm/48486</a></p>
+<p>它的安全性基于<strong>大整数的因数分解</strong>的困难性。</p>
+<p>任意生成两个大素数 <strong>p</strong> 和 <strong>q</strong>，由他们计算 <strong>n = p·q</strong> 是容易的，但由 <strong>n</strong> 分解出 <strong>p</strong> 和 <strong>q</strong> 是困难的。</p>
+<p>也很容易由 <strong>p</strong> 和 <strong>q</strong> 计算出 <strong>n</strong> 的欧拉函数 <strong>φ(n) = (p-1)·(q-1)</strong> ，这样，我们选定一个与 <strong>φ(n)</strong> 互素的数 <strong>e</strong> 作为加密因子，可由<strong>扩展Euclid算法</strong>计算出解密因子 <strong>d</strong> （即私钥），其中 <strong>d e≡ 1(mod φ(n))</strong>。</p>
+<p>总结下就是这样：</p>
+<p>任意选取两个大素数 <strong>p</strong> 和 <strong>q</strong>，</p>
+<p><strong>n = p·q</strong></p>
+<p><strong>φ(n) = (p-1)·(q-1)</strong></p>
+<p><strong>e·d ≡ 1 (mod φ(n))</strong></p>
+<p>加密算法：<strong>c ≡ me (mod n)</strong></p>
+<p>解密算法：<strong>m ≡ cd (mod n)</strong></p>
+<p>公钥为 <strong>(n,e)</strong> ，私钥为 <strong>d</strong></p>
+<h4 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h4><p>要求生成密钥的时候就生成密钥d，公钥e随机选取与欧拉函数互质就好</p>
+<h4 id="签名算法对应RSA密码体制中的加密过程。"><a href="#签名算法对应RSA密码体制中的加密过程。" class="headerlink" title="签名算法对应RSA密码体制中的加密过程。"></a>签名算法对应RSA密码体制中的加密过程。</h4><p>设待签名的消息为 m，则签名者A先利用一个安全的Hash函数 h 来产生一个消息摘要 h(m)，然后签名者用自己的私钥计算签名</p>
+<p> s≡h(m)^d mod n ，将 (s,m)发送给消息接收者 B。</p>
+<h4 id="验证算法"><a href="#验证算法" class="headerlink" title="验证算法"></a>验证算法</h4><p><em>验证算法对应RSA密码体制中的解密过程。</em></p>
+<p>签名接收者 B 收到消息 m 和 签名 s 后，先利用 A 使用的Hash函数 h 来产生一个消息摘要 h(m)，然后检验同余式 h(m)≡s^e mod n是否成立。若成立，则说明签名有效，否则签名无效。</p>
+<h4 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h4><p>引入Hash函数使得单纯地对消息本身进行签名具有更好的抗攻击性。而且，若攻击者截取一段发往签名者的密文，将其盲化（乘上一个盲化因子 <strong>R</strong> 的 <strong>e</strong> 次方）后发送给签名者让其签名，攻击者就能从中计算出密文对应的明文。另外，对于大消息来说，将其映射到固定长度再签名，大大提升了签名的效率。</p>
+<h3 id="门限方案的考法：给出几个share，你们会重构出秘密值就可以"><a href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以" class="headerlink" title="门限方案的考法：给出几个share，你们会重构出秘密值就可以"></a>门限方案的考法：给出几个share，你们会重构出秘密值就可以</h3><p>需要用到插值多项式的公式</p>
+<p>假设现在存在多项式</p>
+<p><img src="https://img-blog.csdn.net/20181005104343810?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>这时候，秘密就被藏在这里，假设是常数项1</p>
+<p>then，我们有以下几个share</p>
+<p><img src="https://img-blog.csdn.net/20181005104448993?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>由门限方案的特点我们知道，我们这时候至少需要知道3个share才能得到原多项式。而得到的方法可以试二次多项式，或者是插值多项式，一样的。</p>
+<p><img src="https://img-blog.csdn.net/2018100510495112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p><img src="https://img-blog.csdn.net/20181005105046900?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h3 id="存在性伪造大题"><a href="#存在性伪造大题" class="headerlink" title="存在性伪造大题"></a>存在性伪造大题</h3><p>伪造：伪造一个没有经过认证的(M,MAC)对</p>
+<p>存在性伪造：如果攻击者只能够对一个不由他控制的消息进行伪造，那么这种攻击被称为存在性伪造攻击</p>
+<p>选择性伪造：能够对他选择的消息进行伪造攻击</p>
+<p>Mac的伪造：</p>
+<p>  用hash函数构造</p>
+<p>  用分组密码构造</p>
+<p>  用伪随机函数构造</p>
+<p>  其他</p>
+<h3 id="【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><a href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少" class="headerlink" title="【实在不忍心了】参考例题会考 但考的题很少很少少少少少"></a>【实在不忍心了】参考例题会考 但考的题很少很少少少少少</h3><p><a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf</a></p>
+<h3 id="那些古典密码的密钥空间大小要看一看"><a href="#那些古典密码的密钥空间大小要看一看" class="headerlink" title="那些古典密码的密钥空间大小要看一看"></a>那些古典密码的密钥空间大小要看一看</h3><p><a href="https://www.cnblogs.com/FZfangzheng/p/9136108.html" target="_blank" rel="noopener">https://www.cnblogs.com/FZfangzheng/p/9136108.html</a></p>
+<p>置换密码：</p>
+<p>就是置换π，π的描述中其实包含了分组长度m的信息，密钥空间大小 m!（第一个有m种选择，第二个有m-1种…）<br>代换：</p>
+<p>​    移位密码：</p>
+<p>​            凯撒密码是k=3的移位密码</p>
+<p>​            密钥k-&gt;空间26</p>
+<p>​    简单代换：</p>
+<p>​            26!</p>
+<p>多表代换：</p>
+<p>​    维吉尼亚密码：</p>
+<p>​    密钥空间和密钥长度有关为26^m</p>
+<h3 id="双线性映射"><a href="#双线性映射" class="headerlink" title="双线性映射"></a>双线性映射</h3><p>记住双线性性质，题目给出两个式子，你们套用性质，计算出两个式子是相等的</p>
+<p>双线性映射<br>抽象意义的双线性映射描述如下：</p>
+<p>设G1、G2都是阶为p的循环群，p是素数。如果映射e: G1 × G1 → G2 满足以下性质：<br>（1）双线性性。<br>对于任意a，b∈Zp和R，S∈G1，有e(Ra, Sb) = e(R, S)ab；</p>
+<p>（2）非退化性。<br>存在R，S∈G1，使得e(R, S) ≠ 1G2。这里1G2代表G2群的单位元；</p>
+<p>存在有效的算法对任意的R，S∈G1，计算e(R, S)！</p>
+<p><img src="https://img-blog.csdnimg.cn/20190329112158788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NTMyMTQw,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>虽然不会，但是看起来老师的意思是说要用到推论四</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>DES：数据加密标准，对称密码算法，用于加密；</p>
+<p>AES: 高级加密标准，对称密码算法，用于加密；</p>
+<p>RSA：最流行的公钥密码算法，加密和数字签名；</p>
+<p>ECC：椭圆曲线密码，采用ElGamal算法，公钥密码算法，安全性高，密钥量小，灵活性好；</p>
+<p>DSA：数字签名算法，是数字签名的一部分，公钥密码算法，数字签名。</p>
+<p>MD5(SHA-1)：数字摘要算法，数字签名，保证消息的完整性。</p>
+<h3 id="其他参考网站"><a href="#其他参考网站" class="headerlink" title="其他参考网站"></a>其他参考网站</h3><p><a href="https://comydream.github.io/2018/12/24/cryptography-protocol/index.html" target="_blank" rel="noopener">https://comydream.github.io/2018/12/24/cryptography-protocol/index.html</a></p>
+<p><a href="https://blog.csdn.net/z784561257/article/details/82942581" target="_blank" rel="noopener">https://blog.csdn.net/z784561257/article/details/82942581</a></p>
+<p><a href="https://lingyibin.iteye.com/blog/787060" target="_blank" rel="noopener">https://lingyibin.iteye.com/blog/787060</a></p>
+<p><a href="https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html</a>（题目，有答案，但是没有详解）</p>
+<p><a href="https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html</a>（题目，有答案）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/06/27/数据结构期末复习总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1829,171 +2050,6 @@ void DFS(int v)//邻接矩阵的dfs
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/23/堆pwn1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/23/堆pwn1/" itemprop="url">堆利用-1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T19:50:34+08:00">
-                2019-04-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  650
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这周刚好要讲堆的一些东西，就先总结一下一些堆的知识</p>
-<p>堆，利用起来要分情况的。网上常见的各种利用，比如double free，off by one等其实本质都差不太多，说是套路也不全是。</p>
-<p>首先就是最喜闻乐见的堆溢出，堆溢出这东西，和栈溢出差的可不是一星半点。栈溢出可以直接进行返回地址的覆盖，但是堆溢出的时候，虽然将后者覆盖了。但是也是得看咋利用的。</p>
-<p>首先我们知道的是，在堆这个数据结构中，还有chunk块以及bin的概念，chunk就是储存堆中数据的数据块，按照状态的不同又allocated chunk，free chunk以及top chunk的区别。bin，现在我的理解是，chunk块进行free后有一些会进入bin中，比如fastbin，unsorted bin等。</p>
-<p><strong>我们覆盖堆的目的就是能够在free的时候利用其中定义的一些宏进行操作。</strong></p>
-<p>那么问题来了，free的chunk块会被分配到什么地方呢。</p>
-<p>这一点十分重要，如果搞不清楚这一点，那么堆的利用也就无从谈起了。</p>
-<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>对于一些比较小的chunk块，也就是size在(0x10~0x40)之间的这些，会在free后直接进入单项链表fastbin中，</p>
-<p>这个时候我们会要怎么利用呢，很简单，不是单向链表吗，我们如果能修改其中的指针不久完了？修改完，岂不是下一次申请的堆地址我们就能控制了？当然，这时候需要做的是伪造chunk块，因为它有一个检查size的值的操作。</p>
-<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>unsorted bin   这个东西的利用主要是为了泄露堆地址以及libc地址</p>
-<p> <img src="/2019/04/23/堆pwn1/堆利用-1/r.PNG" alt="r"></p>
-<p> 在这个图中，我们可以清楚的看到对于第二个堆块有一个指针指向了上一个属于unsorted bin的free chunk块，也就是堆地址。第二个地址其实是一个libc的地址，libc的首地址可以通过减去偏移算出来。</p>
-<p>所谓的利用就是，当我们再次申请同样大小的数据块的时候，内存会自动给我们分配这两个内存区域，因为快~</p>
-<p>然后我们就可以填充一定的字符，然后输出的时候就可以把后面的字符顺带着输出出来 <img src="/2019/04/23/堆pwn1/堆利用-1/2.PNG" alt="2"></p>
-<p>free 块放入unsorted bin的条件是     比较小或者比较大，很有意思的说法。。。或者说0x200以下的放不进fastbin中就会进入unsortedbin中。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2048,7 +2104,7 @@ void DFS(int v)//邻接矩阵的dfs
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2129,7 +2185,7 @@ void DFS(int v)//邻接矩阵的dfs
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">14.6k</span>
+    <span title="Site words total count">16.3k</span>
   
 </div>
 
