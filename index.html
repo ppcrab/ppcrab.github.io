@@ -324,7 +324,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2.6k
+                  3.1k
                 </span>
               
 
@@ -340,7 +340,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  9
+                  11
                 </span>
               
             </div>
@@ -387,6 +387,7 @@
 <h4 id="验证算法"><a href="#验证算法" class="headerlink" title="验证算法"></a>验证算法</h4><p><em>验证算法对应RSA密码体制中的解密过程。</em></p>
 <p>签名接收者 B 收到消息 m 和 签名 s 后，先利用 A 使用的Hash函数 h 来产生一个消息摘要 h(m)，然后检验同余式 h(m)≡s^e mod n是否成立。若成立，则说明签名有效，否则签名无效。</p>
 <h4 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h4><p>引入Hash函数使得单纯地对消息本身进行签名具有更好的抗攻击性。而且，若攻击者截取一段发往签名者的密文，将其盲化（乘上一个盲化因子 <strong>R</strong> 的 <strong>e</strong> 次方）后发送给签名者让其签名，攻击者就能从中计算出密文对应的明文。另外，对于大消息来说，将其映射到固定长度再签名，大大提升了签名的效率。</p>
+<h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p>（1）请利用著名的RSA公钥密码算法设计一个数字签名算法（称为RSA签名算法）。<br>（2）由于RSA签名算法每次只能对一个固定长度（比如N比特）的消息进行签名，为了对任意长度的消息进行签名，有人建议了这样一种处理方法：首先将长消息切割成固定长度N比特的数据块，然后用RSA签名算法对每个数据块进行签名，最后将这些签名块拼接起来就得到了长消息的签名。请问这种切割处理方法所获得的签名算法安全吗？为什么？ <br>    答：（1）RSA签名算法的系统参数可设为n=pq,且p和q是两个大素数，则 M=A=Zn,定义К={（n,d,p,q,e）}这里e和d 满足ed=1(modΦ(n))( Φ()是欧拉函数)。公开密钥 n,d；私有密钥 p,q,e； 签名算法为Sig2K (x)=x^e mod n；签名验证算法为Ver(x,y)=TRUE<->x=y^d(modn). (x,y)属于ZnxZn。更直观地说，用RSA解密算法作为签名，用RSA的加密作为验证，于是，只有合法用户自己才能签名，而任何人都可以验证签名的真实性。其实，基于任何一个加、解密算法顺序可交换的密码算法都可用于设计一个数字签名算法，只需要以解密做签名，以加密做验证就行了。 <br>   （2）切割和拼接处理方法所获得的签名算法不安全。因为，假如m和n是两个N比特的消息，那么，黑客可以通过已知的m和n的签名S(m)S(n)，至少获得另一个消息nm的合法签名S(n)S(m)</-></p>
 <h3 id="门限方案的考法：给出几个share，你们会重构出秘密值就可以"><a href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以" class="headerlink" title="门限方案的考法：给出几个share，你们会重构出秘密值就可以"></a>门限方案的考法：给出几个share，你们会重构出秘密值就可以</h3><p>需要用到插值多项式的公式</p>
 <p>假设现在存在多项式</p>
 <p><img src="https://img-blog.csdn.net/20181005104343810?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
@@ -404,6 +405,10 @@
 <p>  用分组密码构造</p>
 <p>  用伪随机函数构造</p>
 <p>  其他</p>
+<p>关于cbc-mac伪造的</p>
+<p> <img src="/2019/07/01/密码学期末-whitegive/捕获.PNG" alt="捕获"></p>
+<p>！！！！！找到了</p>
+<p> <img src="/2019/07/01/密码学期末-whitegive/1.PNG" alt="1"></p>
 <h3 id="【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><a href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少" class="headerlink" title="【实在不忍心了】参考例题会考 但考的题很少很少少少少少"></a>【实在不忍心了】参考例题会考 但考的题很少很少少少少少</h3><p><a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf</a></p>
 <h3 id="那些古典密码的密钥空间大小要看一看"><a href="#那些古典密码的密钥空间大小要看一看" class="headerlink" title="那些古典密码的密钥空间大小要看一看"></a>那些古典密码的密钥空间大小要看一看</h3><p><a href="https://www.cnblogs.com/FZfangzheng/p/9136108.html" target="_blank" rel="noopener">https://www.cnblogs.com/FZfangzheng/p/9136108.html</a></p>
 <p>置换密码：</p>
@@ -2218,7 +2223,7 @@ void DFS(int v)//邻接矩阵的dfs
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">17.3k</span>
+    <span title="Site words total count">17.7k</span>
   
 </div>
 
