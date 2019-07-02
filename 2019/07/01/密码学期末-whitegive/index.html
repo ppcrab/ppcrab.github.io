@@ -92,7 +92,9 @@
 <meta property="og:image" content="https://img-blog.csdn.net/2018100510495112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="https://img-blog.csdn.net/20181005105046900?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329112158788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NTMyMTQw,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-07-01T13:35:12.620Z">
+<meta property="og:image" content="https://howieliux.github.io/assets/others/hao_dsliu_htmls/pic/img2.ph.126.net_ZruG8w-c0fEgD38-lO5f8A==_6631277772425755121.jpg">
+<meta property="og:image" content="https://howieliux.github.io/assets/others/hao_dsliu_htmls/pic/img0.ph.126.net_m9CSxYqTam6slulV1QBeVw==_6631406415286203639.jpg">
+<meta property="og:updated_time" content="2019-07-02T06:16:38.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码学期末-whitegive">
 <meta name="twitter:description" content="老师是个好老师，然而我个渣渣还是担心白给 elgamal签名算法，有公式，推导相关内容https://blog.mythsman.com/2015/10/07/3/  例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多) Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 （a） Alice对消息x=47的签名过">
@@ -332,7 +334,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1.6k
+                  2.6k
                 </span>
               
 
@@ -348,7 +350,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  6
+                  9
                 </span>
               
             </div>
@@ -429,6 +431,37 @@
 <p>存在有效的算法对任意的R，S∈G1，计算e(R, S)！</p>
 <p><img src="https://img-blog.csdnimg.cn/20190329112158788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NTMyMTQw,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>虽然不会，但是看起来老师的意思是说要用到推论四</p>
+<h3 id="最小公倍数的应用（ppt例题）"><a href="#最小公倍数的应用（ppt例题）" class="headerlink" title="最小公倍数的应用（ppt例题）"></a>最小公倍数的应用（ppt例题）</h3><h3 id="CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）"><a href="#CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）" class="headerlink" title="CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）"></a>CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）</h3><p>CBC 工作模式是在密钥固定不变的情况下，改变每个明文组输入的链接技术。在CBC 模式下，每个明文组mi 在加密之前, 先与反馈至输入端的前一组密文ci逐比特异或后再加密。</p>
+<p><img src="https://howieliux.github.io/assets/others/hao_dsliu_htmls/pic/img2.ph.126.net_ZruG8w-c0fEgD38-lO5f8A==_6631277772425755121.jpg" alt=""></p>
+<p><img src="https://howieliux.github.io/assets/others/hao_dsliu_htmls/pic/img0.ph.126.net_m9CSxYqTam6slulV1QBeVw==_6631406415286203639.jpg" alt=""></p>
+<p>算法特点:</p>
+<ul>
+<li>每次加密的密文长度为64位(8个字节);</li>
+<li>当相同的明文使用相同的密钥和初始向量的时候CBC模式总是产生相同的密文;</li>
+</ul>
+<p><strong>优点：</strong></p>
+<p>1.可以使用不同的初始化向量来避免相同的明文产生相同的密文,一定程度上抵抗字典攻击; 不容易主动攻击,安全性好于ECB,适合传输长度长的报文,是SSL、IPSec的标准。</p>
+<p><strong>缺点：</strong></p>
+<p>1.密文块要依赖以前的操作结果，所以，密文块不能进行重新排列，无法并行计算； (在解密时，从两个邻接的密文块中即可得到一个平文块。因此，解密过程可以被并行化) 。</p>
+<p>2需要初始化向量IV</p>
+<p>3会出现错误传播(errorpropagation). 密文中任一位发生变化会涉及后面一些密文组. 但CBC 模式的错算法特点:</p>
+<ul>
+<li>每次加密的密文长度为64位(8个字节);</li>
+<li>当相同的明文使用相同的密钥和初始向量的时候CBC模式总是产生相同的密文;</li>
+</ul>
+<p><strong>优点：</strong></p>
+<p>1.可以使用不同的初始化向量来避免相同的明文产生相同的密文,一定程度上抵抗字典攻击; 不容易主动攻击,安全性好于ECB,适合传输长度长的报文,是SSL、IPSec的标准。</p>
+<p><strong>缺点：</strong></p>
+<p>1.密文块要依赖以前的操作结果，所以，密文块不能进行重新排列，无法并行计算； (在解密时，从两个邻接的密文块中即可得到一个平文块。因此，解密过程可以被并行化) 。</p>
+<p>\2. 需要初始化向量IV</p>
+<p>\3. 会出现错误传播(errorpropagation). 密文中任一位发生变化会涉及后面一些密文组. 但CBC 模式的错误传播不大, 一个传输错误至多影响两个消息组的接收结果 (思考).</p>
+<p>关于错误传播的问题，我的理解是这样的。因为分组密码模式的分组特性导致了这一现象。每个组之间是独立的。所以如果在传输中即使有某一位发生了错误，也仅仅可以理解为某一组发生了错误，对其他组没有影响。</p>
+<p>比如A组发生了位错乱，它最多影响到当前A这组明文和下一组B明文。而再下一组C就不受影响了，因为C组是根据B的密文作为输入的，但是B分组的位并没有发生错误，所以在CBC模式下错误传播最多持续2个分组</p>
+<h3 id="奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系"><a href="#奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系" class="headerlink" title="奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系"></a>奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系</h3><p><a href="https://baike.baidu.com/link?url=2fcWrbBJEn7eYi7hCurG4Zo5_-5A-8rRClX1MZj8C68BVqOc_obIoITfqAVXlsuxbo6jQI6iEsQ_XcTNCvINxlScLu7a84SdwqX_zPmmLAWboexyPFf_hK8Jd6quJy-cD2j8C6nWV9eNecuWDA2kImbGIbxtsaGnoPdTCpLRQxC" target="_blank" rel="noopener">椭圆曲线密码学</a></p>
+<p>ECC被广泛认为是在给定密钥长度的情况下，最强大的非对称算法</p>
+<p>ECC的另一个优势是可以定义群之间的<a href="https://baike.baidu.com/item/%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%98%A0%E5%B0%84" target="_blank" rel="noopener">双线性映射</a>，基于Weil对或是Tate对</p>
+<p>双线性映射可以通过有线域上的超椭圆曲线上的Tate对或Weil对来构造。</p>
+<p>(不找了，这部分白给就白给吧，实在是难，考个选择题估计就是这些吧，简答题写上这些应该有分？)</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>DES：数据加密标准，对称密码算法，用于加密；</p>
 <p>AES: 高级加密标准，对称密码算法，用于加密；</p>
 <p>RSA：最流行的公钥密码算法，加密和数字签名；</p>
@@ -436,8 +469,10 @@
 <p>DSA：数字签名算法，是数字签名的一部分，公钥密码算法，数字签名。</p>
 <p>MD5(SHA-1)：数字摘要算法，数字签名，保证消息的完整性。</p>
 <h3 id="其他参考网站"><a href="#其他参考网站" class="headerlink" title="其他参考网站"></a>其他参考网站</h3><p><a href="https://comydream.github.io/2018/12/24/cryptography-protocol/index.html" target="_blank" rel="noopener">https://comydream.github.io/2018/12/24/cryptography-protocol/index.html</a></p>
+<p><a href="https://howieliux.github.io/assets/others/hao_dsliu_htmls/bb_1000016.htm" target="_blank" rel="noopener">https://howieliux.github.io/assets/others/hao_dsliu_htmls/bb_1000016.htm</a></p>
 <p><a href="https://blog.csdn.net/z784561257/article/details/82942581" target="_blank" rel="noopener">https://blog.csdn.net/z784561257/article/details/82942581</a></p>
 <p><a href="https://lingyibin.iteye.com/blog/787060" target="_blank" rel="noopener">https://lingyibin.iteye.com/blog/787060</a></p>
+<p><a href="http://silence.work/2018/07/06/%E7%A8%8B%E5%BA%8F%E7%8C%BF%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84%E5%AF%86%E7%A0%81%E6%8A%80%E6%9C%AF/" target="_blank" rel="noopener">http://silence.work/2018/07/06/%E7%A8%8B%E5%BA%8F%E7%8C%BF%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84%E5%AF%86%E7%A0%81%E6%8A%80%E6%9C%AF/</a></p>
 <p><a href="https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html</a>（题目，有答案，但是没有详解）</p>
 <p><a href="https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html</a>（题目，有答案）</p>
 
@@ -615,7 +650,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#elgamal签名算法，有公式，推导相关内容"><span class="nav-number">1.</span> <span class="nav-text">elgamal签名算法，有公式，推导相关内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rsa加密"><span class="nav-number">2.</span> <span class="nav-text">rsa加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#密钥生成"><span class="nav-number">2.1.</span> <span class="nav-text">密钥生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#签名算法对应RSA密码体制中的加密过程。"><span class="nav-number">2.2.</span> <span class="nav-text">签名算法对应RSA密码体制中的加密过程。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证算法"><span class="nav-number">2.3.</span> <span class="nav-text">验证算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安全性"><span class="nav-number">2.4.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以"><span class="nav-number">3.</span> <span class="nav-text">门限方案的考法：给出几个share，你们会重构出秘密值就可以</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在性伪造大题"><span class="nav-number">4.</span> <span class="nav-text">存在性伪造大题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><span class="nav-number">5.</span> <span class="nav-text">【实在不忍心了】参考例题会考 但考的题很少很少少少少少</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那些古典密码的密钥空间大小要看一看"><span class="nav-number">6.</span> <span class="nav-text">那些古典密码的密钥空间大小要看一看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双线性映射"><span class="nav-number">7.</span> <span class="nav-text">双线性映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">8.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他参考网站"><span class="nav-number">9.</span> <span class="nav-text">其他参考网站</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#elgamal签名算法，有公式，推导相关内容"><span class="nav-number">1.</span> <span class="nav-text">elgamal签名算法，有公式，推导相关内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rsa加密"><span class="nav-number">2.</span> <span class="nav-text">rsa加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#密钥生成"><span class="nav-number">2.1.</span> <span class="nav-text">密钥生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#签名算法对应RSA密码体制中的加密过程。"><span class="nav-number">2.2.</span> <span class="nav-text">签名算法对应RSA密码体制中的加密过程。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证算法"><span class="nav-number">2.3.</span> <span class="nav-text">验证算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安全性"><span class="nav-number">2.4.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以"><span class="nav-number">3.</span> <span class="nav-text">门限方案的考法：给出几个share，你们会重构出秘密值就可以</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在性伪造大题"><span class="nav-number">4.</span> <span class="nav-text">存在性伪造大题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><span class="nav-number">5.</span> <span class="nav-text">【实在不忍心了】参考例题会考 但考的题很少很少少少少少</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那些古典密码的密钥空间大小要看一看"><span class="nav-number">6.</span> <span class="nav-text">那些古典密码的密钥空间大小要看一看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双线性映射"><span class="nav-number">7.</span> <span class="nav-text">双线性映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最小公倍数的应用（ppt例题）"><span class="nav-number">8.</span> <span class="nav-text">最小公倍数的应用（ppt例题）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）"><span class="nav-number">9.</span> <span class="nav-text">CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系"><span class="nav-number">10.</span> <span class="nav-text">奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">11.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他参考网站"><span class="nav-number">12.</span> <span class="nav-text">其他参考网站</span></a></li></ol></div>
             
 
           </div>
@@ -650,7 +685,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">16.3k</span>
+    <span title="Site words total count">17.3k</span>
   
 </div>
 
