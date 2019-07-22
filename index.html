@@ -280,157 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/07/22/seccomp-flag-s爆破/" itemprop="url">seccomp_flag's爆破</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T14:01:15+08:00">
-                2019-07-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  0
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/22/seccompmp-flag-s爆破/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/22/seccompmp-flag-s爆破/" itemprop="url">seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG)</a></h1>
+                <a class="post-title-link" href="/2019/07/22/seccomp-flag-s爆破/" itemprop="url">seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG)</a></h1>
         
 
         <div class="post-meta">
@@ -513,14 +363,14 @@
       
         
           
-            <p>刚做完了一道题目，是一道shellcode题目，当然，有一定的保护 <img src="/2019/07/22/seccompmp-flag-s爆破/seccomp-flag-s爆破/buf.PNG" alt="buf"></p>
-<p> <img src="/2019/07/22/seccompmp-flag-s爆破/seccomp-flag-s爆破/protect.PNG" alt="protect"></p>
+            <p>刚做完了一道题目，是一道shellcode题目，当然，有一定的保护 <img src="/2019/07/22/seccomp-flag-s爆破/buf.PNG" alt="buf"></p>
+<p> <img src="/2019/07/22/seccomp-flag-s爆破/protect.PNG" alt="protect"></p>
 <p>从以上两张照片可以看到这个题目中给的shellcode的限制</p>
 <p>不能出现空字符</p>
 <p>关闭了输入流，输出流，以及error</p>
 <p>只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）</p>
 <h4 id="任意输入数据，gdb调试一波"><a href="#任意输入数据，gdb调试一波" class="headerlink" title="任意输入数据，gdb调试一波"></a>任意输入数据，gdb调试一波</h4><p>加上，开始调试</p>
-<p> <img src="/2019/07/22/seccompmp-flag-s爆破/seccomp-flag-s爆破/bendiflag.PNG" alt="bendiflag"></p>
+<p> <img src="/2019/07/22/seccomp-flag-s爆破/bendiflag.PNG" alt="bendiflag"></p>
 <p>发现有有用的其实也就上面的图，读取/flag文件之后把内容读取到了rdi，rdx寄存器中。so，我们的shellcode 好写一点了。</p>
 <h4 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h4><p>长度&lt;=200</p>
 <p>我最常用的无任何限制的shellcode的长度是0x18</p>
@@ -2055,6 +1905,173 @@ void DFS(int v)//邻接矩阵的dfs
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/09/double-free的一次运用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/09/double-free的一次运用/" itemprop="url">double free的以此运用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T21:31:34+08:00">
+                2019-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  405
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天准备记录以下double free的一些运用。</p>
+<p>double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？</p>
+<p>先看一个指针一次free之后会出现什么。</p>
+<p> <img src="/2019/05/09/double-free的一次运用/正常free.PNG" alt="正常free"></p>
+<p>也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。</p>
+<p>所以我们能够再次进行free这个地方了。so crazing </p>
+<p>再次free之后会出现什么</p>
+<p> <img src="/2019/05/09/double-free的一次运用/double free.PNG" alt="double free"></p>
+<p>出现了什么？居然出现了一个指针，而且恰好是这个堆的地址！</p>
+<p>why？</p>
+<p>其实原理就是和之前的fastbin的利用差不多，毕竟都是放在了一个链表中。只是这里的链表指向的是自身而已。我有时间会找一下源码~~放在这里</p>
+<p>所以说，下面的利用就是再申请一个同样大小的地址空间，so，我们就可以写入数据了，这时候我们只需要在这个地方写入一个地址，下次进行申请就会从这个地方进行申请了。</p>
+<p>就像fastbin中的利用一模一样~~只是那个是利用的堆溢出改写的fd而已，这里不需要栈溢出，因为下一个指向的地址我们已经可写，so</p>
+<p> <img src="/2019/05/09/double-free的一次运用/malloc13.PNG" alt="malloc13"></p>
+<p>再次申请 <img src="/2019/05/09/double-free的一次运用/mallloc2.PNG" alt="mallloc2"></p>
+<p>再次申请就是我们第一次写入的地址了</p>
+<p> <img src="/2019/05/09/double-free的一次运用/malloc3.PNG" alt="malloc3"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2109,7 +2126,7 @@ void DFS(int v)//邻接矩阵的dfs
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

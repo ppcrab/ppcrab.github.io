@@ -261,159 +261,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/30/逆向学习的记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/30/逆向学习的记录/" itemprop="url">逆向学习的记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-30T17:03:23+08:00">
-                2018-10-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  627
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>感觉自己的逆向水平垃圾的一匹，准备记录一波督促自己学习。我会把自己觉得很新颖的</p>
-<h3 id="1，入门级别"><a href="#1，入门级别" class="headerlink" title="1，入门级别"></a>1，入门级别</h3><p>入门级别的逆向题型中最简单的是字符串搜索，只是使用了ida这个工具进行逆向罢了。不再复述。<br>再稍稍微微难一些的逆向就是逆向之后就是显而易见的程序代码，而且还是最简单的程序代码，最常见的就是一个输入的字符串进行了异或操作来和程序代码中原有的字符串进行比较，在这个里面，程序中的字符串直接就出现在了程序的数据段里面，需要注意的一个小细节就是ida提取数组的快捷键是shift+E 可以直接将数组导出而不用一个一个的进行输出了，这种情况（C语言代码十分简单）下，难点就是最异或操作的熟悉程度了。<br>然后就是一些不能直接从后台ida里面看出来要比较的数组的长度甚至是数据本身的。这种时候就要进行动态调试了，这时候，最常见的断点就是cmp处，因为输入的和原有的要进行比较啊。所以这个端点处，我们就可以观察寄存器的数值了。这种情况需要对汇编语言熟悉，越熟悉越容易理解。tips：使用ida的动态调试功能的辅助程序在dbgsrv文件夹里面，需要调试的程序的路径不能包含中文字符。</p>
-<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>python反编译也是存在的。。。是我孤陋寡闻了。这时候需要用到的工具就不是ida了<br>这个时候就是去改脚本了，或者说这个时候就是和密码学联系起来的事情了，这时候，有一些小技巧。或者说是对于密码学脚本来说的小技巧，那就是去找返回值，去找返回语句，因为好多密码学的脚本都是把解密的那一部分放置在了一个函数里面，那么只需要改动最后返回值的判断条件，或者说，返回你想要的东西不就完了吗。<br><img src="/2018/10/30/逆向学习的记录/蓝盾逆向.png" alt=""><br>但是逆向回来的程序在自己的电脑上跑的时候。经常会有bug出现，所以~还是得经常使用python才能搞好；</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/24/虚拟机工具搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1813,6 +1660,157 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/19/OJ二进制专项1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/19/OJ二进制专项1/" itemprop="url">OJ二进制专项1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-19T22:19:12+08:00">
+                2018-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  54
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>MOV EAX,[EAX]什么意思？<br>这个汇编语句的意思是将eax中的值作为地址传递给eax<br>同理 mov eax,[eax+var_10] 就是将eax中的值加上var_10的数值作为地址传递给eax</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1867,7 +1865,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
