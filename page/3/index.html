@@ -261,6 +261,625 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/30/逆向学习的记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/30/逆向学习的记录/" itemprop="url">逆向学习的记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-30T17:03:23+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  627
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>感觉自己的逆向水平垃圾的一匹，准备记录一波督促自己学习。我会把自己觉得很新颖的</p>
+<h3 id="1，入门级别"><a href="#1，入门级别" class="headerlink" title="1，入门级别"></a>1，入门级别</h3><p>入门级别的逆向题型中最简单的是字符串搜索，只是使用了ida这个工具进行逆向罢了。不再复述。<br>再稍稍微微难一些的逆向就是逆向之后就是显而易见的程序代码，而且还是最简单的程序代码，最常见的就是一个输入的字符串进行了异或操作来和程序代码中原有的字符串进行比较，在这个里面，程序中的字符串直接就出现在了程序的数据段里面，需要注意的一个小细节就是ida提取数组的快捷键是shift+E 可以直接将数组导出而不用一个一个的进行输出了，这种情况（C语言代码十分简单）下，难点就是最异或操作的熟悉程度了。<br>然后就是一些不能直接从后台ida里面看出来要比较的数组的长度甚至是数据本身的。这种时候就要进行动态调试了，这时候，最常见的断点就是cmp处，因为输入的和原有的要进行比较啊。所以这个端点处，我们就可以观察寄存器的数值了。这种情况需要对汇编语言熟悉，越熟悉越容易理解。tips：使用ida的动态调试功能的辅助程序在dbgsrv文件夹里面，需要调试的程序的路径不能包含中文字符。</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>python反编译也是存在的。。。是我孤陋寡闻了。这时候需要用到的工具就不是ida了<br>这个时候就是去改脚本了，或者说这个时候就是和密码学联系起来的事情了，这时候，有一些小技巧。或者说是对于密码学脚本来说的小技巧，那就是去找返回值，去找返回语句，因为好多密码学的脚本都是把解密的那一部分放置在了一个函数里面，那么只需要改动最后返回值的判断条件，或者说，返回你想要的东西不就完了吗。<br><img src="/2018/10/30/逆向学习的记录/蓝盾逆向.png" alt=""><br>但是逆向回来的程序在自己的电脑上跑的时候。经常会有bug出现，所以~还是得经常使用python才能搞好；</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/24/虚拟机工具搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/24/虚拟机工具搭建/" itemprop="url">虚拟机工具搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-24T23:18:47+08:00">
+                2018-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  147
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="python-2-7环境安装"><a href="#python-2-7环境安装" class="headerlink" title="python 2.7环境安装"></a>python 2.7环境安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python2.7 python2.7-dev</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential libssl-dev libevent-dev libjpeg-dev libxml2-dev libxslt-dev//很多pip安装的包都需要libssl和libevent编译环境</span><br><span class="line"> sudo apt-get install python-pip</span><br><span class="line"> //安装 virtualenv</span><br><span class="line">2 sudo pip install virtualenv//virtualenv是 Python 多版本管理的利器，不同版本的开发调试全靠它了（如果没有安装不同版本的Python则不需要安装了），命令如下</span><br></pre></td></tr></table></figure>
+<h3 id="ropgad："><a href="#ropgad：" class="headerlink" title="ropgad："></a>ropgad：</h3><p><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a>   </p>
+<h3 id="pwndbg"><a href="#pwndbg" class="headerlink" title="pwndbg"></a>pwndbg</h3><p>git clone <a href="https://github.com/pwndbg/pwndbg" target="_blank" rel="noopener">https://github.com/pwndbg/pwndbg</a><br>cd pwndbg<br>./setup.sh</p>
+<h3 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h3><p>git clone <a href="https://github.com/devttys0/binwalk" target="_blank" rel="noopener">https://github.com/devttys0/binwalk</a><br>cd binwalk<br>sudo python setup.py install</p>
+<h4 id="32位运行库的安装"><a href="#32位运行库的安装" class="headerlink" title="32位运行库的安装"></a>32位运行库的安装</h4><p>sudo apt-get install  lib32ncurses5 lib32z1</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/16/Hackergame2018/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/16/Hackergame2018/" itemprop="url">Hackergame2018</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T22:45:17+08:00">
+                2018-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  493
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这个比赛虽然没有一直在弄，但是还是看了其中的好几个题目。<br>学习了好几个姿势~</p>
+<h3 id="在程序初始化阶段进行操作"><a href="#在程序初始化阶段进行操作" class="headerlink" title="在程序初始化阶段进行操作~"></a>在程序初始化阶段进行操作~</h3><p>使用gcc 的 <strong>attribute</strong>((constructor)) 一系列操作可以做到在程序初始化阶段进行一些操作。<br>比如这个C语言作业题目就是在程序初始化阶段就定义了一些代码。</p>
+<h3 id="触发-SIGFPE-的情况"><a href="#触发-SIGFPE-的情况" class="headerlink" title="触发 SIGFPE 的情况"></a>触发 SIGFPE 的情况</h3><p>不仅除以 0 可能会触发 SIGFPE，最小的 INT 除以 -1 也可能会触发。这就很难受了，我知道这个题目的第一步就是去将异常情况触发，然后运行_err函数，但是。。。我不知道怎么弄。现在知道了，居然除了除以0，还能 -2147483648/-1。吐血</p>
+<h3 id="linux命令。"><a href="#linux命令。" class="headerlink" title="linux命令。"></a>linux命令。</h3><p>进入vim命令行中之后，可以使用esc退出，然后输入‘：’，就可以输入想要运行的命令了，输入完毕后直接回车。cat - 中的 - 表示标准输入，cat 会试图从你的标准输入中读取，并不能看到 - 文件的内容。绕过的办法有多种，最简单的就是 cat ./-。不得不说linux命令还是很值的学习的。<br>除此之外还有好几种方式可以达到执行linux命令的结果，比如进入linux下的gdb模式。就可以输入命令了，相比之下，还比进入vim更快呢。</p>
+<h3 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h3><p>逆向的赛题是有一定的思路的，一般我们先会运行一下这个程序，看看主函数一开始干了什么，然后去找主函数，看看有没有什么发现。然后再去找字符串，从字符串入手，如果到现在还是没有十分明确的思路，那么只能从系统函数入手，一般加密的程序会涉及到字符串的一些操作，比如字符串倒转啊strrev(),字符串比较啊，字符串复制啊。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/14/2018护网杯-shoppingcart/" itemprop="url">2018护网杯_shoppingcart</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-14T17:32:13+08:00">
+                2018-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  461
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。</p>
+<h3 id="突破口—-strtoul"><a href="#突破口—-strtoul" class="headerlink" title="突破口—-strtoul"></a>突破口—-strtoul</h3><p>strtoul()函数我之前就没用过<del>~</del>，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把字符串类型的一串字符转换成相应的int类型的数字（第三个参数对应着转换的进制），再详细的记录我觉得没有太大的必要，用的时候自己去搜就好。<br>这个函数使用的时候需要注意的一点就是返回值，返回值为无符号long型数值，如果是负数会返回一个大正数。也就是说，这个这个东西虽然是转换字符串类型为int类型的，但是并不是对于任何的数值都是这么的好用，对于’-100’这种数值就无能为力了，而且还有返回数值emmm，虽然十分奇怪，真搞不懂为什么这种函数还会存在于C语言的库函数之中，明摆着是用来搞事情的吗。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">    char buffer [256];</span><br><span class="line">    unsigned long ul;</span><br><span class="line">    printf (&quot;Enter an unsigned number: &quot;);</span><br><span class="line">    fgets (buffer, 256, stdin);</span><br><span class="line">    ul = strtoul (buffer, NULL, 10);</span><br><span class="line">    printf (&quot;Value entered: %lu.\n&quot;, ul);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">linux下的运行结果是</span><br><span class="line">Enter an unsigned number: -100</span><br><span class="line">Value entered: 4294967196.</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<h3 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h3><h3 id="The-other-idea"><a href="#The-other-idea" class="headerlink" title="The other idea"></a>The other idea</h3><p>找到了一篇写的很详细的<a href="https://bbs.pediy.com/thread-247277.htm" target="_blank" rel="noopener">博客</a><br>讲的很不错：</p>
+<h2 id="小白讲解："><a href="#小白讲解：" class="headerlink" title="小白讲解："></a>小白讲解：</h2><p><a href="https://blog.csdn.net/qq_38623623/article/details/72599473" target="_blank" rel="noopener">解引用</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/14/Misc-konwledge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1194,319 +1813,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/19/OJ二进制专项1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/19/OJ二进制专项1/" itemprop="url">OJ二进制专项1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-19T22:19:12+08:00">
-                2018-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  54
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>MOV EAX,[EAX]什么意思？<br>这个汇编语句的意思是将eax中的值作为地址传递给eax<br>同理 mov eax,[eax+var_10] 就是将eax中的值加上var_10的数值作为地址传递给eax</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/09/博客搭建/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/09/博客搭建/" itemprop="url">Hexo博客搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-09T14:27:24+08:00">
-                2018-09-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  676
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Hexo博客的搭建其实比较简单，所以详细的步骤就不再赘述了，但是在这其中也遇到了一些坑，记录一下。并且这是我的第一个博客文章，感觉还不错。<br>我在搭建博客的时候主要是参考了这篇<a href="https://juejin.im/entry/5a574864f265da3e3c6c1217" target="_blank" rel="noopener">博客</a>,这篇博客的步骤十分详细，基本上不需要多长时间就能搭建完成自己的hexo博客，但是在换主题的时候有一些坑一定要注意。</p>
-<h3 id="在Hexo官网上有一些主题不能用！一定要注意。"><a href="#在Hexo官网上有一些主题不能用！一定要注意。" class="headerlink" title="在Hexo官网上有一些主题不能用！一定要注意。"></a>在Hexo官网上有一些主题不能用！一定要注意。</h3><p>我用了好几个都是不能在本地显示CSS的更不用说是访问网页了，最后我还是找的比较成熟的主题next（搭建的方法很容易就能搜的到）并且我本人觉得这个主题还不错。<br>还有一个<a href="https://bleachz.github.io/" target="_blank" rel="noopener">我们蓝鲸社团大佬的博客</a>,用作参考也是一个十分不错的选择。</p>
-<h3 id="里面有点小问题"><a href="#里面有点小问题" class="headerlink" title="里面有点小问题"></a>里面有点小问题</h3><p><img src="/2018/09/09/博客搭建/1.png" alt=""><br>这里是有解决的方法的：<br>1.把主页配置文件_config.yml 里的post_asset_folder:这个选项设置为true<br>2.在你的hexo目录下执行这样一句话npm install hexo-asset-image –save，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git<br>3 等待一小段时间后，再运行hexo n “xxxx”来生成md博文时，/source/_posts文件夹内除了xxxx.md文件还有一个同名的文件夹，这个文件夹的作用是来放置博客中引用到的图片文件的<br>另外，在使用canvas_nest的时候，要注意的一点是修改next主题配置文件的时候，不需要再手动添加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ canvas_nest: <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
-<p>在这个配置文件里面有这一项，如果重复加入的话会出错的</p>
-<h3 id="高级进阶"><a href="#高级进阶" class="headerlink" title="高级进阶"></a>高级进阶</h3><p>如果你现在是对js以及你使用的主题不是很熟悉的话，我觉得下面这个教程是十分适合的<br><a href="https://segmentfault.com/a/1190000009009697" target="_blank" rel="noopener">This is a tutorial</a><br>哈哈，当然，你可能会遇到一些问题，比如在你给menu配置icon的时候，使用教程的方法发现无法显示。那是因为新版的next主题的使用方法是<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">home: / || home</span><br><span class="line"><span class="comment">#about: /about/ || user</span></span><br><span class="line"><span class="comment">#tags: /tags/ || tags</span></span><br><span class="line"><span class="comment">#categories: /categories/ || th</span></span><br><span class="line">archives: /archives/ || archive</span><br><span class="line"><span class="comment">#schedule: /schedule/ || calendar</span></span><br><span class="line"><span class="comment">#sitemap: /sitemap.xml || sitemap</span></span><br><span class="line"><span class="comment">#commonweal: /404/ || heartbeat</span></span><br><span class="line">music: /music ||music</span><br><span class="line">book: /book ||book</span><br></pre></td></tr></table></figure></p>
-<p>看到了没，只需要在后面加上||和你想用的icon就可以了<br>还有就是你的网站的icon的配置，也有所改变<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">small: /images/favicon.ico</span><br><span class="line">medium: /images/favicon.ico</span><br><span class="line">apple_touch_icon: /images/favicon.ico</span><br><span class="line">safari_pinned_tab: /images/favicon.ico</span><br></pre></td></tr></table></figure></p>
-<p>实际上，我把下面所有的都改了，然后就出现了相应的效果。。。<br>至于音乐外联。。。我失败了，只有从网易弄。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1556,7 +1867,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1637,7 +1948,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">17.7k</span>
+    <span title="Site words total count">18.7k</span>
   
 </div>
 

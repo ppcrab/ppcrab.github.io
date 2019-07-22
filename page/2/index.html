@@ -261,6 +261,686 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/09/double-free的一次运用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/09/double-free的一次运用/" itemprop="url">double free的以此运用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T21:31:34+08:00">
+                2019-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  405
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天准备记录以下double free的一些运用。</p>
+<p>double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？</p>
+<p>先看一个指针一次free之后会出现什么。</p>
+<p> <img src="/2019/05/09/double-free的一次运用/正常free.PNG" alt="正常free"></p>
+<p>也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。</p>
+<p>所以我们能够再次进行free这个地方了。so crazing </p>
+<p>再次free之后会出现什么</p>
+<p> <img src="/2019/05/09/double-free的一次运用/double free.PNG" alt="double free"></p>
+<p>出现了什么？居然出现了一个指针，而且恰好是这个堆的地址！</p>
+<p>why？</p>
+<p>其实原理就是和之前的fastbin的利用差不多，毕竟都是放在了一个链表中。只是这里的链表指向的是自身而已。我有时间会找一下源码~~放在这里</p>
+<p>所以说，下面的利用就是再申请一个同样大小的地址空间，so，我们就可以写入数据了，这时候我们只需要在这个地方写入一个地址，下次进行申请就会从这个地方进行申请了。</p>
+<p>就像fastbin中的利用一模一样~~只是那个是利用的堆溢出改写的fd而已，这里不需要栈溢出，因为下一个指向的地址我们已经可写，so</p>
+<p> <img src="/2019/05/09/double-free的一次运用/malloc13.PNG" alt="malloc13"></p>
+<p>再次申请 <img src="/2019/05/09/double-free的一次运用/mallloc2.PNG" alt="mallloc2"></p>
+<p>再次申请就是我们第一次写入的地址了</p>
+<p> <img src="/2019/05/09/double-free的一次运用/malloc3.PNG" alt="malloc3"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/" itemprop="url">记一次迷宫问题引发的pythonC++交互分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-04T23:33:49+08:00">
+                2019-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  679
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前两天突然想搞一道迷宫的misc，搞了半天，把迷宫的创建以及路径的找寻都弄完了。</p>
+<p>但是把题目挂在服务器之后，又出现了一点小问题。</p>
+<p>因为我用的是C++ 的vector容器，所以数据的存储删除都比较方便深度优先搜索。如果我选择继续使用python重构的话，似乎我还得重新弄个类出来。太麻烦了，不是说python是各种语言的粘合剂吗。我直接搞不就完了。</p>
+<p>所以开始我的第一次python与C++的交互之路。</p>
+<p>众所周知，python的底层语言是C，所以C++的符号表他是不认识的，这时候就得</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line">   </span><br><span class="line"> <span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StructPointerTest</span>  </span></span><br><span class="line"><span class="class">   &#123;</span>  </span><br><span class="line">    <span class="keyword">char</span> dicr[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">int</span> realsize;  </span><br><span class="line">   </span><br><span class="line">   &#125;StructPointerTest, *StructPointer;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">findway</span><span class="params">(<span class="keyword">int</span> ending_x,<span class="keyword">int</span> ending_y)</span></span>;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">find_direct</span><span class="params">(<span class="keyword">int</span> x_p,<span class="keyword">int</span> y_p,<span class="keyword">int</span> ending_x,<span class="keyword">int</span> ending_y)</span></span>;</span><br><span class="line">   <span class="function">StructPointer <span class="title">seta</span><span class="params">(<span class="keyword">char</span> **ma)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最主要的还是把函数给框进去，因为python 在交互的时调用的是这几个函数，所以一些用到的变量其实是不需要框进去的。</p>
+<p>喜闻乐见：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -o libpymazing.so -shared -fPIC ma.cpp</span><br></pre></td></tr></table></figure>
+<p>编译了libc库</p>
+<p>python端要做的是什么？</p>
+<p>需要用的一个核心的东西是</p>
+<figure class="highlight plain"><figcaption><span>ctypes import *```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">https://docs.python.org/3.6/library/ctypes.html#structures-and-unions</span><br><span class="line"></span><br><span class="line">这是官方文档</span><br><span class="line"></span><br><span class="line">简单的用法大约是：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">so = cdll.LoadLibrary</span><br><span class="line">dll = so(&quot;./libpymazing.so&quot;)</span><br><span class="line"></span><br><span class="line">dll.seta.restype = POINTER(StructPointer)</span><br><span class="line"></span><br><span class="line">cjia = dll.seta(c)</span><br></pre></td></tr></table></figure>
+<p>最需要注意的一点是：</p>
+<p>变量！</p>
+<p>其一，创建：</p>
+<p>c = c_char * 30 相当于创建char c[30],int,float都可以这么来</p>
+<p>c = (c_char_p*)(*a) 相当于创建 char **a;如果a是list，这一步操作可以转换成指针然后就能进行下一步的操作。当然这是二维list转二维指针，还有一维list转以为指针。需要注意的是，没有int这种类型的指针！我可去他妈的，烦的一批，还得再令行转换</p>
+<p>其二，返回：</p>
+<p>如果返回的是一个int数，char 字符，好说，直接返回即可，可是如果想要返回数组？抱歉，不提供直接服务。</p>
+<p>具体的操作是这么来的：</p>
+<p>C++ 端</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StructPointerTest</span>  </span></span><br><span class="line"><span class="class">   &#123;</span>  </span><br><span class="line">    <span class="keyword">char</span> dicr[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">int</span> realsize;  </span><br><span class="line">   </span><br><span class="line">   &#125;StructPointerTest, *StructPointer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">StructPointer <span class="title">seta</span><span class="params">(<span class="keyword">char</span> **num)</span></span>&#123;</span><br><span class="line"> StructPointer p(StructPointer)malloc(sizeof(StructPointerTest));</span><br><span class="line"> ·····</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>python端的操作是这个样子，也就是创建一个结构体：</p>
+<p>class StructPointer(Structure):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_fields_ = [(<span class="string">"dir"</span>, c_char * <span class="number">30</span>),</span><br><span class="line">            (<span class="string">"size"</span>, c_int)]</span><br></pre></td></tr></table></figure></p>
+<p>就这样子了~，不过奇怪的是我写的这个exp有时候什么问题都没有，有时候就会出现一些内存访问的问题，好像指针的返回哪里有点毛病emmmm</p>
+<p>等以后找到原因了再来写一波，现在就这样了，睡觉哈哈哈哈</p>
+<p>项目地址：<a href="https://github.com/ppcrab/-.git" target="_blank" rel="noopener">https://github.com/ppcrab/-.git</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/25/return-to-dl-resolve-菜鸡初学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/25/return-to-dl-resolve-菜鸡初学习/" itemprop="url">return to dl-resolve--菜鸡初学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-25T11:35:10+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  818
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>身为一个小菜鸡，今年的国赛打的很是难受，第一天的题目难度我差不多能做出来。但是很可惜的是，我那天刚好赶火车，还有其他事情。太惨了，只搞了一道题目，结果第二天的题目难度感觉好难啊。</p>
+<p>第二天放出来的第一道pwn题目是babypwn，看到这个名字我就是知道肯定不是好鸟。然后开始审题目，以为很简单的一个栈溢出，结果找不到write函数写。shellcode也无法执行，rop链由于没有int 80h中断也别想了。所以，没什么思路。</p>
+<p>结果房建师傅做出来后和我说是去年0ctf的原题。。。好吧，去看看了，学习了一波ret2dl-resolve。</p>
+<p>查阅了一些资料知道了，这种利用方式有简单的也有麻烦的，这里只介绍简单的，因为我就会简单的emmm</p>
+<p>所谓的简单的方法就是利用别人已经写好的一些函数达到我们的目的，也就是</p>
+<p><a href="https://github.com/ppcrab/ret2dl-resolve-.git" target="_blank" rel="noopener">https://github.com/ppcrab/ret2dl-resolve-.git</a></p>
+<p>下面是最简单的入门级别的利用：</p>
+<p>使用这个库的第一步是rop = roputils.ROP(‘./pwn’)</p>
+<p>首先我们栈溢出到bss段的首地址，bss的首地址为0x804a040，那就进行这个地方的任意写。(话说，如果能做到任意地址写，直接使用这个思路岂不是就ok了)</p>
+<p>如果程序开启了ple，就使用这个roputils库自带的函数rop.section(‘.bss’)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">buf2 =  rop.string(<span class="string">'/bin/sh'</span>)</span><br><span class="line">buf2 += rop.fill(<span class="number">20</span>, buf2)</span><br><span class="line">buf2 += rop.dl_resolve_data(addr_bss + <span class="number">20</span>, <span class="string">'system'</span>)</span><br><span class="line">buf2 += rop.fill(<span class="number">100</span>, buf2)</span><br></pre></td></tr></table></figure>
+<p>这些代码干了些什么都比较明了，只有第三行需要解释以下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dl_resolve_data</span><span class="params">(self, base, name)</span>:</span></span><br><span class="line">        jmprel = self.dynamic(<span class="string">'JMPREL'</span>)</span><br><span class="line">        relent = self.dynamic(<span class="string">'RELENT'</span>)</span><br><span class="line">        symtab = self.dynamic(<span class="string">'SYMTAB'</span>)</span><br><span class="line">        syment = self.dynamic(<span class="string">'SYMENT'</span>)</span><br><span class="line">        strtab = self.dynamic(<span class="string">'STRTAB'</span>)</span><br><span class="line"></span><br><span class="line">        addr_reloc, padlen_reloc = self.align(base, jmprel, relent)</span><br><span class="line">        addr_sym, padlen_sym = self.align(addr_reloc+relent, symtab, syment)</span><br><span class="line">        addr_symstr = addr_sym + syment</span><br><span class="line"></span><br><span class="line">        r_info = (((addr_sym - symtab) / syment) &lt;&lt; <span class="number">8</span>) | <span class="number">0x7</span></span><br><span class="line">        st_name = addr_symstr - strtab</span><br><span class="line"></span><br><span class="line">        buf = self.fill(padlen_reloc)</span><br><span class="line">        buf += struct.pack(<span class="string">'&lt;II'</span>, base, r_info)                      <span class="comment"># Elf32_Rel</span></span><br><span class="line">        buf += self.fill(padlen_sym)</span><br><span class="line">        buf += struct.pack(<span class="string">'&lt;IIII'</span>, st_name, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x12</span>)             <span class="comment"># Elf32_Sym</span></span><br><span class="line">        buf += self.string(name)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
+<p>从<code>base</code>开始便是用户可控的区域，也是用来构造伪<code>Elf32_Rel</code>, 伪<code>Elf32_Sym</code>，和符号名称的地方。具体的存放地址，还是根据数组条目的大小进行了对齐。而需要检查的地方，则全部硬编码了，只需计算这些伪条目对应在数组中的index填充即可。</p>
+<p>这一次操作的目的可以看作是伪造，就像是伪造chunk块一样。都是为了下一步的攻击做准备</p>
+<p>而具体的攻击就落实到了</p>
+<p>buf3 = ‘A’ * 0x2c + rop.dl_resolve_call(addr_bss + 20, addr_bss)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dl_resolve_call</span><span class="params">(self, base, *args)</span>:</span></span><br><span class="line">    jmprel = self.dynamic(<span class="string">'JMPREL'</span>)</span><br><span class="line">    relent = self.dynamic(<span class="string">'RELENT'</span>)</span><br><span class="line"></span><br><span class="line">    addr_reloc, padlen_reloc = self.align(base, jmprel, relent)</span><br><span class="line">    reloc_offset = addr_reloc - jmprel</span><br><span class="line"></span><br><span class="line">    buf = self.p(self.plt())</span><br><span class="line">    buf += self.p(reloc_offset)</span><br><span class="line">    buf += self.p(self.gadget(<span class="string">'pop'</span>, n=len(args)))</span><br><span class="line">    buf += self.p(args)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里将所调用的函数的参数及返回的gadget放在栈上，再往上便是构造的伪<code>Elf32_Rel</code>条目的offset，最后则是<code>.plt</code>起始处的地址，在那里会完成将<code>link_map</code>放至栈上及调用<code>_dl_runtime_resolve</code>。</p>
+<p>一个对于这个知识点介绍的十分详细的博客，也是我主要参考的博客</p>
+<p><a href="https://rk700.github.io/2015/08/09/return-to-dl-resolve/?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://rk700.github.io/2015/08/09/return-to-dl-resolve/?tdsourcetag=s_pctim_aiomsg</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/24/堆pwn2-chunk块的伪造/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/24/堆pwn2-chunk块的伪造/" itemprop="url">chunk块的伪造</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-24T18:32:43+08:00">
+                2019-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  636
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。</p>
+<p>这一次的chunk块伪造的主要点在于fastbin利用的时候。</p>
+<h3 id="情形一，堆溢出"><a href="#情形一，堆溢出" class="headerlink" title="情形一，堆溢出"></a>情形一，堆溢出</h3><p>如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是：</p>
+<p>1，被覆盖的chunk处于fastbin中 ，否则就没有fd</p>
+<p>2，被覆盖的chunk块应该是最后一个进入fastbin中的，要不然轮到这个fd起作用就得等一阵子，比较麻烦，不是不可以。</p>
+<p>然后我们申请一个同样大小的malloc，就会得到这个chunk块，这时候fd就起作用了。会作用到我们下一次申请的时候malloc返回的地址。也就是达到了任意地址写的目的</p>
+<p>那么chunk块的伪造呢？这时候我们在目的地址出应该让目的地址+8的位置为size，也就是我们所利用的这个fastbin链的大小。</p>
+<p>常常。。题目中可能会出现一些记录总的malloc地址个数的东西，这时候我们就能用了。</p>
+<h3 id="任意地址free"><a href="#任意地址free" class="headerlink" title="任意地址free"></a>任意地址free</h3><p>这种时候我们要做的事情就比较多了一点，比起来上面的堆溢出，我们需要认为的构造出一个堆溢出的环境出来。也就是初始的chunk的伪造。</p>
+<p>我们可以在正常申请的堆中输入以下数据</p>
+<p><code>p64(0)+p64(0)+p64(0)+p64(size)</code></p>
+<p>然后呢，如果本来free的地址是addr,也就是我们正常申请的地方的地址。由于存在任意地址free的漏洞，我们可以把它改成free，addr+0x10的地址，这时候我们就能把一个伪造的chunk块放入fastbin块中了。然后，我们再次申请这个大小的堆，就会得到地址为addr+0x20的堆，so，我们进行edit第一个堆数据时候就能做到堆溢出，搞到第二个堆块了。然后就是和堆溢出一样了。</p>
+<p>顺便一提的是，第二次伪造chunk块的时候除了上文提到的利用记录chunk块的数量，还可以利用记录chunk块本身大小size的地址进行伪造。</p>
+<p>任意地址free的前提就是知道堆的首地址，也就是堆地址的泄露，由于写过，此处不再重复。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/23/堆pwn1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1252,630 +1932,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/30/逆向学习的记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/30/逆向学习的记录/" itemprop="url">逆向学习的记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-30T17:03:23+08:00">
-                2018-10-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  627
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>感觉自己的逆向水平垃圾的一匹，准备记录一波督促自己学习。我会把自己觉得很新颖的</p>
-<h3 id="1，入门级别"><a href="#1，入门级别" class="headerlink" title="1，入门级别"></a>1，入门级别</h3><p>入门级别的逆向题型中最简单的是字符串搜索，只是使用了ida这个工具进行逆向罢了。不再复述。<br>再稍稍微微难一些的逆向就是逆向之后就是显而易见的程序代码，而且还是最简单的程序代码，最常见的就是一个输入的字符串进行了异或操作来和程序代码中原有的字符串进行比较，在这个里面，程序中的字符串直接就出现在了程序的数据段里面，需要注意的一个小细节就是ida提取数组的快捷键是shift+E 可以直接将数组导出而不用一个一个的进行输出了，这种情况（C语言代码十分简单）下，难点就是最异或操作的熟悉程度了。<br>然后就是一些不能直接从后台ida里面看出来要比较的数组的长度甚至是数据本身的。这种时候就要进行动态调试了，这时候，最常见的断点就是cmp处，因为输入的和原有的要进行比较啊。所以这个端点处，我们就可以观察寄存器的数值了。这种情况需要对汇编语言熟悉，越熟悉越容易理解。tips：使用ida的动态调试功能的辅助程序在dbgsrv文件夹里面，需要调试的程序的路径不能包含中文字符。</p>
-<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>python反编译也是存在的。。。是我孤陋寡闻了。这时候需要用到的工具就不是ida了<br>这个时候就是去改脚本了，或者说这个时候就是和密码学联系起来的事情了，这时候，有一些小技巧。或者说是对于密码学脚本来说的小技巧，那就是去找返回值，去找返回语句，因为好多密码学的脚本都是把解密的那一部分放置在了一个函数里面，那么只需要改动最后返回值的判断条件，或者说，返回你想要的东西不就完了吗。<br><img src="/2018/10/30/逆向学习的记录/蓝盾逆向.png" alt=""><br>但是逆向回来的程序在自己的电脑上跑的时候。经常会有bug出现，所以~还是得经常使用python才能搞好；</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/24/虚拟机工具搭建/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/24/虚拟机工具搭建/" itemprop="url">虚拟机工具搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-24T23:18:47+08:00">
-                2018-10-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  147
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="python-2-7环境安装"><a href="#python-2-7环境安装" class="headerlink" title="python 2.7环境安装"></a>python 2.7环境安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python2.7 python2.7-dev</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential libssl-dev libevent-dev libjpeg-dev libxml2-dev libxslt-dev//很多pip安装的包都需要libssl和libevent编译环境</span><br><span class="line"> sudo apt-get install python-pip</span><br><span class="line"> //安装 virtualenv</span><br><span class="line">2 sudo pip install virtualenv//virtualenv是 Python 多版本管理的利器，不同版本的开发调试全靠它了（如果没有安装不同版本的Python则不需要安装了），命令如下</span><br></pre></td></tr></table></figure>
-<h3 id="ropgad："><a href="#ropgad：" class="headerlink" title="ropgad："></a>ropgad：</h3><p><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a>   </p>
-<h3 id="pwndbg"><a href="#pwndbg" class="headerlink" title="pwndbg"></a>pwndbg</h3><p>git clone <a href="https://github.com/pwndbg/pwndbg" target="_blank" rel="noopener">https://github.com/pwndbg/pwndbg</a><br>cd pwndbg<br>./setup.sh</p>
-<h3 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h3><p>git clone <a href="https://github.com/devttys0/binwalk" target="_blank" rel="noopener">https://github.com/devttys0/binwalk</a><br>cd binwalk<br>sudo python setup.py install</p>
-<h4 id="32位运行库的安装"><a href="#32位运行库的安装" class="headerlink" title="32位运行库的安装"></a>32位运行库的安装</h4><p>sudo apt-get install  lib32ncurses5 lib32z1</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/16/Hackergame2018/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/16/Hackergame2018/" itemprop="url">Hackergame2018</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T22:45:17+08:00">
-                2018-10-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  493
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个比赛虽然没有一直在弄，但是还是看了其中的好几个题目。<br>学习了好几个姿势~</p>
-<h3 id="在程序初始化阶段进行操作"><a href="#在程序初始化阶段进行操作" class="headerlink" title="在程序初始化阶段进行操作~"></a>在程序初始化阶段进行操作~</h3><p>使用gcc 的 <strong>attribute</strong>((constructor)) 一系列操作可以做到在程序初始化阶段进行一些操作。<br>比如这个C语言作业题目就是在程序初始化阶段就定义了一些代码。</p>
-<h3 id="触发-SIGFPE-的情况"><a href="#触发-SIGFPE-的情况" class="headerlink" title="触发 SIGFPE 的情况"></a>触发 SIGFPE 的情况</h3><p>不仅除以 0 可能会触发 SIGFPE，最小的 INT 除以 -1 也可能会触发。这就很难受了，我知道这个题目的第一步就是去将异常情况触发，然后运行_err函数，但是。。。我不知道怎么弄。现在知道了，居然除了除以0，还能 -2147483648/-1。吐血</p>
-<h3 id="linux命令。"><a href="#linux命令。" class="headerlink" title="linux命令。"></a>linux命令。</h3><p>进入vim命令行中之后，可以使用esc退出，然后输入‘：’，就可以输入想要运行的命令了，输入完毕后直接回车。cat - 中的 - 表示标准输入，cat 会试图从你的标准输入中读取，并不能看到 - 文件的内容。绕过的办法有多种，最简单的就是 cat ./-。不得不说linux命令还是很值的学习的。<br>除此之外还有好几种方式可以达到执行linux命令的结果，比如进入linux下的gdb模式。就可以输入命令了，相比之下，还比进入vim更快呢。</p>
-<h3 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h3><p>逆向的赛题是有一定的思路的，一般我们先会运行一下这个程序，看看主函数一开始干了什么，然后去找主函数，看看有没有什么发现。然后再去找字符串，从字符串入手，如果到现在还是没有十分明确的思路，那么只能从系统函数入手，一般加密的程序会涉及到字符串的一些操作，比如字符串倒转啊strrev(),字符串比较啊，字符串复制啊。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/14/2018护网杯-shoppingcart/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/14/2018护网杯-shoppingcart/" itemprop="url">2018护网杯_shoppingcart</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-14T17:32:13+08:00">
-                2018-10-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  461
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>对于现在的我来说这道题目算是和很难的了，看了看目前网上的wp，还没有官方的出来，所以并不是每一个题目都有详细的解答步骤，比如说这道shopping。目前我从wp中得到的唯一的提示就是利用strtoul()函数的漏洞，那么这个函数是用来干什么的。</p>
-<h3 id="突破口—-strtoul"><a href="#突破口—-strtoul" class="headerlink" title="突破口—-strtoul"></a>突破口—-strtoul</h3><p>strtoul()函数我之前就没用过<del>~</del>，但是在这个程序中使用的次数十分多，起到了十分关键的作用。经过搜索之后发现这个函数的作用是把字符串类型的一串字符转换成相应的int类型的数字（第三个参数对应着转换的进制），再详细的记录我觉得没有太大的必要，用的时候自己去搜就好。<br>这个函数使用的时候需要注意的一点就是返回值，返回值为无符号long型数值，如果是负数会返回一个大正数。也就是说，这个这个东西虽然是转换字符串类型为int类型的，但是并不是对于任何的数值都是这么的好用，对于’-100’这种数值就无能为力了，而且还有返回数值emmm，虽然十分奇怪，真搞不懂为什么这种函数还会存在于C语言的库函数之中，明摆着是用来搞事情的吗。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">    char buffer [256];</span><br><span class="line">    unsigned long ul;</span><br><span class="line">    printf (&quot;Enter an unsigned number: &quot;);</span><br><span class="line">    fgets (buffer, 256, stdin);</span><br><span class="line">    ul = strtoul (buffer, NULL, 10);</span><br><span class="line">    printf (&quot;Value entered: %lu.\n&quot;, ul);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">linux下的运行结果是</span><br><span class="line">Enter an unsigned number: -100</span><br><span class="line">Value entered: 4294967196.</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-<h3 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h3><h3 id="The-other-idea"><a href="#The-other-idea" class="headerlink" title="The other idea"></a>The other idea</h3><p>找到了一篇写的很详细的<a href="https://bbs.pediy.com/thread-247277.htm" target="_blank" rel="noopener">博客</a><br>讲的很不错：</p>
-<h2 id="小白讲解："><a href="#小白讲解：" class="headerlink" title="小白讲解："></a>小白讲解：</h2><p><a href="https://blog.csdn.net/qq_38623623/article/details/72599473" target="_blank" rel="noopener">解引用</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1925,7 +1986,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2006,7 +2067,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">17.7k</span>
+    <span title="Site words total count">18.7k</span>
   
 </div>
 
