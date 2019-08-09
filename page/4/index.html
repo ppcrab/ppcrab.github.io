@@ -261,6 +261,484 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/24/二进制-你可能需要知道的一些知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/24/二进制-你可能需要知道的一些知识/" itemprop="url">二进制-你可能需要知道的一些知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-24T19:05:14+08:00">
+                2018-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>tips：我会一点点完善每一个知识点，可能是自己写的心得，或者是引用写的十分棒的大佬博客</p>
+<h3 id="数据的大端-小端的存储方式"><a href="#数据的大端-小端的存储方式" class="headerlink" title="数据的大端/小端的存储方式"></a>数据的大端/小端的存储方式</h3><p>很简单的知识[<a href="http://www.ruanyifeng.com/blog/2016/11/byte-order.html]" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/11/byte-order.html]</a></p>
+<h3 id="链接器的符号解析规则"><a href="#链接器的符号解析规则" class="headerlink" title="链接器的符号解析规则"></a>链接器的符号解析规则</h3><h3 id="核心转储文件"><a href="#核心转储文件" class="headerlink" title="核心转储文件"></a>核心转储文件</h3><p>核心转储文件这个名词正式的进入我的脑海。。是在我第二次看《程序员的自我修养》的时候，因为我第一次看这本书的时候，是一知半解的，很迷糊的感觉~，第二次就好多了，看的比较清楚了，能够比较清晰的思考其中的问题了（原谅我的菜啊~~~）</p>
+<p>维基定义：核心文件（core file），也称核心转储（core dump），是操作系统在进程收到某些信号而终止运行时，将此时进程地址空间的内容以及有关进程状态的其他信息写出的一个磁盘文件。这种信息往往用于调试。linux下的是core文件（core dump），windows下的是Memory.dmp<br>使用：核心文件通常在系统收到特定的信号时由操作系统生成。信号可以由程序执行过程中的异常触发，也可以由外部程序发送。动作的结果一般是生成一个某个进程的内存转储的文件，文件包含了此进程当前的运行堆栈信息。有时程序并未经过彻底测试，这使得它在执行的时候一不小心就会遭到破坏。这可能会导致核心转储（core dump）。现在的UNIX系统极少会面临这样的问题。即使遇到，程序员可以通过核心映像调试程序来找到错误原因。</p>
+<p>其实这个东西引用十分广泛，有的时候当我们在运行某些软件，会遇到程序崩溃的问题。出现这种情况的原因有的时候是因为一些不知名错误，莫名奇妙的。有的时候就只是卡死了~。<br>windows10在面临这种情况的时候，会表示记录下程序出现的问题，然后发到（额，我忘了具体的名字了）一个地方去。我现在在想，应该就是这个东西了。（可以确定的是，windows蓝屏的时候一定有这个文件的存在，大佬们可以使用这个文件中的信息来进行错误诊断）<br>至于我们经常使用的linux，就会更经常见到这个东西了。<br>首先，gdb跟踪调试是linux环境下调试常用的方法，但在解决一些问题，如频繁创建线程，打印信息很多时，gdb调试会显得效率很低。这个时候，可以先生成内核转储文件，再针对生成的转储文件进行调试，从而大幅度提高调试效率。具体的命令可以很轻松的Google到，在此不再重复，因为本人现在还没有很深入的使用这个东西。<br>然后就是正常的程序的调试的时候也会产生这个东西，当然你得确保你的core文件选项是打开的使用命令</p>
+<p>核心转储文件在进行gdb调试 做pwn题目的时候会有十分大的作用，使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c unlimited来开启core dump</span><br></pre></td></tr></table></figure></p>
+<p>然后就能在程序崩溃的时候产生相关的信息了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -a</span><br></pre></td></tr></table></figure>
+<p>可以看到一系列的选项，第一行core file size是0的话就是没有打开，<br>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c xx</span><br></pre></td></tr></table></figure></p>
+<p>xx指的是core文件限定的大小，或者使用’umlimited’不去限定大小。<br>然后你就可以使用core来进行gdb调试了。</p>
+<h5 id="数据段的db初始化的几种情况："><a href="#数据段的db初始化的几种情况：" class="headerlink" title="数据段的db初始化的几种情况："></a>数据段的db初始化的几种情况：</h5><p>db 100 dup (?)意思是定义100个未经初始化的字节，<br>db 100意思是定义一个字节，初始值为100</p>
+<p>db ？意思是定义一个未经初始化的字节</p>
+<p>[ ]表示是<a href="https://www.baidu.com/s?wd=%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80&amp;tn=SE_PcZhidaonwhc_ngpagmjz&amp;rsv_dl=gh_pc_zhidao" target="_blank" rel="noopener">间接寻址</a>，bx和[bx]的区别是，前者操作数就是bx中存放的数，后者操作数是以bx中存放的数为地址的单元中的数</p>
+<h5 id="lea指令和mov指令："><a href="#lea指令和mov指令：" class="headerlink" title="lea指令和mov指令："></a>lea指令和mov指令：</h5><p>lea指令：</p>
+<p>第二个操作数是寄存器的时候一定要加上[],不然就会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov eax,2</span><br><span class="line">lea ebx,[eax];ebx=2</span><br><span class="line">mov ebx,eax;等同于上一句</span><br><span class="line">lea ebx,eax；报错</span><br></pre></td></tr></table></figure>
+<p>对变量来说没什么区别，都是取的变量的地址</p>
+<p>mov：</p>
+<p>对于变量来说取的是变量的值，加不加[]都是一样的</p>
+<p>对于寄存器来说，不加[]的话，就是寄存器的值的传递。加上[]来说，可能会报错，因为mov ecx,[eax] 可能会被翻译成 mov ecx,DS:[eax]</p>
+<h5 id="offset"><a href="#offset" class="headerlink" title="offset:"></a>offset:</h5><p>offset只是一个给汇编程序的关键字，它要求汇编程序在汇编时算出相应的地址偏移，也就是说它对应的操作数必须是一个汇编程序知道的变量或者标量</p>
+<h5 id="标志位寄存器：汇编语言王爽-11章-p213"><a href="#标志位寄存器：汇编语言王爽-11章-p213" class="headerlink" title="标志位寄存器：汇编语言王爽 11章 p213"></a>标志位寄存器：汇编语言王爽 11章 p213</h5>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/24/oj纳新gdb调试入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/24/oj纳新gdb调试入门/" itemprop="url">oj纳新gdb调试入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-24T14:55:46+08:00">
+                2018-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  638
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>gdb这种东西在进行pwn写脚本调试的时候经常用到，虽然你在linux里面编写C程序的时候也会用到它以及gcc 但是很显然，我们还是使用linux编写起来更为方便。不过呢，知道linux里面的gcc是一个什么东西，也是一个十分必要的事情，要不然不是显得太low了吗。所以，在我们进行gdb脚本调试之前我们先进行gdb调试一下我们的C程序，首先进行调试的程序是一个最简单的程序，<br><img src="/2018/09/24/oj纳新gdb调试入门/exa1_1.png" alt=""><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o b.out exa.c</span><br></pre></td></tr></table></figure></p>
+<p>gcc -S 会生成一个.s文件，然后直接进行cat这个这个.s文件就可以看到这个程序的汇编代码了。<br>gcc -g 可以产生调试信息，在linux中是core文件<br>gcc -E 只把源文件进行预处理之后的结果输出来。不做编译，汇编，连接的动作。<br>gcc -c表示只编译(compile)源文件但不链接，会把.c或.cc的c源程序编译成目标文件，一般是.o文件。<br>gcc -o用于指定输出(out)文件名。不用-o的话，一般会在当前文件夹下生成默认的a.out文件作为可执行程序。<br>gcc -v把整个编译过程中的输出信息都给打印出来<br>gcc -Wall 显示编译中的所有的警告</p>
+<p>disass func_name用于反汇编一个函数</p>
+<p>disassemble 0x0 0x10用于反汇编一段内存地址，第一个参数是其实地址，第二个是终止地址</p>
+<p>查看 反汇编指令的另一个方法就是使用x<br>x/3i $pc<br>显示pc开始的3条指令</p>
+<p>gdb调试的一个重要的指令就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">x /nfu  </span><br><span class="line">//通过这个指令来查看相应的内存地址处的东西</span><br><span class="line">例如： x /8xb 0x5555555546b2</span><br><span class="line">0x5555555546b2 &lt;print_str+40&gt;:	0xc6	0x00	0x61	0xbf	0x0a	0x00	0x00	0x00</span><br><span class="line"></span><br><span class="line">/*  </span><br><span class="line">    x是 examine 的缩写</span><br><span class="line">    n表示要显示的内存单元的个数</span><br><span class="line">    f表示显示方式, 可取如下值 </span><br><span class="line">    x 按十六进制格式显示变量</span><br><span class="line">    d 按十进制格式显示变量</span><br><span class="line">    u 按十进制格式显示无符号整型</span><br><span class="line">    o 按八进制格式显示变量</span><br><span class="line">    t 按二进制格式显示变量</span><br><span class="line">    a 按十六进制格式显示变量</span><br><span class="line">    i 指令地址格式</span><br><span class="line">    c 按字符格式显示变量</span><br><span class="line">    f 按浮点数格式显示变量</span><br><span class="line">    u表示一个地址单元的长度 </span><br><span class="line">    b表示单字节</span><br><span class="line">    h表示双字节</span><br><span class="line">    w表示四字节</span><br><span class="line">    g表示八字节</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/19/OJ二进制专项1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/19/OJ二进制专项1/" itemprop="url">OJ二进制专项1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-19T22:19:12+08:00">
+                2018-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  54
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>MOV EAX,[EAX]什么意思？<br>这个汇编语句的意思是将eax中的值作为地址传递给eax<br>同理 mov eax,[eax+var_10] 就是将eax中的值加上var_10的数值作为地址传递给eax</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/09/09/博客搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -459,7 +937,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -540,7 +1018,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">18.7k</span>
+    <span title="Site words total count">21k</span>
   
 </div>
 
