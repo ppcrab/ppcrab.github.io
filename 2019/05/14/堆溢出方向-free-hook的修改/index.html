@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的 今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。 然后改写为onegadge的地址即可 原理: 1234567891011121314151617//全局">
+<meta name="description" content="堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的 有tcache情况下今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。 然后改写为onegadge的地址即可 原理: 1234567891011121314">
 <meta property="og:type" content="article">
 <meta property="og:title" content="堆溢出方向----_free_hook的修改">
 <meta property="og:url" content="https://ppcrab.github.io/2019/05/14/堆溢出方向-free-hook的修改/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的 今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。 然后改写为onegadge的地址即可 原理: 1234567891011121314151617//全局">
+<meta property="og:description" content="堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的 有tcache情况下今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。 然后改写为onegadge的地址即可 原理: 1234567891011121314">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-14T08:02:42.830Z">
+<meta property="og:updated_time" content="2019-08-10T02:45:24.796Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="堆溢出方向----_free_hook的修改">
-<meta name="twitter:description" content="堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的 今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。 然后改写为onegadge的地址即可 原理: 1234567891011121314151617//全局">
+<meta name="twitter:description" content="堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的 有tcache情况下今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。 然后改写为onegadge的地址即可 原理: 1234567891011121314">
 
 
 
@@ -325,7 +325,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  236
+                  246
                 </span>
               
 
@@ -363,13 +363,13 @@
 
       
         <p>堆漏洞的寻找在现在的题目中其实并不是太难，当然，大多数套路题目不是很难。但是一些有质量的还是难的</p>
-<p>今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。</p>
+<h4 id="有tcache情况下"><a href="#有tcache情况下" class="headerlink" title="有tcache情况下"></a>有tcache情况下</h4><p>今天想记录的是关于堆漏洞的利用的一个方向-__free_hook的利用，也就是说，当我们可以进行覆盖tcachebin的fd的时候，我们可以直接将这个需要改写的地址设置成free_hook的地址。</p>
 <p>然后改写为onegadge的地址即可</p>
 <p>原理:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局变量的引用以及函数指针的使用</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">weak_variable</span> <span class="params">(*__free_hook)</span> <span class="params">(<span class="keyword">void</span> *__ptr,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">const</span> <span class="keyword">void</span> *)</span> </span>= <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">__libc_free (<span class="keyword">void</span> *mem)</span><br><span class="line">&#123;</span><br><span class="line">  mstate ar_ptr;</span><br><span class="line">  mchunkptr p;                          <span class="comment">/* chunk corresponding to mem */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> (*hook) (<span class="keyword">void</span> *, <span class="keyword">const</span> <span class="keyword">void</span> *)</span><br><span class="line">    = atomic_forced_read (__free_hook);</span><br><span class="line">  <span class="keyword">if</span> (__builtin_expect (hook != <span class="literal">NULL</span>, <span class="number">0</span>))</span><br><span class="line">    &#123;</span><br><span class="line">      (*hook)(mem, RETURN_ADDRESS (<span class="number">0</span>));</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>由于无法在这里构造chunk块，所以这时候其实是利用tcachebin的不严谨</p>
 <p>也恰恰是不需要构造chunk块，所以这时候就可以省好多事</p>
-<h3 id="free-hook的寻找"><a href="#free-hook的寻找" class="headerlink" title="free_hook的寻找"></a>free_hook的寻找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libc.symbols[&apos;__free_hook&apos;]</span><br></pre></td></tr></table></figure>
+<h4 id="无tcache的情况下"><a href="#无tcache的情况下" class="headerlink" title="无tcache的情况下"></a>无tcache的情况下</h4><h4 id="free-hook的寻找"><a href="#free-hook的寻找" class="headerlink" title="free_hook的寻找"></a>free_hook的寻找</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libc.symbols[&apos;__free_hook&apos;]</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -487,7 +487,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -549,7 +549,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#free-hook的寻找"><span class="nav-number">1.</span> <span class="nav-text">free_hook的寻找</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#有tcache情况下"><span class="nav-number">1.</span> <span class="nav-text">有tcache情况下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无tcache的情况下"><span class="nav-number">2.</span> <span class="nav-text">无tcache的情况下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#free-hook的寻找"><span class="nav-number">3.</span> <span class="nav-text">free_hook的寻找</span></a></li></ol></div>
             
 
           </div>
@@ -584,7 +584,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">21k</span>
+    <span title="Site words total count">23.6k</span>
   
 </div>
 
