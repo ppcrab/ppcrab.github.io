@@ -261,6 +261,702 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/01/密码学期末-whitegive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/01/密码学期末-whitegive/" itemprop="url">密码学期末-whitegive</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-01T21:32:24+08:00">
+                2019-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  3.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>老师是个好老师，然而我个渣渣还是担心白给</p>
+<h3 id="elgamal签名算法，有公式，推导相关内容"><a href="#elgamal签名算法，有公式，推导相关内容" class="headerlink" title="elgamal签名算法，有公式，推导相关内容"></a>elgamal签名算法，有公式，推导相关内容</h3><p><a href="https://blog.mythsman.com/2015/10/07/3/" target="_blank" rel="noopener">https://blog.mythsman.com/2015/10/07/3/</a></p>
+<p><img src="https://s1.ax1x.com/2018/12/24/F6olQK.png" alt="img"></p>
+<p>例题：(很遗憾，没有找到答案。gg，直接白给，按照老师的描述，好像和第一小问差不多)</p>
+<p>Alice使用ElGamal签名方案签名，她选择参数： 公钥p=41，本原元α=5，β=2，私钥a=3。 <br>（a） Alice对消息x=47的签名过程中，通过伪随机数发生器产生随机数k=13，请计算签名),(γ,δ) <br>提示：γ=(α^k)modp,β = (x-aγ)^(k^-1)mod(p-1)<br>（b） 如果Alice裸露了随机数k，Oscar能否计算出Alice的私钥？如果可以，请写出计算方法。 <br>（c） Alice每次签名都使用默认的随机数生成器的种子，因此每次签名使用的随机数k总<br>是相同的。请问Oscar能否根据Alice的已知签名对Alice造成安全威胁？如果可以，请写出计算方法。 </p>
+<p>（d） 如果Alice在签名前先计算消息x的hash值()z=hx，其中h是hash函数，然后计算z的签名。为了保证方案的安全性，对hash函数h有哪些要求？</p>
+<h3 id="rsa加密"><a href="#rsa加密" class="headerlink" title="rsa加密"></a>rsa加密</h3><p><a href="https://www.kancloud.cn/kancloud/rsa_algorithm/48486" target="_blank" rel="noopener">https://www.kancloud.cn/kancloud/rsa_algorithm/48486</a></p>
+<p>它的安全性基于<strong>大整数的因数分解</strong>的困难性。</p>
+<p>任意生成两个大素数 <strong>p</strong> 和 <strong>q</strong>，由他们计算 <strong>n = p·q</strong> 是容易的，但由 <strong>n</strong> 分解出 <strong>p</strong> 和 <strong>q</strong> 是困难的。</p>
+<p>也很容易由 <strong>p</strong> 和 <strong>q</strong> 计算出 <strong>n</strong> 的欧拉函数 <strong>φ(n) = (p-1)·(q-1)</strong> ，这样，我们选定一个与 <strong>φ(n)</strong> 互素的数 <strong>e</strong> 作为加密因子，可由<strong>扩展Euclid算法</strong>计算出解密因子 <strong>d</strong> （即私钥），其中 <strong>d e≡ 1(mod φ(n))</strong>。</p>
+<p>总结下就是这样：</p>
+<p>任意选取两个大素数 <strong>p</strong> 和 <strong>q</strong>，</p>
+<p><strong>n = p·q</strong></p>
+<p><strong>φ(n) = (p-1)·(q-1)</strong></p>
+<p><strong>e·d ≡ 1 (mod φ(n))</strong></p>
+<p>加密算法：<strong>c ≡ me (mod n)</strong></p>
+<p>解密算法：<strong>m ≡ cd (mod n)</strong></p>
+<p>公钥为 <strong>(n,e)</strong> ，私钥为 <strong>d</strong></p>
+<h4 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h4><p>要求生成密钥的时候就生成密钥d，公钥e随机选取与欧拉函数互质就好</p>
+<h4 id="签名算法对应RSA密码体制中的加密过程。"><a href="#签名算法对应RSA密码体制中的加密过程。" class="headerlink" title="签名算法对应RSA密码体制中的加密过程。"></a>签名算法对应RSA密码体制中的加密过程。</h4><p>设待签名的消息为 m，则签名者A先利用一个安全的Hash函数 h 来产生一个消息摘要 h(m)，然后签名者用自己的私钥计算签名</p>
+<p> s≡h(m)^d mod n ，将 (s,m)发送给消息接收者 B。</p>
+<h4 id="验证算法"><a href="#验证算法" class="headerlink" title="验证算法"></a>验证算法</h4><p><em>验证算法对应RSA密码体制中的解密过程。</em></p>
+<p>签名接收者 B 收到消息 m 和 签名 s 后，先利用 A 使用的Hash函数 h 来产生一个消息摘要 h(m)，然后检验同余式 h(m)≡s^e mod n是否成立。若成立，则说明签名有效，否则签名无效。</p>
+<h4 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h4><p>引入Hash函数使得单纯地对消息本身进行签名具有更好的抗攻击性。而且，若攻击者截取一段发往签名者的密文，将其盲化（乘上一个盲化因子 <strong>R</strong> 的 <strong>e</strong> 次方）后发送给签名者让其签名，攻击者就能从中计算出密文对应的明文。另外，对于大消息来说，将其映射到固定长度再签名，大大提升了签名的效率。</p>
+<h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p>（1）请利用著名的RSA公钥密码算法设计一个数字签名算法（称为RSA签名算法）。<br>（2）由于RSA签名算法每次只能对一个固定长度（比如N比特）的消息进行签名，为了对任意长度的消息进行签名，有人建议了这样一种处理方法：首先将长消息切割成固定长度N比特的数据块，然后用RSA签名算法对每个数据块进行签名，最后将这些签名块拼接起来就得到了长消息的签名。请问这种切割处理方法所获得的签名算法安全吗？为什么？ <br>    答：（1）RSA签名算法的系统参数可设为n=pq,且p和q是两个大素数，则 M=A=Zn,定义К={（n,d,p,q,e）}这里e和d 满足ed=1(modΦ(n))( Φ()是欧拉函数)。公开密钥 n,d；私有密钥 p,q,e； 签名算法为Sig2K (x)=x^e mod n；签名验证算法为Ver(x,y)=TRUE<->x=y^d(modn). (x,y)属于ZnxZn。更直观地说，用RSA解密算法作为签名，用RSA的加密作为验证，于是，只有合法用户自己才能签名，而任何人都可以验证签名的真实性。其实，基于任何一个加、解密算法顺序可交换的密码算法都可用于设计一个数字签名算法，只需要以解密做签名，以加密做验证就行了。 <br>   （2）切割和拼接处理方法所获得的签名算法不安全。因为，假如m和n是两个N比特的消息，那么，黑客可以通过已知的m和n的签名S(m)S(n)，至少获得另一个消息nm的合法签名S(n)S(m)</-></p>
+<h3 id="门限方案的考法：给出几个share，你们会重构出秘密值就可以"><a href="#门限方案的考法：给出几个share，你们会重构出秘密值就可以" class="headerlink" title="门限方案的考法：给出几个share，你们会重构出秘密值就可以"></a>门限方案的考法：给出几个share，你们会重构出秘密值就可以</h3><p>需要用到插值多项式的公式</p>
+<p>假设现在存在多项式</p>
+<p><img src="https://img-blog.csdn.net/20181005104343810?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>这时候，秘密就被藏在这里，假设是常数项1</p>
+<p>then，我们有以下几个share</p>
+<p><img src="https://img-blog.csdn.net/20181005104448993?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>由门限方案的特点我们知道，我们这时候至少需要知道3个share才能得到原多项式。而得到的方法可以试二次多项式，或者是插值多项式，一样的。</p>
+<p><img src="https://img-blog.csdn.net/2018100510495112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p><img src="https://img-blog.csdn.net/20181005105046900?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3ODQ1NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h3 id="存在性伪造大题"><a href="#存在性伪造大题" class="headerlink" title="存在性伪造大题"></a>存在性伪造大题</h3><p>伪造：伪造一个没有经过认证的(M,MAC)对</p>
+<p>存在性伪造：如果攻击者只能够对一个不由他控制的消息进行伪造，那么这种攻击被称为存在性伪造攻击</p>
+<p>选择性伪造：能够对他选择的消息进行伪造攻击</p>
+<p>Mac的伪造：</p>
+<p>  用hash函数构造</p>
+<p>  用分组密码构造</p>
+<p>  用伪随机函数构造</p>
+<p>  其他</p>
+<p>关于cbc-mac伪造的</p>
+<p> <img src="/2019/07/01/密码学期末-whitegive/捕获.PNG" alt="捕获"></p>
+<p>！！！！！找到了</p>
+<p> <img src="/2019/07/01/密码学期末-whitegive/1.PNG" alt="1"></p>
+<h3 id="【实在不忍心了】参考例题会考-但考的题很少很少少少少少"><a href="#【实在不忍心了】参考例题会考-但考的题很少很少少少少少" class="headerlink" title="【实在不忍心了】参考例题会考 但考的题很少很少少少少少"></a>【实在不忍心了】参考例题会考 但考的题很少很少少少少少</h3><p><a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E3%80%8A%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81%E5%AD%A6%E3%80%8B%E5%8F%82%E8%80%83%E4%BE%8B%E9%A2%98_new.pdf</a></p>
+<h3 id="那些古典密码的密钥空间大小要看一看"><a href="#那些古典密码的密钥空间大小要看一看" class="headerlink" title="那些古典密码的密钥空间大小要看一看"></a>那些古典密码的密钥空间大小要看一看</h3><p><a href="https://www.cnblogs.com/FZfangzheng/p/9136108.html" target="_blank" rel="noopener">https://www.cnblogs.com/FZfangzheng/p/9136108.html</a></p>
+<p>置换密码：</p>
+<p>就是置换π，π的描述中其实包含了分组长度m的信息，密钥空间大小 m!（第一个有m种选择，第二个有m-1种…）<br>代换：</p>
+<p>​    移位密码：</p>
+<p>​            凯撒密码是k=3的移位密码</p>
+<p>​            密钥k-&gt;空间26</p>
+<p>​    简单代换：</p>
+<p>​            26!</p>
+<p>多表代换：</p>
+<p>​    维吉尼亚密码：</p>
+<p>​    密钥空间和密钥长度有关为26^m</p>
+<h3 id="双线性映射"><a href="#双线性映射" class="headerlink" title="双线性映射"></a>双线性映射</h3><p>记住双线性性质，题目给出两个式子，你们套用性质，计算出两个式子是相等的</p>
+<p>双线性映射<br>抽象意义的双线性映射描述如下：</p>
+<p>设G1、G2都是阶为p的循环群，p是素数。如果映射e: G1 × G1 → G2 满足以下性质：<br>（1）双线性性。<br>对于任意a，b∈Zp和R，S∈G1，有e(Ra, Sb) = e(R, S)ab；</p>
+<p>（2）非退化性。<br>存在R，S∈G1，使得e(R, S) ≠ 1G2。这里1G2代表G2群的单位元；</p>
+<p>存在有效的算法对任意的R，S∈G1，计算e(R, S)！</p>
+<p><img src="https://img-blog.csdnimg.cn/20190329112158788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NTMyMTQw,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>虽然不会，但是看起来老师的意思是说要用到推论四</p>
+<h3 id="最小公倍数的应用（ppt例题）"><a href="#最小公倍数的应用（ppt例题）" class="headerlink" title="最小公倍数的应用（ppt例题）"></a>最小公倍数的应用（ppt例题）</h3><h3 id="CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）"><a href="#CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）" class="headerlink" title="CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）"></a>CBC错误传播的计算（某几个密文分组错误，会影响哪几个的解密）</h3><p>CBC 工作模式是在密钥固定不变的情况下，改变每个明文组输入的链接技术。在CBC 模式下，每个明文组mi 在加密之前, 先与反馈至输入端的前一组密文ci逐比特异或后再加密。</p>
+<p><img src="https://howieliux.github.io/assets/others/hao_dsliu_htmls/pic/img2.ph.126.net_ZruG8w-c0fEgD38-lO5f8A==_6631277772425755121.jpg" alt=""></p>
+<p><img src="https://howieliux.github.io/assets/others/hao_dsliu_htmls/pic/img0.ph.126.net_m9CSxYqTam6slulV1QBeVw==_6631406415286203639.jpg" alt=""></p>
+<p>算法特点:</p>
+<ul>
+<li>每次加密的密文长度为64位(8个字节);</li>
+<li>当相同的明文使用相同的密钥和初始向量的时候CBC模式总是产生相同的密文;</li>
+</ul>
+<p><strong>优点：</strong></p>
+<p>1.可以使用不同的初始化向量来避免相同的明文产生相同的密文,一定程度上抵抗字典攻击; 不容易主动攻击,安全性好于ECB,适合传输长度长的报文,是SSL、IPSec的标准。</p>
+<p><strong>缺点：</strong></p>
+<p>1.密文块要依赖以前的操作结果，所以，密文块不能进行重新排列，无法并行计算； (在解密时，从两个邻接的密文块中即可得到一个平文块。因此，解密过程可以被并行化) 。</p>
+<p>2需要初始化向量IV</p>
+<p>3会出现错误传播(errorpropagation). 密文中任一位发生变化会涉及后面一些密文组. 但CBC 模式的错算法特点:</p>
+<ul>
+<li>每次加密的密文长度为64位(8个字节);</li>
+<li>当相同的明文使用相同的密钥和初始向量的时候CBC模式总是产生相同的密文;</li>
+</ul>
+<p><strong>优点：</strong></p>
+<p>1.可以使用不同的初始化向量来避免相同的明文产生相同的密文,一定程度上抵抗字典攻击; 不容易主动攻击,安全性好于ECB,适合传输长度长的报文,是SSL、IPSec的标准。</p>
+<p><strong>缺点：</strong></p>
+<p>1.密文块要依赖以前的操作结果，所以，密文块不能进行重新排列，无法并行计算； (在解密时，从两个邻接的密文块中即可得到一个平文块。因此，解密过程可以被并行化) 。</p>
+<p>\2. 需要初始化向量IV</p>
+<p>\3. 会出现错误传播(errorpropagation). 密文中任一位发生变化会涉及后面一些密文组. 但CBC 模式的错误传播不大, 一个传输错误至多影响两个消息组的接收结果 (思考).</p>
+<p>关于错误传播的问题，我的理解是这样的。因为分组密码模式的分组特性导致了这一现象。每个组之间是独立的。所以如果在传输中即使有某一位发生了错误，也仅仅可以理解为某一组发生了错误，对其他组没有影响。</p>
+<p>比如A组发生了位错乱，它最多影响到当前A这组明文和下一组B明文。而再下一组C就不受影响了，因为C组是根据B的密文作为输入的，但是B分组的位并没有发生错误，所以在CBC模式下错误传播最多持续2个分组</p>
+<h3 id="奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系"><a href="#奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系" class="headerlink" title="奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系"></a>奇异，非奇异。超奇异椭圆曲线以及双线性映射之间的关系</h3><p><a href="https://baike.baidu.com/link?url=2fcWrbBJEn7eYi7hCurG4Zo5_-5A-8rRClX1MZj8C68BVqOc_obIoITfqAVXlsuxbo6jQI6iEsQ_XcTNCvINxlScLu7a84SdwqX_zPmmLAWboexyPFf_hK8Jd6quJy-cD2j8C6nWV9eNecuWDA2kImbGIbxtsaGnoPdTCpLRQxC" target="_blank" rel="noopener">椭圆曲线密码学</a></p>
+<p>ECC被广泛认为是在给定密钥长度的情况下，最强大的非对称算法</p>
+<p>ECC的另一个优势是可以定义群之间的<a href="https://baike.baidu.com/item/%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%98%A0%E5%B0%84" target="_blank" rel="noopener">双线性映射</a>，基于Weil对或是Tate对</p>
+<p>双线性映射可以通过有线域上的超椭圆曲线上的Tate对或Weil对来构造。</p>
+<p>(不找了，这部分白给就白给吧，实在是难，考个选择题估计就是这些吧，简答题写上这些应该有分？)</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>DES：数据加密标准，对称密码算法，用于加密；</p>
+<p>AES: 高级加密标准，对称密码算法，用于加密；</p>
+<p>RSA：最流行的公钥密码算法，加密和数字签名；</p>
+<p>ECC：椭圆曲线密码，采用ElGamal算法，公钥密码算法，安全性高，密钥量小，灵活性好；</p>
+<p>DSA：数字签名算法，是数字签名的一部分，公钥密码算法，数字签名。</p>
+<p>MD5(SHA-1)：数字摘要算法，数字签名，保证消息的完整性。</p>
+<h3 id="其他参考网站"><a href="#其他参考网站" class="headerlink" title="其他参考网站"></a>其他参考网站</h3><p><a href="https://comydream.github.io/2018/12/24/cryptography-protocol/index.html" target="_blank" rel="noopener">https://comydream.github.io/2018/12/24/cryptography-protocol/index.html</a></p>
+<p><a href="https://howieliux.github.io/assets/others/hao_dsliu_htmls/bb_1000016.htm" target="_blank" rel="noopener">https://howieliux.github.io/assets/others/hao_dsliu_htmls/bb_1000016.htm</a></p>
+<p><a href="https://blog.csdn.net/z784561257/article/details/82942581" target="_blank" rel="noopener">https://blog.csdn.net/z784561257/article/details/82942581</a></p>
+<p><a href="https://lingyibin.iteye.com/blog/787060" target="_blank" rel="noopener">https://lingyibin.iteye.com/blog/787060</a></p>
+<p><a href="http://silence.work/2018/07/06/%E7%A8%8B%E5%BA%8F%E7%8C%BF%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84%E5%AF%86%E7%A0%81%E6%8A%80%E6%9C%AF/" target="_blank" rel="noopener">http://silence.work/2018/07/06/%E7%A8%8B%E5%BA%8F%E7%8C%BF%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84%E5%AF%86%E7%A0%81%E6%8A%80%E6%9C%AF/</a></p>
+<p><a href="https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/e0829eeba5e9856a5712608f.html</a>（题目，有答案，但是没有详解）</p>
+<p><a href="https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/2bd37f57f01dc281e53af014.html</a>（题目，有答案）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/06/27/数据结构期末复习总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/27/数据结构期末复习总结/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-27T17:05:57+08:00">
+                2019-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本次总结以网上搜查为主，实在是重复造轮子效率低下，主要原因是我不会~</p>
+<p>考虑到是以期末考试为主，所以csdn平台是本地参考网站的大部分来源。。。。不得不说，虽然csdn比较烂，然而水水期末考试还是相当有帮助的。</p>
+<h3 id="题型"><a href="#题型" class="headerlink" title="题型"></a>题型</h3><p>10道选择      20分</p>
+<p>4道简答        40分</p>
+<p>4道编程题     40分</p>
+<h3 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h3><h4 id="单链表插入和删除"><a href="#单链表插入和删除" class="headerlink" title="单链表插入和删除"></a>单链表插入和删除</h4><p><a href="https://blog.csdn.net/sunming0129/article/details/79904415" target="_blank" rel="noopener">https://blog.csdn.net/sunming0129/article/details/79904415</a></p>
+<h4 id="链表合并（集合归并问题）有序表合并"><a href="#链表合并（集合归并问题）有序表合并" class="headerlink" title="链表合并（集合归并问题）有序表合并"></a>链表合并（集合归并问题）有序表合并</h4><p><a href="https://blog.csdn.net/mozha_666/article/details/79681210" target="_blank" rel="noopener">https://blog.csdn.net/mozha_666/article/details/79681210</a></p>
+<p>链表类算法的最关键的点其实就是链表的创建，搞明白了链表是如何创建的，合并，插入，删除都搞明白了</p>
+<h3 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h3><h4 id="进出栈（队列）的顺序"><a href="#进出栈（队列）的顺序" class="headerlink" title="进出栈（队列）的顺序"></a>进出栈（队列）的顺序</h4><h5 id="栈："><a href="#栈：" class="headerlink" title="栈："></a>栈：</h5><p>​    先进后出</p>
+<p>​    中缀转后缀：</p>
+<p>​           操作数直接转输出</p>
+<p>​    操作符使用栈处理</p>
+<p>​    新操作符与栈顶元素比较，若优先级小于等于栈顶，则栈顶弹出。然后新操作入栈，否则新操作符直接压入。</p>
+<p>​    对于”(“，直接入栈，只有在新操作符为“）”时，将其上所有元素弹出。</p>
+<p>​    链表实现和数组实现</p>
+<p>如果进出栈的顺序不确定，输出序列符合何种规律</p>
+<p>一个栈的进栈序列是a，b，c，d，e，则栈的不可能的输出序列是   C   。</p>
+<p> A．edcba      B．decba    C．dceab      D．abcde  <br>设有一个栈，元素依次进栈的顺序为A、B、C、D、E。下列   C   是不可能的出栈序列。 </p>
+<p> A．A,B,C,D,E   B．B,C,D,E,A    C．E,A,B,C,D     D．E,D,C,B,A</p>
+<p>关键在于进栈的序列是知道的，然而什么时候出栈不知道，即进出栈是可以穿插进行的，只需要进栈总的序列满足题意即可</p>
+<h5 id="队列："><a href="#队列：" class="headerlink" title="队列："></a>队列：</h5><ul>
+<li><p>先进先出</p>
+</li>
+<li><p>数组实现</p>
+</li>
+<li><p>用于服务器区块的响应，使用排队论解决响应与阻塞问题。</p>
+<p>​</p>
+</li>
+</ul>
+<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p><a href="https://blog.csdn.net/you_will_know_me/article/details/77102567" target="_blank" rel="noopener">https://blog.csdn.net/you_will_know_me/article/details/77102567</a></p>
+<p><a href="https://www.cnblogs.com/lisen10/p/10850063.html" target="_blank" rel="noopener">https://www.cnblogs.com/lisen10/p/10850063.html</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getnext</span><span class="params">(SString *t, <span class="keyword">int</span> *next)</span></span></span><br><span class="line"><span class="function"></span>&#123;  <span class="comment">/*串t即作为目标串又作为模式串*/</span></span><br><span class="line">    <span class="keyword">int</span> j,k;</span><br><span class="line">    j=<span class="number">0</span>;k=<span class="number">-1</span>;next[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(j&lt;t-&gt;curlen<span class="number">-1</span>)  &#123;</span><br><span class="line">       <span class="keyword">if</span>(k==<span class="number">-1</span>||t-&gt;str[j]==t-&gt;str[k]) &#123;</span><br><span class="line">          j++;k++;</span><br><span class="line">          <span class="keyword">if</span>(t-&gt;str[j]!=t-&gt;str[k])</span><br><span class="line">              next[j]=k;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">              next[j]=next[k];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span> k=next[k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>i和j怎样变换</p>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><h4 id="左右子树如何变换？（用递归算法能否实现）"><a href="#左右子树如何变换？（用递归算法能否实现）" class="headerlink" title="左右子树如何变换？（用递归算法能否实现）"></a>左右子树如何变换？（用递归算法能否实现）</h4><p><a href="https://zhidao.baidu.com/question/551935782.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/551935782.html</a></p>
+<p>第一个回答是用的递归算法的实现，第二个则是定义了一个新的结构体，十分有意思。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">exchangeLR(&amp;root); <span class="comment">//root为树的根节点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">exchangeLR</span><span class="params">(TreeNode *root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">TreeNode *tmp;</span><br><span class="line"><span class="keyword">if</span> (root == <span class="literal">NULL</span>)</span><br><span class="line"><span class="keyword">return</span>;</span><br><span class="line"><span class="comment">// 左子树交换</span></span><br><span class="line">exChangeLR(root-&gt;left);</span><br><span class="line"><span class="comment">// 右子树交换</span></span><br><span class="line">exChangeLR(root-&gt;right);</span><br><span class="line"><span class="comment">// 交换当前结点的左右子树</span></span><br><span class="line">tmp = root-&gt;left;</span><br><span class="line">root-&gt;left = root-&gt;right;</span><br><span class="line">root-&gt;right = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//看起来十分正确的样子~</span></span><br><span class="line"><span class="comment">//原来节点结构体：</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">Element X;</span><br><span class="line">Node* pLeft;</span><br><span class="line">Node* pRight;</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line"><span class="comment">//现在从新定义一个结构</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">Element X;</span><br><span class="line">NewNode* pRight;</span><br><span class="line">NewNode* pLeft;</span><br><span class="line">&#125;NewNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后用新树的根指向原树的根</span></span><br></pre></td></tr></table></figure>
+<h4 id="几个基本性质"><a href="#几个基本性质" class="headerlink" title="几个基本性质"></a>几个基本性质</h4><h4 id="会写三种遍历顺序"><a href="#会写三种遍历顺序" class="headerlink" title="会写三种遍历顺序"></a>会写三种遍历顺序</h4><p><a href="https://blog.csdn.net/u010521845/article/details/61413910" target="_blank" rel="noopener">https://blog.csdn.net/u010521845/article/details/61413910</a></p>
+<h4 id="哈弗曼树的构造方法"><a href="#哈弗曼树的构造方法" class="headerlink" title="哈弗曼树的构造方法"></a>哈弗曼树的构造方法</h4><p><a href="https://blog.csdn.net/u010521845/article/details/61413910" target="_blank" rel="noopener">https://blog.csdn.net/u010521845/article/details/61413910</a></p>
+<p>哈夫曼编码相比于next数组的构造，手算起来更加简单，老师好像讲过next数组也有一种手算的方法，然而。我好像忘了 gg</p>
+<h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p><a href="https://blog.csdn.net/weixin_42110638/article/details/84146813" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42110638/article/details/84146813</a></p>
+<p>这是一个写的十分详细的介绍图的博客，以下介绍图的内容中有大部分是从中摘抄</p>
+<h4 id="图的性质（连通图、连通分量、度等）"><a href="#图的性质（连通图、连通分量、度等）" class="headerlink" title="图的性质（连通图、连通分量、度等）"></a>图的性质（连通图、连通分量、度等）</h4><p>离散自己复习</p>
+<h4 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h4><p>图的遍历图和树的遍历类似，那就是从图中某一顶点出发访遍图中其余顶点，且使每一个顶点仅被访问一次，这个过程就叫做图的遍历。</p>
+<p>对于图的遍历来说，如何避免因回路陷入死循环，就需要科学地设计遍历方案，通过有两种遍历次序方案：深度优先遍历和广度优先遍历。</p>
+<h6 id="深度优先遍历"><a href="#深度优先遍历" class="headerlink" title="深度优先遍历"></a>深度优先遍历</h6><p>深度优先遍历（Depth_First_Search）,也称为深度优先搜索，简称DFS。</p>
+<p><img src="https://img-blog.csdnimg.cn/20181116230627808.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjExMDYzOA==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>为了更好的理解深度优先遍历。请看下面的图解：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181218175743769" alt=""></p>
+<pre><code>//dfs算法
+void Visit( Vertex V )
+
+{
+printf(&quot; %d&quot;, V);
+}
+
+void DFS( MGraph Graph, Vertex V, void (*Visit)(Vertex) )
+
+{
+
+Vertex j;
+Visited[V] = true;//表示从V开始访问
+Visit(V);//访问V，其实抛开题来讲这里一般都是打印V
+for(j = 0;j &lt; Graph-&gt;Nv;j++)
+{
+    if(Graph-&gt;G[V][j] == 1 &amp;&amp; !Visited[j])//邻接矩阵等于1代表有边，此时如果还没被访问就递归调用
+        DFS(Graph,j,Visit);
+}
+
+
+void DFS(int v)//邻接矩阵的dfs
+{
+    visited[v] = 1;
+    cout&lt;&lt;v&lt;&lt;&quot; &quot;;
+    for(int i = 0;i &lt; Nv;i++)
+    {
+        if((G[v][i] == 1) &amp;&amp; !visited[i])//邻接矩阵等于1代表有边(连通)，此时如果还没被访问就递归调用
+            DFS(i);
+    }
+}
+</code></pre><h5 id="广度优先遍历"><a href="#广度优先遍历" class="headerlink" title="广度优先遍历"></a>广度优先遍历</h5><p>广度优先遍历（Breadth_First_Search）,又称为广度优先搜索，简称BFS。</p>
+<p><img src="https://img-blog.csdnimg.cn/20181116234319898.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjExMDYzOA==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181218175743798" alt=""></p>
+<h4 id="AOE网路"><a href="#AOE网路" class="headerlink" title="AOE网路"></a>AOE网路</h4><p><a href="https://blog.csdn.net/qq_38071429/article/details/80407544" target="_blank" rel="noopener">https://blog.csdn.net/qq_38071429/article/details/80407544</a></p>
+<h4 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h4><p><a href="https://blog.csdn.net/weixin_42110638/article/details/84246833" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42110638/article/details/84246833</a></p>
+<h4 id="关键路径"><a href="#关键路径" class="headerlink" title="关键路径"></a>关键路径</h4><p>见AOE网络 </p>
+<h4 id="迪杰斯特拉算法"><a href="#迪杰斯特拉算法" class="headerlink" title="迪杰斯特拉算法"></a>迪杰斯特拉算法</h4><p><a href="https://blog.csdn.net/kprogram/article/details/81225176" target="_blank" rel="noopener">https://blog.csdn.net/kprogram/article/details/81225176</a></p>
+<p>比较简单</p>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>估计是我翘课了。我对这里没有印象</p>
+<p>课件<a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E4%B9%9D%E7%AB%A0__%E6%9F%A5%E6%89%BE.ppsx" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E4%B9%9D%E7%AB%A0__%E6%9F%A5%E6%89%BE.ppsx</a></p>
+<h4 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h4><p><a href="https://blog.csdn.net/barkzhang/article/details/7776629" target="_blank" rel="noopener">https://blog.csdn.net/barkzhang/article/details/7776629</a></p>
+<h4 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h4><p><a href="https://www.cnblogs.com/zhuli19901106/p/3802505.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhuli19901106/p/3802505.html</a></p>
+<h4 id="哈希查找几种处理冲突的方法"><a href="#哈希查找几种处理冲突的方法" class="headerlink" title="哈希查找几种处理冲突的方法"></a>哈希查找几种处理冲突的方法</h4><p><a href="https://blog.csdn.net/Iamthedoctor123/article/details/79334800" target="_blank" rel="noopener">https://blog.csdn.net/Iamthedoctor123/article/details/79334800</a></p>
+<h4 id="会计算等概率条件下平均查找长度"><a href="#会计算等概率条件下平均查找长度" class="headerlink" title="会计算等概率条件下平均查找长度"></a>会计算等概率条件下平均查找长度</h4><p><a href="https://blog.csdn.net/SunnyYoona/article/details/84686162" target="_blank" rel="noopener">https://blog.csdn.net/SunnyYoona/article/details/84686162</a></p>
+<h3 id="内部排序"><a href="#内部排序" class="headerlink" title="内部排序"></a>内部排序</h3><p>这一部分网上的资料要零散，而且少，估计是太简单？反正讲课的时候只用了两三节课左右讲解这里，估计不是重点</p>
+<p>课件<a href="https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E5%8D%81%E7%AB%A0_%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F.ppsx" target="_blank" rel="noopener">https://github.com/ppcrab/Learning_Resources/blob/master/%E7%AC%AC%E5%8D%81%E7%AB%A0_%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F.ppsx</a></p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p><a href="https://www.cnblogs.com/WJQ2017/p/8340156.html" target="_blank" rel="noopener">https://www.cnblogs.com/WJQ2017/p/8340156.html</a></p>
+<p><a href="https://blog.csdn.net/weixin_34059951/article/details/87958541" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34059951/article/details/87958541</a></p>
+<h4 id="快速排序的划分"><a href="#快速排序的划分" class="headerlink" title="快速排序的划分"></a>快速排序的划分</h4><h4 id="快速排序划分的应用"><a href="#快速排序划分的应用" class="headerlink" title="快速排序划分的应用"></a>快速排序划分的应用</h4><h4 id="各种排序的时间复杂度"><a href="#各种排序的时间复杂度" class="headerlink" title="各种排序的时间复杂度"></a>各种排序的时间复杂度</h4><p><a href="https://blog.csdn.net/JxufeCarol/article/details/82825563" target="_blank" rel="noopener">https://blog.csdn.net/JxufeCarol/article/details/82825563</a>  </p>
+<h3 id="其他参考资料网站"><a href="#其他参考资料网站" class="headerlink" title="其他参考资料网站"></a>其他参考资料网站</h3><p>总结博客：<a href="https://blog.csdn.net/u010521845/article/details/61413910" target="_blank" rel="noopener">https://blog.csdn.net/u010521845/article/details/61413910</a></p>
+<p>有关题目<a href="https://wenku.baidu.com/view/33a07baa0242a8956bece4e4.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/33a07baa0242a8956bece4e4.html</a></p>
+<p><a href="https://wenku.baidu.com/view/6a4ac8dcdc88d0d233d4b14e852458fb770b38bb.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/6a4ac8dcdc88d0d233d4b14e852458fb770b38bb.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/28/随机数的破解相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/28/随机数的破解相关/" itemprop="url">随机数的破解相关</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-28T13:00:55+08:00">
+                2019-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>2019强网杯中出现了随机数相关的题目，准备整理一波与随机数有关的题目。</p>
+<h3 id="随机数简介"><a href="#随机数简介" class="headerlink" title="随机数简介"></a>随机数简介</h3><p>对于常见的随机数来说，有C，python，java等。准确的说这些随机数是伪随机数。因为他们往往是随着随机数种子的不同才会产生不同的序列。所以说，只要我们能控制随机数种子，我们就能知道随之而来的随机数序列。随机数也就不再随机了。</p>
+<p>相比较而言<a href="http://kuanghy.github.io/2015/12/30/dev-random" target="_blank" rel="noopener"> linux下的/dev/urandom以及/dev/random</a>更像是随机数。</p>
+<h3 id="各种语言随机数实现"><a href="#各种语言随机数实现" class="headerlink" title="各种语言随机数实现"></a>各种语言随机数实现</h3><h4 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">( <span class="keyword">void</span> )</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="keyword">int</span> i;</span><br><span class="line">srand( (<span class="keyword">unsigned</span>)time( <span class="literal">NULL</span> ) );          <span class="comment">//初始化随机数</span></span><br><span class="line">    <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; <span class="number">10</span>;i++ )                          <span class="comment">//打印出10个随机数</span></span><br><span class="line">          <span class="built_in">printf</span>( <span class="string">"%d\n"</span>, rand() );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里面采用的随机数种子是利用时间进行的，这样的话，每次程序的运行就会有不同的随机数产生。</p>
+<h4 id="python"><a href="#python" class="headerlink" title="python"></a>python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">random.seed(int(time.time()))</span><br><span class="line">recv = random.randint(<span class="number">0</span>,<span class="number">2</span>**<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+<p>我之前以为<a href="https://www.jianshu.com/p/be588891aace" target="_blank" rel="noopener">python 产生的随机数</a>应该是和C一样的。但是现在看来好像并非如此。我记的之前还用过来着。。。。</p>
+<p>忘了，反正python 的random库功能确实多。不愧是python</p>
+<h4 id="java"><a href="#java" class="headerlink" title="java"></a>java</h4><p><a href="https://www.cnblogs.com/skywang12345/p/3341423.html" target="_blank" rel="noopener">java的随机数</a>有点多，第二种和python的很像。第三种则是最常见的。</p>
+<h3 id="随机数的破解"><a href="#随机数的破解" class="headerlink" title="随机数的破解"></a>随机数的破解</h3><h4 id="pwn题目中的破解"><a href="#pwn题目中的破解" class="headerlink" title="pwn题目中的破解"></a>pwn题目中的破解</h4><p>在pwn题目中也会出现随机数这个东西，常常会使用随机数充当地址或者说是判断的标志。</p>
+<p>通常我们需要做的是覆盖随机数种子，因为如果我们可以控制随机数的种子，那么这个随机数序列也就不再是随机的了。then，如果使用的随机数是上文提到的urandom的话，那就要看能否更改随机数产生后的一些东西了。或者说别往随机数这里想，基本上没啥戏了。</p>
+<p>总的来说，我暂时没有遇到什么比较深的利用。</p>
+<h4 id="java随机数的破解"><a href="#java随机数的破解" class="headerlink" title="java随机数的破解"></a>java随机数的破解</h4><p>java随机数的产生是利用了一个经典的算法 LCG，也就是线性同余法。</p>
+<h5 id="上文提到的第一种产生方式"><a href="#上文提到的第一种产生方式" class="headerlink" title="上文提到的第一种产生方式"></a>上文提到的第一种产生方式</h5><p>时间就是种子</p>
+<h5 id="上文提到的第二种随机数产生的方式"><a href="#上文提到的第二种随机数产生的方式" class="headerlink" title="上文提到的第二种随机数产生的方式"></a>上文提到的第二种随机数产生的方式</h5><p>Math.random</p>
+<p>实际上是在内部调用java.util.Random()的，他有一个致命的弱点，它和系统时间有关，也就是说在相隔时间很短的两个random很有可能会得到两个相同的一模一样的double。</p>
+<h5 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h5><p>先来看一下java中Random类干了些什么</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">     * Creates a new random number generator. This constructor sets </span></span><br><span class="line"><span class="comment">     * the seed of the random number generator to a value very likely </span></span><br><span class="line"><span class="comment">     * to be distinct from any other invocation of this constructor. </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Random</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>(seedUniquifier() ^ System.nanoTime());  </span><br><span class="line">    &#125;  </span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">seedUniquifier</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// L'Ecuyer, "Tables of Linear Congruential Generators of  </span></span><br><span class="line">        <span class="comment">// Different Sizes and Good Lattice Structure", 1999  </span></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;  </span><br><span class="line">            <span class="keyword">long</span> current = seedUniquifier.get();  </span><br><span class="line">            <span class="keyword">long</span> next = current * <span class="number">181783497276652981L</span>;  </span><br><span class="line">            <span class="keyword">if</span> (seedUniquifier.compareAndSet(current, next))  </span><br><span class="line">                <span class="keyword">return</span> next;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">   </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicLong seedUniquifier  </span><br><span class="line">        = <span class="keyword">new</span> AtomicLong(<span class="number">8682522807148012L</span>);  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Random</span><span class="params">(<span class="keyword">long</span> seed)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (getClass() == Random.class)  </span><br><span class="line">            <span class="keyword">this</span>.seed = <span class="keyword">new</span> AtomicLong(initialScramble(seed));  </span><br><span class="line">        <span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="comment">// subclass might have overriden setSeed  </span></span><br><span class="line">            <span class="keyword">this</span>.seed = <span class="keyword">new</span> AtomicLong();  </span><br><span class="line">            setSeed(seed);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">initialScramble</span><span class="params">(<span class="keyword">long</span> seed)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> (seed ^ multiplier) &amp; mask;  </span><br><span class="line">    &#125;  </span><br><span class="line">    。。。</span><br></pre></td></tr></table></figure>
+<p>各种骚操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public int nextInt() &#123;  </span><br><span class="line">    return next(32);  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">protected int next(int bits) &#123;  </span><br><span class="line">    long oldseed, nextseed;  </span><br><span class="line">    AtomicLong seed = this.seed;  </span><br><span class="line">    do &#123;  </span><br><span class="line">        oldseed = seed.get();  </span><br><span class="line">        nextseed = (oldseed * multiplier + addend) &amp; mask;  //线性同余</span><br><span class="line">    &#125; while (!seed.compareAndSet(oldseed, nextseed));  </span><br><span class="line">    return (int)(nextseed &gt;&gt;&gt; (48 - bits));  //有个右移操作</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上</p>
+<p>[ <img src="/2019/05/28/随机数的破解相关/捕获.PNG" alt="捕获">]</p>
+<p>我们已经知道了所需要的参数</p>
+<p>所以我们完全可以使用暴力破解的方式得到没有进行右移操作之前的数，从而得到seed</p>
+<p>简单的说就是已经知道了两个相邻的随机数，我们可以预测这一串随机数。</p>
+<p><img src="https://cy-pic.kuaizhan.com/g3/9a/c0/dbe5-cb0c-4234-b884-8d721e590fd371" alt="https://cy-pic.kuaizhan.com/g3/9a/c0/dbe5-cb0c-4234-b884-8d721e590fd371"></p>
+<h4 id="python-random的破解"><a href="#python-random的破解" class="headerlink" title="python random的破解"></a>python random的破解</h4><p>已经有大佬搞了个库，膜</p>
+<p><a href="https://github.com/tna0y/Python-random-module-cracker/blob/master/README.md" target="_blank" rel="noopener">https://github.com/tna0y/Python-random-module-cracker/blob/master/README.md</a></p>
+<p>俺要去看看具体咋写的，不做脚本小子，gg</p>
+<h3 id="线性同余算法的破解"><a href="#线性同余算法的破解" class="headerlink" title="线性同余算法的破解"></a>线性同余算法的破解</h3><p>实际上，这是一种十分不安全的算法，由于有大佬做的博客十分详细，我就不再重复的造轮子了。gg</p>
+<p>甚是详细</p>
+<p><a href="http://zeroyu.xyz/2018/11/02/Cracking-LCG/" target="_blank" rel="noopener">http://zeroyu.xyz/2018/11/02/Cracking-LCG/</a></p>
+<p>gcd算法自己搞就好，望上一搜一堆</p>
+<h3 id="本文参考链接："><a href="#本文参考链接：" class="headerlink" title="本文参考链接："></a>本文参考链接：</h3><p><a href="https://blog.csdn.net/angelkeepmoving/article/details/52191857" target="_blank" rel="noopener">https://blog.csdn.net/angelkeepmoving/article/details/52191857</a></p>
+<p><a href="https://t1174779123.iteye.com/blog/2037719" target="_blank" rel="noopener">https://t1174779123.iteye.com/blog/2037719</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/05/22/关于largebin利用的一些东西/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -479,7 +1175,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  81
+                  142
                 </span>
               
 
@@ -522,6 +1218,10 @@
 <p>想自己搭建一些环境然后玩玩，这一篇主要是介绍awd环境搭建相关信息。</p>
 <p>希望这一系列不会太监~</p>
 <h4 id="搞到了一份来自大佬的环境配置关怀"><a href="#搞到了一份来自大佬的环境配置关怀" class="headerlink" title="搞到了一份来自大佬的环境配置关怀"></a>搞到了一份来自大佬的环境配置关怀</h4><p><a href="https://github.com/sleicasper/ADplatform" target="_blank" rel="noopener">孙磊大佬玩过的awd，tql</a></p>
+<p>忘了记录了，gg</p>
+<p>前一阵子搞出来了一个awd环境，自己玩了玩，用的是<a href="https://gitee.com/mengfengfei/awd-platform" target="_blank" rel="noopener">awd-platform</a></p>
+<p>需要改一些东西，网上有相关教程</p>
+<p>有时间再想玩再研究一波孙磊大佬的环境</p>
 
           
         
@@ -1395,476 +2095,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/23/堆pwn1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/23/堆pwn1/" itemprop="url">堆利用-1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T19:50:34+08:00">
-                2019-04-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  650
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这周刚好要讲堆的一些东西，就先总结一下一些堆的知识</p>
-<p>堆，利用起来要分情况的。网上常见的各种利用，比如double free，off by one等其实本质都差不太多，说是套路也不全是。</p>
-<p>首先就是最喜闻乐见的堆溢出，堆溢出这东西，和栈溢出差的可不是一星半点。栈溢出可以直接进行返回地址的覆盖，但是堆溢出的时候，虽然将后者覆盖了。但是也是得看咋利用的。</p>
-<p>首先我们知道的是，在堆这个数据结构中，还有chunk块以及bin的概念，chunk就是储存堆中数据的数据块，按照状态的不同又allocated chunk，free chunk以及top chunk的区别。bin，现在我的理解是，chunk块进行free后有一些会进入bin中，比如fastbin，unsorted bin等。</p>
-<p><strong>我们覆盖堆的目的就是能够在free的时候利用其中定义的一些宏进行操作。</strong></p>
-<p>那么问题来了，free的chunk块会被分配到什么地方呢。</p>
-<p>这一点十分重要，如果搞不清楚这一点，那么堆的利用也就无从谈起了。</p>
-<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>对于一些比较小的chunk块，也就是size在(0x10~0x40)之间的这些，会在free后直接进入单项链表fastbin中，</p>
-<p>这个时候我们会要怎么利用呢，很简单，不是单向链表吗，我们如果能修改其中的指针不久完了？修改完，岂不是下一次申请的堆地址我们就能控制了？当然，这时候需要做的是伪造chunk块，因为它有一个检查size的值的操作。</p>
-<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>unsorted bin   这个东西的利用主要是为了泄露堆地址以及libc地址</p>
-<p> <img src="/2019/04/23/堆pwn1/堆利用-1/r.PNG" alt="r"></p>
-<p> 在这个图中，我们可以清楚的看到对于第二个堆块有一个指针指向了上一个属于unsorted bin的free chunk块，也就是堆地址。第二个地址其实是一个libc的地址，libc的首地址可以通过减去偏移算出来。</p>
-<p>所谓的利用就是，当我们再次申请同样大小的数据块的时候，内存会自动给我们分配这两个内存区域，因为快~</p>
-<p>然后我们就可以填充一定的字符，然后输出的时候就可以把后面的字符顺带着输出出来 <img src="/2019/04/23/堆pwn1/堆利用-1/2.PNG" alt="2"></p>
-<p>free 块放入unsorted bin的条件是     比较小或者比较大，很有意思的说法。。。或者说0x200以下的放不进fastbin中就会进入unsortedbin中。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/01/CyberNumble/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/01/CyberNumble/" itemprop="url">CyberNumble</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-01T20:47:32+08:00">
-                2019-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  134
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这是一个十分有意思的题目，虽然被归到了pwn，但是又和普通的pwn不太一样，不过真的很有意思~~</p>
-<p>fscanf 函数 在将从文本中读进来的数据当作字符串的时候，遇到空白字符是会停止的</p>
-<p>mprotect函数可以更改区域的执行权限</p>
-<p>64位参数传递 比如rdi寄存器，传递的是参数的地址。。。而不是直接的参数</p>
-<p>事实证明，一个没有free的指针往往是有用的</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/02/08/pwntools脚本的编写/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/08/pwntools脚本的编写/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-08T12:47:24+08:00">
-                2019-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  0
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1919,7 +2149,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2000,7 +2230,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">23.6k</span>
+    <span title="Site words total count">24.7k</span>
   
 </div>
 
