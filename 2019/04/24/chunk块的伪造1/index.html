@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://ppcrab.github.io/archives/2019/05/index.html">
+<meta name="description" content="chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。 这一次的chunk块伪造的主要点在于fastbin利用的时候。 情形一，堆溢出如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是： 1，被覆盖的chunk处于fastbin中 ，否则就没有fd 2，被覆盖的c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="chunk块的伪造">
+<meta property="og:url" content="https://ppcrab.github.io/2019/04/24/chunk块的伪造1/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。 这一次的chunk块伪造的主要点在于fastbin利用的时候。 情形一，堆溢出如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是： 1，被覆盖的chunk处于fastbin中 ，否则就没有fd 2，被覆盖的c">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-24T12:21:16.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="chunk块的伪造">
+<meta name="twitter:description" content="chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。 这一次的chunk块伪造的主要点在于fastbin利用的时候。 情形一，堆溢出如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是： 1，被覆盖的chunk处于fastbin中 ，否则就没有fd 2，被覆盖的c">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://ppcrab.github.io/archives/2019/05/"/>
+  <link rel="canonical" href="https://ppcrab.github.io/2019/04/24/chunk块的伪造1/"/>
 
 
 
 
 
-  <title>Archive | Hexo</title>
+  <title>chunk块的伪造 | Hexo</title>
   
 
 
@@ -152,7 +156,7 @@
    
    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
    
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -246,258 +250,189 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 39 posts in total. Keep on posting.
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/24/chunk块的伪造1/">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">chunk块的伪造</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-24T18:32:43+08:00">
+                2019-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/28/随机数的破解相关/" itemprop="url">
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">随机数的破解相关</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  636
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-28T13:00:55+08:00"
-              content="2019-05-28" >
-          05-28
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/22/关于largebin利用的一些东西/" itemprop="url">
-              
-                <span itemprop="name">关于largebin利用的一些东西</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-22T13:45:26+08:00"
-              content="2019-05-22" >
-          05-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/20/ctf线下攻防awd系列（1）/" itemprop="url">
-              
-                <span itemprop="name">ctf线下攻防awd系列（1）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-20T19:38:40+08:00"
-              content="2019-05-20" >
-          05-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>chunk块的伪造在进行堆的利用，尤其是fastbin的利用的时候是一个十分重要的步骤，因为我们需要利用我们伪造的chunk块进行欺骗。从而达到任意地址写的目的。</p>
+<p>这一次的chunk块伪造的主要点在于fastbin利用的时候。</p>
+<h3 id="情形一，堆溢出"><a href="#情形一，堆溢出" class="headerlink" title="情形一，堆溢出"></a>情形一，堆溢出</h3><p>如果是堆溢出的情况，我们能做的就是覆盖下一个chunk块的fd，这时候的前提是：</p>
+<p>1，被覆盖的chunk处于fastbin中 ，否则就没有fd</p>
+<p>2，被覆盖的chunk块应该是最后一个进入fastbin中的，要不然轮到这个fd起作用就得等一阵子，比较麻烦，不是不可以。</p>
+<p>然后我们申请一个同样大小的malloc，就会得到这个chunk块，这时候fd就起作用了。会作用到我们下一次申请的时候malloc返回的地址。也就是达到了任意地址写的目的</p>
+<p>那么chunk块的伪造呢？这时候我们在目的地址出应该让目的地址+8的位置为size，也就是我们所利用的这个fastbin链的大小。</p>
+<p>常常。。题目中可能会出现一些记录总的malloc地址个数的东西，这时候我们就能用了。</p>
+<h3 id="任意地址free"><a href="#任意地址free" class="headerlink" title="任意地址free"></a>任意地址free</h3><p>这种时候我们要做的事情就比较多了一点，比起来上面的堆溢出，我们需要认为的构造出一个堆溢出的环境出来。也就是初始的chunk的伪造。</p>
+<p>我们可以在正常申请的堆中输入以下数据</p>
+<p><code>p64(0)+p64(0)+p64(0)+p64(size)</code></p>
+<p>然后呢，如果本来free的地址是addr,也就是我们正常申请的地方的地址。由于存在任意地址free的漏洞，我们可以把它改成free，addr+0x10的地址，这时候我们就能把一个伪造的chunk块放入fastbin块中了。然后，我们再次申请这个大小的堆，就会得到地址为addr+0x20的堆，so，我们进行edit第一个堆数据时候就能做到堆溢出，搞到第二个堆块了。然后就是和堆溢出一样了。</p>
+<p>顺便一提的是，第二次伪造chunk块的时候除了上文提到的利用记录chunk块的数量，还可以利用记录chunk块本身大小size的地址进行伪造。</p>
+<p>任意地址free的前提就是知道堆的首地址，也就是堆地址的泄露，由于写过，此处不再重复。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/14/堆溢出方向-free-hook的修改/" itemprop="url">
-              
-                <span itemprop="name">堆溢出方向----_free_hook的修改</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-14T15:01:36+08:00"
-              content="2019-05-14" >
-          05-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/09/double-free的一次运用/" itemprop="url">
-              
-                <span itemprop="name">double free的以此运用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-09T21:31:34+08:00"
-              content="2019-05-09" >
-          05-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/05/04/记一次迷宫问题引发的pythonC-交互分析/" itemprop="url">
-              
-                <span itemprop="name">记一次迷宫问题引发的pythonC++交互分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-05-04T23:33:49+08:00"
-              content="2019-05-04" >
-          05-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/23/堆pwn1/" rel="next" title="堆利用-1">
+                <i class="fa fa-chevron-left"></i> 堆利用-1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/return-to-dl-resolve-菜鸡初学习/" rel="prev" title="return to dl-resolve--菜鸡初学习">
+                return to dl-resolve--菜鸡初学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -505,6 +440,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -525,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -597,6 +545,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#情形一，堆溢出"><span class="nav-number">1.</span> <span class="nav-text">情形一，堆溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任意地址free"><span class="nav-number">2.</span> <span class="nav-text">任意地址free</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -747,6 +711,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
