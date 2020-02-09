@@ -324,7 +324,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2.7k
+                  2.8k
                 </span>
               
 
@@ -364,7 +364,12 @@
         
           
             <p>好久没写过blog了。。。。</p>
-<h4 id="CVE-2018-19777"><a href="#CVE-2018-19777" class="headerlink" title="CVE-2018-19777"></a>CVE-2018-19777</h4><h5 id="漏洞code分析"><a href="#漏洞code分析" class="headerlink" title="漏洞code分析"></a>漏洞code分析</h5><p>此cve为infinite loop，即无限循环</p>
+<h4 id="CVE-2018-19777"><a href="#CVE-2018-19777" class="headerlink" title="CVE-2018-19777"></a>CVE-2018-19777</h4><h5 id="软件简介"><a href="#软件简介" class="headerlink" title="软件简介"></a>软件简介</h5><p>mupdf为一开源的pdf查看、编辑软件，也可用来进行与其他格式如svg、XPS的文件进行转换</p>
+<p>简介：</p>
+<p><a href="https://www.mupdf.com/index.html" target="_blank" rel="noopener">https://www.mupdf.com/index.html</a></p>
+<p>各版本下载链接</p>
+<p><a href="https://mupdf.com/downloads/" target="_blank" rel="noopener">https://mupdf.com/downloads/</a></p>
+<h5 id="漏洞code分析"><a href="#漏洞code分析" class="headerlink" title="漏洞code分析"></a>漏洞code分析</h5><p>此cve为infinite loop，即无限循环</p>
 <p>code为mupdf 1.14.0 中函数 <strong>svg_dev_end_tile</strong>内部</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w = t-&gt;view.x1 - t-&gt;view.x0;</span><br><span class="line">h = t-&gt;view.y1 - t-&gt;view.y0;</span><br><span class="line"></span><br><span class="line">for (x = 0; x &gt; -w; x -= t-&gt;step.x)</span><br><span class="line">		for (y = 0; y &gt; -h; y -= t-&gt;step.y)</span><br><span class="line">			fz_write_printf(ctx, out, &quot;&lt;use x=\&quot;%g\&quot; y=\&quot;%g\&quot; xlink:href=\&quot;#pac%d\&quot;/&gt;\n&quot;, x, y, t-&gt;pattern);</span><br></pre></td></tr></table></figure>
 <p>可以看得出此处t-&gt;step.x，t-&gt;step.y若为0，则会出现无限循环</p>
@@ -2187,7 +2192,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">27.4k</span>
+    <span title="Site words total count">27.5k</span>
   
 </div>
 
