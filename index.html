@@ -261,6 +261,218 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2020/02/09/CVE-2018-19777分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/09/CVE-2018-19777分析/" itemprop="url">CVE-2018-19777分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-09T22:13:18+08:00">
+                2020-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.7k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>好久没写过blog了。。。。</p>
+<h4 id="CVE-2018-19777"><a href="#CVE-2018-19777" class="headerlink" title="CVE-2018-19777"></a>CVE-2018-19777</h4><h5 id="漏洞code分析"><a href="#漏洞code分析" class="headerlink" title="漏洞code分析"></a>漏洞code分析</h5><p>此cve为infinite loop，即无限循环</p>
+<p>code为mupdf 1.14.0 中函数 <strong>svg_dev_end_tile</strong>内部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w = t-&gt;view.x1 - t-&gt;view.x0;</span><br><span class="line">h = t-&gt;view.y1 - t-&gt;view.y0;</span><br><span class="line"></span><br><span class="line">for (x = 0; x &gt; -w; x -= t-&gt;step.x)</span><br><span class="line">		for (y = 0; y &gt; -h; y -= t-&gt;step.y)</span><br><span class="line">			fz_write_printf(ctx, out, &quot;&lt;use x=\&quot;%g\&quot; y=\&quot;%g\&quot; xlink:href=\&quot;#pac%d\&quot;/&gt;\n&quot;, x, y, t-&gt;pattern);</span><br></pre></td></tr></table></figure>
+<p>可以看得出此处t-&gt;step.x，t-&gt;step.y若为0，则会出现无限循环</p>
+<p>poc的运行结果图如下</p>
+<p><img src="/2020/02/09/CVE-2018-19777分析/./CVE-2018-19777分析\1581233244101.png" alt="1581233244101"></p>
+<p><img src="/2020/02/09/CVE-2018-19777分析/1581232926334.png" alt="1581232926334"></p>
+<p>显而易见，达到了利用效果，但是如何利用的呢？</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>结合漏洞代码上方注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/* All the pattern contents will have their own ctm applied. Let&apos;s</span><br><span class="line">	 * undo the current one to allow for this */</span><br><span class="line">	 //CTM(current transformation matrixs)</span><br></pre></td></tr></table></figure>
+<p>以及变量的名称t-&gt; step.x，t-&gt;step.y，函数名称<strong>svg_dev_end_tile</strong></p>
+<p>在大体了解了pdf格式后结合文档可以可以定位到文档的8.7节Patterns，以及表Table 75</p>
+<p><img src="/2020/02/09/CVE-2018-19777分析/1581232538986.png" alt="1581232538986"></p>
+<p>可以看到，pdf1.7中明确指出了XStep与 YStep不可为0</p>
+<p>在poc中加入这两个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">endstream</span><br><span class="line">endobj</span><br><span class="line">14 0 obj &lt;&lt;</span><br><span class="line">  /PatternType 1</span><br><span class="line">  /BBox [0 0 225 161]</span><br><span class="line">  /XStep 100</span><br><span class="line">  /YStep 100</span><br><span class="line">&gt;&gt;</span><br><span class="line">stream</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<p><img src="/2020/02/09/CVE-2018-19777分析/1581233332532.png" alt="1581233332532"></p>
+<p><img src="/2020/02/09/CVE-2018-19777分析/1581233044127.png" alt="1581233044127"></p>
+<p>说明猜测是正确的</p>
+<p>mupdf在转换时并没有十分严格的遇到不合格的pdf就停止，而是继续运行，所以出现了pdf文档中禁止的参数数值出现的情况</p>
+<h5 id="poc分析-amp-pdf格式简单分析"><a href="#poc分析-amp-pdf格式简单分析" class="headerlink" title="poc分析&amp;pdf格式简单分析"></a>poc分析&amp;pdf格式简单分析</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">%PDF-1.7//pdf的文件头，标识了版本号为1.7</span><br><span class="line">%狉//以下为pdf的主体即一堆object  &lt;&lt; &gt;&gt;内的为其内容</span><br><span class="line">1 0 obj &lt;&lt; // 1的意义为obj的序号，0代表经过改动的次数，但是现在好像都是0</span><br><span class="line">  /Kids [3 0 R] //kids对象说明它的子页对象为3，这里的x 0 R;出现了关键字R即为一i你用x序列号的对象</span><br><span class="line">  /Type /Pages  //这个对象的类型为页pages</span><br><span class="line">  /Count 1      //count 说明页码数量为1</span><br><span class="line">&gt;&gt;</span><br><span class="line">endobj         //对象结束</span><br><span class="line">2 0 obj &lt;&lt;</span><br><span class="line">  /Type /Catalog  //对象类型为目录catalog</span><br><span class="line">  /Pages 1 -3617168 R  //1号对象为pages类型，这里的-3617168很奇怪，但是将其改为其他的数字并不影响这个poc，所以并不是这里的问题</span><br><span class="line">&gt;&gt;</span><br><span class="line">endobj</span><br><span class="line">3 0 obj &lt;&lt;</span><br><span class="line">  /Resources 11 0 R //该页包含的资源，因为有一些无法用直接对象直接表述的内容，但是内容流Steam中又无法出现间接对象，所以出现了一些Name Resources</span><br><span class="line">  /Type /Page</span><br><span class="line">  /Contents 10 0 R  //内容为 序号10的对象 </span><br><span class="line">  /Parent 1 0 R	    //父对象为1</span><br><span class="line">&gt;&gt;</span><br><span class="line">endobj</span><br><span class="line">10 0 obj &lt;&lt;</span><br><span class="line">&gt;&gt;</span><br><span class="line">stream</span><br><span class="line">1 0 0 1 315.779 733.039 cm</span><br><span class="line">1 0 255 1 2.835 -173.614 cm</span><br><span class="line">1.04704 0 0 1.04704 0 0 cm     //通过连接指定的矩阵来修改当前的转换矩，stream中涉及到的算法并没有研究。此部分为文档中的8.44</span><br><span class="line">/Im6 Do //下述命名资源的引用</span><br><span class="line">endstream</span><br><span class="line">endobj</span><br><span class="line">11 0 obj &lt;&lt;        //Name Resources有 (指令集)Procset、(字体) Font 、(色彩空间)Color space、(外部对象)XObject、(拓展的图形状态)Extended graphic state、(底纹)Pattern、用户拓展标记列表(Property list)</span><br><span class="line">  /XObject &lt;&lt;</span><br><span class="line">    /Im6 12 0 R    //12号对象命名为Im6</span><br><span class="line">  &gt;&gt;</span><br><span class="line">&gt;&gt;</span><br><span class="line">endobj</span><br><span class="line">12 0 obj &lt;&lt;</span><br><span class="line">  /Subtype /Form   //表示显示的内容为表格类型的，或者说方框，例如批注的方框</span><br><span class="line">  /Resources &lt;&lt;    //这里不得不说明一下，&lt;&lt;&gt;&gt;为字典类型</span><br><span class="line">    /XObject &lt;&lt;</span><br><span class="line">      /x15 13 0 R</span><br><span class="line">    &gt;&gt;</span><br><span class="line">  &gt;&gt;</span><br><span class="line">&gt;&gt;</span><br><span class="line">stream</span><br><span class="line">/x15 Do</span><br><span class="line">endstream</span><br><span class="line">endobj</span><br><span class="line">13 0 obj &lt;&lt;</span><br><span class="line">  /Subtype /Form</span><br><span class="line">  /Resources &lt;&lt;</span><br><span class="line">    /Pattern &lt;&lt;</span><br><span class="line">      /p31 14 0 R</span><br><span class="line">    &gt;&gt;</span><br><span class="line">  &gt;&gt;</span><br><span class="line">&gt;&gt;</span><br><span class="line">stream</span><br><span class="line">q /Pattern cs /p31 scn /a0 gs</span><br><span class="line">0 1 224.720001 160.399994 re f  //这里的数据a,b,c,d 对t-&gt;area 产生了影响，t-&gt;area.x0=-25500;t-&gt;area.y0 = b;t-&gt;area.x1 = 25500+c;t-&gt;area.y1 = d; </span><br><span class="line">								//re 是路径构造运算符在当前路径上附加一个矩形作为完整的子路径，左下角（x，y）和任意的用户空间中的高度和宽度。</span><br><span class="line">								//f : 路径绘制fill the path,using the nonzero winding number rule to determine the region to fill.</span><br><span class="line">								//Any subpaths that are open shall be implictly closed before being filled（填充路径，使用非零卷绕数规则确定要填充的区域。</span><br><span class="line">								任何打开的子路径在填充之前都应隐式关闭）</span><br><span class="line">Q</span><br><span class="line">endstream</span><br><span class="line">endobj</span><br><span class="line">14 0 obj &lt;&lt;</span><br><span class="line">  /PatternType 1</span><br><span class="line">  /BBox [0 0 225 161] //方框 两边为225、161 units .此四项数据a,b,c,d与code的对应关系为：t-&gt;view.x0=a,t-&gt;view.y0 = b,t-&gt;view.x1=c,t-&gt;view.y1=d;</span><br><span class="line">						//XStep and YStep may be either positive or negative but shall not be zero.程序载入的时候会取绝对值</span><br><span class="line">						//在文档中可以看得出这部分有参数名为 XStep、YStep。而且特别标注了不可以是0，因为当是0时确实没有什么用，它本身就是用来进行不同设备之间的像素缩放时用到的一个标量。</span><br><span class="line">  /Resources &lt;&lt;									  </span><br><span class="line">  /XObject &lt;&lt;</span><br><span class="line">      /x47 12 0 R</span><br><span class="line">    &gt;&gt;</span><br><span class="line">  &gt;&gt;					</span><br><span class="line">&gt;&gt;</span><br><span class="line">stream</span><br><span class="line">/x47 Do</span><br><span class="line">endstream</span><br><span class="line">endobj</span><br><span class="line">xref  //xref，交叉引用表</span><br><span class="line">0 15</span><br><span class="line">0000000000 65535 f //一般pdf都是以这行开始交叉引用表的，起始地址0和产生号</span><br><span class="line">0000000015 00000 n //表示对象1，15为偏移地址n表示对象在使用</span><br><span class="line">0000000078 00000 n </span><br><span class="line">0000000131 00000 n </span><br><span class="line">0000000000 65535 f </span><br><span class="line">0000000000 1 f </span><br><span class="line">0000000000 65535 f </span><br><span class="line">0000000000 65535 f </span><br><span class="line">0000000000 65535 f </span><br><span class="line">0000000000 65535 f </span><br><span class="line">0000000221 00000 n </span><br><span class="line">0000000348 00000 n </span><br><span class="line">0000000405 00000 n </span><br><span class="line">0000000531 00000 n </span><br><span class="line">0000000712 00000 n </span><br><span class="line">trailer &lt;&lt;            //整个xref的简单摘要</span><br><span class="line">  /Root 2 0 R          //这里也是为什么2号对象是目录类型的原因</span><br><span class="line">  /Size 110   		  //obj的数目，此poc并没有考虑到这里的正确性，因为漏洞位置之前代码检测完并没有直接退出，而是多了个“trying to repair broken xref”</span><br><span class="line">&gt;&gt;</span><br><span class="line">startxref</span><br><span class="line">860</span><br><span class="line">%%EOF</span><br></pre></td></tr></table></figure>
+<h5 id="函数调用过程分析"><a href="#函数调用过程分析" class="headerlink" title="函数调用过程分析"></a>函数调用过程分析</h5><p>这一部分比较复杂而且并没有影响到这个cve的整体分析，所以此部分完成的不是太好，尽力了</p>
+<p>在<strong>svg_dev_end_tile</strong>内</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svg_device *sdev = (svg_device*)dev;</span><br><span class="line">.....</span><br><span class="line">t = &amp;sdev-&gt;tiles[num];</span><br></pre></td></tr></table></figure>
+<p>其中t的结构体为 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct tile_s</span><br><span class="line">&#123;</span><br><span class="line">	int pattern;</span><br><span class="line">	fz_matrix ctm;</span><br><span class="line">	fz_rect view;</span><br><span class="line">	fz_rect area;</span><br><span class="line">	fz_point step;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>svg_device 的结构体为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">struct svg_device_s</span><br><span class="line">&#123;</span><br><span class="line">	fz_device super;</span><br><span class="line"></span><br><span class="line">	int text_as_text;</span><br><span class="line">	int reuse_images;</span><br><span class="line"></span><br><span class="line">	fz_output *out;</span><br><span class="line">	fz_output *out_store;</span><br><span class="line">	fz_output *defs;</span><br><span class="line">	fz_buffer *defs_buffer;</span><br><span class="line">	int def_count;</span><br><span class="line"></span><br><span class="line">	int id;</span><br><span class="line"></span><br><span class="line">	int num_tiles;</span><br><span class="line">	int max_tiles;</span><br><span class="line">	tile *tiles;</span><br><span class="line"></span><br><span class="line">	int num_fonts;</span><br><span class="line">	int max_fonts;</span><br><span class="line">	font *fonts;</span><br><span class="line"></span><br><span class="line">	int num_images;</span><br><span class="line">	int max_images;</span><br><span class="line">	image *images;</span><br><span class="line"></span><br><span class="line">	int layers;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>svg_dev_end_tile</strong>在<strong>fz_new_svg_device</strong>内成为了函数指针</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">fz_device *fz_new_svg_device(fz_context *ctx, fz_output *out, float page_width, float page_height, int text_format, int reuse_images)</span><br><span class="line">&#123;</span><br><span class="line">	svg_device *dev = fz_new_derived_device(ctx, svg_device);</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.close_device = svg_dev_close_device;</span><br><span class="line">	dev-&gt;super.drop_device = svg_dev_drop_device;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.fill_path = svg_dev_fill_path;</span><br><span class="line">	dev-&gt;super.stroke_path = svg_dev_stroke_path;</span><br><span class="line">	dev-&gt;super.clip_path = svg_dev_clip_path;</span><br><span class="line">	dev-&gt;super.clip_stroke_path = svg_dev_clip_stroke_path;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.fill_text = svg_dev_fill_text;</span><br><span class="line">	dev-&gt;super.stroke_text = svg_dev_stroke_text;</span><br><span class="line">	dev-&gt;super.clip_text = svg_dev_clip_text;</span><br><span class="line">	dev-&gt;super.clip_stroke_text = svg_dev_clip_stroke_text;</span><br><span class="line">	dev-&gt;super.ignore_text = svg_dev_ignore_text;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.fill_shade = svg_dev_fill_shade;</span><br><span class="line">	dev-&gt;super.fill_image = svg_dev_fill_image;</span><br><span class="line">	dev-&gt;super.fill_image_mask = svg_dev_fill_image_mask;</span><br><span class="line">	dev-&gt;super.clip_image_mask = svg_dev_clip_image_mask;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.pop_clip = svg_dev_pop_clip;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.begin_mask = svg_dev_begin_mask;</span><br><span class="line">	dev-&gt;super.end_mask = svg_dev_end_mask;</span><br><span class="line">	dev-&gt;super.begin_group = svg_dev_begin_group;</span><br><span class="line">	dev-&gt;super.end_group = svg_dev_end_group;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.begin_tile = svg_dev_begin_tile;</span><br><span class="line">	dev-&gt;super.end_tile = svg_dev_end_tile;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.begin_layer = svg_dev_begin_layer;</span><br><span class="line">	dev-&gt;super.end_layer = svg_dev_end_layer;</span><br><span class="line"></span><br><span class="line">	dev-&gt;super.hints |= FZ_MAINTAIN_CONTAINER_STACK;</span><br><span class="line"></span><br><span class="line">	dev-&gt;out = out;</span><br><span class="line">	dev-&gt;out_store = out;</span><br><span class="line">	dev-&gt;id = 0;</span><br><span class="line">	dev-&gt;layers = 0;</span><br><span class="line">	dev-&gt;text_as_text = (text_format == FZ_SVG_TEXT_AS_TEXT);</span><br><span class="line">	dev-&gt;reuse_images = reuse_images;</span><br><span class="line"></span><br><span class="line">	fz_write_printf(ctx, out, &quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot; standalone=\&quot;no\&quot;?&gt;\n&quot;);</span><br><span class="line">	fz_write_printf(ctx, out, &quot;&lt;!DOCTYPE svg PUBLIC \&quot;-//W3C//DTD SVG 1.1//EN\&quot; \&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\&quot;&gt;\n&quot;);</span><br><span class="line">	fz_write_printf(ctx, out, &quot;&lt;svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot; &quot;</span><br><span class="line">		&quot;xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; version=\&quot;1.1\&quot; &quot;</span><br><span class="line">		&quot;width=\&quot;%gpt\&quot; height=\&quot;%gpt\&quot; viewBox=\&quot;0 0 %g %g\&quot;&gt;\n&quot;,</span><br><span class="line">		page_width, page_height, page_width, page_height);</span><br><span class="line"></span><br><span class="line">	return (fz_device*)dev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数的上层引用为</p>
+<p>函数<strong>svg_begin_page</strong></p>
+<p>函数<strong>fz_new_derived_document_writer</strong>//新生成的文件空间申请以及调用函数，构造函数指针列表</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> fz_new_derived_document_writer(CTX,TYPE,BEGIN_PAGE,END_PAGE,CLOSE,DROP) \</span></span><br><span class="line">	((TYPE *)Memento_label(fz_new_document_writer_of_size(CTX,<span class="keyword">sizeof</span>(TYPE),BEGIN_PAGE,END_PAGE,CLOSE,DROP),#TYPE))</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wri-&gt;begin_page = begin_page;<span class="comment">//这里的begin_page即作为参数传入的svg_begin_page</span></span><br></pre></td></tr></table></figure>
+<p>函数<strong>fz_new_svg_writer</strong> //新生成文件创建</p>
+<p>函数<strong>fz_new_document_writer</strong>//文件类型判断，返回一个<strong>fz_document_writer</strong> 结构体指针</p>
+<p>函数<strong>muconvert_main</strong> 即进行pdf转svg的命令  <em>mutool.exe convert -o text.svg .\Infinite_loop_convert_svg</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">fz_try(ctx)</span><br><span class="line">		out = fz_new_document_writer(ctx, output, format, options);</span><br><span class="line">	fz_catch(ctx)</span><br><span class="line">	&#123;</span><br><span class="line">		fprintf(stderr, &quot;cannot create document: %s\n&quot;, fz_caught_message(ctx));</span><br><span class="line">		fz_drop_context(ctx);</span><br><span class="line">		return EXIT_FAILURE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for (i = fz_optind; i &lt; argc; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		doc = fz_open_document(ctx, argv[i]);</span><br><span class="line">		if (fz_needs_password(ctx, doc))</span><br><span class="line">			if (!fz_authenticate_password(ctx, doc, password))</span><br><span class="line">				fz_throw(ctx, FZ_ERROR_GENERIC, &quot;cannot authenticate password: %s&quot;, argv[i]);</span><br><span class="line">		fz_layout_document(ctx, doc, layout_w, layout_h, layout_em);</span><br><span class="line">		count = fz_count_pages(ctx, doc);</span><br><span class="line"></span><br><span class="line">		if (i+1 &lt; argc &amp;&amp; fz_is_page_range(ctx, argv[i+1]))</span><br><span class="line">			runrange(argv[++i]);//函数调用</span><br><span class="line">		else</span><br><span class="line">			runrange(&quot;1-N&quot;);</span><br><span class="line"></span><br><span class="line">		fz_drop_document(ctx, doc);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>另一方面<strong>runrange</strong>内调用了之前赋值的函数指针</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">runrange</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *range)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> start, end, i;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> ((range = fz_parse_page_range(ctx, range, &amp;start, &amp;end, count)))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (start &lt; end)</span><br><span class="line">			<span class="keyword">for</span> (i = start; i &lt;= end; ++i)</span><br><span class="line">				runpage(i);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">for</span> (i = start; i &gt;= end; --i)</span><br><span class="line">				runpage(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">runpage</span><span class="params">(<span class="keyword">int</span> number)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	fz_rect mediabox;</span><br><span class="line">	fz_page *page;</span><br><span class="line">	fz_device *dev = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	page = fz_load_page(ctx, doc, number - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">	fz_var(dev);</span><br><span class="line"></span><br><span class="line">	fz_try(ctx)</span><br><span class="line">	&#123;</span><br><span class="line">		mediabox = fz_bound_page(ctx, page);</span><br><span class="line">		dev = fz_begin_page(ctx, out, mediabox);</span><br><span class="line">		fz_run_page(ctx, page, dev, fz_identity, <span class="literal">NULL</span>);<span class="comment">//svg_dev_end_tile的调用函数</span></span><br><span class="line">	&#125;</span><br><span class="line">	fz_always(ctx)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (dev)</span><br><span class="line">			fz_end_page(ctx, out);</span><br><span class="line">		fz_drop_page(ctx, page);</span><br><span class="line">	&#125;</span><br><span class="line">	fz_catch(ctx)</span><br><span class="line">		fz_rethrow(ctx);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">fz_device *</span><br><span class="line">fz_begin_page(fz_context *ctx, fz_document_writer *wri, fz_rect mediabox)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (!wri)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	wri-&gt;dev = wri-&gt;begin_page(ctx, wri, mediabox);</span><br><span class="line">	<span class="keyword">return</span> wri-&gt;dev;<span class="comment">//返回的wri-&gt;dev指针即包含了svg_dev_end_tile 在内的一套函数指针</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fz_run_page(fz_context *ctx, fz_page *page, fz_device *dev, fz_matrix transform, fz_cookie *cookie)</span><br><span class="line">&#123;</span><br><span class="line">	fz_annot *annot;</span><br><span class="line"></span><br><span class="line">	fz_run_page_contents(ctx, page, dev, transform, cookie);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void</span><br><span class="line">fz_run_page_contents(fz_context *ctx, fz_page *page, fz_device *dev, fz_matrix transform, fz_cookie *cookie)</span><br><span class="line">&#123;</span><br><span class="line">	if (page &amp;&amp; page-&gt;run_page_contents &amp;&amp; page)</span><br><span class="line">	&#123;</span><br><span class="line">		fz_try(ctx)</span><br><span class="line">		&#123;</span><br><span class="line">			page-&gt;run_page_contents(ctx, page, dev, transform, cookie);</span><br><span class="line">		&#125;</span><br><span class="line">		fz_catch(ctx)</span><br><span class="line">		&#123;</span><br><span class="line">			if (fz_caught(ctx) != FZ_ERROR_ABORT)</span><br><span class="line">				fz_rethrow(ctx);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再往下的分析没有继续，因为我并没有找到<strong>page-&gt;run_page_contents</strong>的初始定义</p>
+<p>但是猜测应该是与这两处地方的代码有关</p>
+<p>其一为pdf-page.c中的解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">page-&gt;super.run_page_contents = (fz_page_run_page_fn*)pdf_run_page_contents;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pdf_run_page_contents_with_usage(ctx, doc, page, dev, ctm, &quot;View&quot;, cookie);//此函数即为pdf格式解析部分</span><br></pre></td></tr></table></figure>
+<p>另一处为svg-doc.c中的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">page-&gt;super.run_page_contents = svg_run_page;</span><br></pre></td></tr></table></figure>
+<p>但是这里的代码应该是加载svg文件时进行分析的，不太像是</p>
+<h5 id="修复分析"><a href="#修复分析" class="headerlink" title="修复分析"></a>修复分析</h5><p>因为影响这个循环的是 t-&gt;step.x、t-&gt;step.y</p>
+<p>这时，进行判断 t-&gt;step.x == 0 可能是起作用的，</p>
+<p>最新版本中的修复并没有在函数<strong>svg_dev_end_tile</strong>内，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w = t-&gt;view.x1 - t-&gt;view.x0;</span><br><span class="line">	h = t-&gt;view.y1 - t-&gt;view.y0;</span><br><span class="line"></span><br><span class="line">	for (x = 0; x &gt; -w; x -= t-&gt;step.x)</span><br><span class="line">		for (y = 0; y &gt; -h; y -= t-&gt;step.y)</span><br><span class="line">			fz_write_printf(ctx, out, &quot;&lt;use x=\&quot;%g\&quot; y=\&quot;%g\&quot; xlink:href=\&quot;#pac%d\&quot;/&gt;\n&quot;, x, y, t-&gt;pattern);</span><br></pre></td></tr></table></figure>
+<p>而是在<strong>svg_dev_begin_tile</strong>内加入了判断代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">static int</span><br><span class="line">svg_dev_begin_tile(fz_context *ctx, fz_device *dev, fz_rect area, fz_rect view, float xstep, float ystep, fz_matrix ctm, int id)</span><br><span class="line">&#123;</span><br><span class="line">	svg_device *sdev = (svg_device*)dev;</span><br><span class="line">	fz_output *out;</span><br><span class="line">	int num;</span><br><span class="line">	tile *t;</span><br><span class="line"></span><br><span class="line">	if (sdev-&gt;num_tiles == sdev-&gt;max_tiles)</span><br><span class="line">	&#123;</span><br><span class="line">		int n = (sdev-&gt;num_tiles == 0 ? 4 : sdev-&gt;num_tiles * 2);</span><br><span class="line"></span><br><span class="line">		sdev-&gt;tiles = fz_realloc_array(ctx, sdev-&gt;tiles, n, tile);</span><br><span class="line">		sdev-&gt;max_tiles = n;</span><br><span class="line">	&#125;</span><br><span class="line">	num = sdev-&gt;num_tiles++;</span><br><span class="line">	t = &amp;sdev-&gt;tiles[num];</span><br><span class="line">	t-&gt;area = area;</span><br><span class="line">	t-&gt;view = view;</span><br><span class="line">	t-&gt;ctm = ctm;</span><br><span class="line">	t-&gt;pattern = sdev-&gt;id++;</span><br><span class="line"></span><br><span class="line">	xstep = fabsf(xstep);</span><br><span class="line">	ystep = fabsf(ystep);</span><br><span class="line">	if (xstep == 0 || ystep == 0) &#123;</span><br><span class="line">		fz_warn(ctx, &quot;Pattern cannot have x or ystep == 0.&quot;);</span><br><span class="line">		if (xstep == 0)</span><br><span class="line">			xstep = 1;</span><br><span class="line">		if (ystep == 0)</span><br><span class="line">			ystep = 1;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h5><p><a href="https://www.cvedetails.com/cve/CVE-2018-19777/" target="_blank" rel="noopener">cve漏洞报告</a></p>
+<p><a href="https://bugs.ghostscript.com/show_bug.cgi?id=700301" target="_blank" rel="noopener">cve漏洞详细报告以及poc所在地址</a></p>
+<p><a href="https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf" target="_blank" rel="noopener">PDF1.7协议</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/09/10/chunk块的伪造2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1840,169 +2052,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/07/17/rop书写的几种形式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/17/rop书写的几种形式/" itemprop="url">rop书写的几种形式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-17T12:15:45+08:00">
-                2019-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  100
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>64位的直接用p64</p>
-<p>32的直接写p32</p>
-<p>一个接一个，最基本的也是最常见的</p>
-<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>先确定环境例如</p>
-<p>context.arch = ‘i386’</p>
-<p>一种类似layout = [payload]</p>
-<p>然后flat(layout)也就是省略了p32(payload)</p>
-<h4 id="3"><a href="#3" class="headerlink" title="3"></a>3</h4><p>第三种方法就是</p>
-<p>也是有一个rop = [payload]</p>
-<p>然后使用这种方式</p>
-<p>payload += ‘’.join(list(map(p64,rop)))</p>
-<p>效果一样</p>
-<p>主要还是看rop链本身的构造</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2057,7 +2106,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2124,7 +2173,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -2138,7 +2187,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">24.7k</span>
+    <span title="Site words total count">27.4k</span>
   
 </div>
 

