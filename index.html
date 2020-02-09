@@ -369,7 +369,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w = t-&gt;view.x1 - t-&gt;view.x0;</span><br><span class="line">h = t-&gt;view.y1 - t-&gt;view.y0;</span><br><span class="line"></span><br><span class="line">for (x = 0; x &gt; -w; x -= t-&gt;step.x)</span><br><span class="line">		for (y = 0; y &gt; -h; y -= t-&gt;step.y)</span><br><span class="line">			fz_write_printf(ctx, out, &quot;&lt;use x=\&quot;%g\&quot; y=\&quot;%g\&quot; xlink:href=\&quot;#pac%d\&quot;/&gt;\n&quot;, x, y, t-&gt;pattern);</span><br></pre></td></tr></table></figure>
 <p>可以看得出此处t-&gt;step.x，t-&gt;step.y若为0，则会出现无限循环</p>
 <p>poc的运行结果图如下</p>
-<p><img src="/2020/02/09/CVE-2018-19777分析/./CVE-2018-19777分析\1581233244101.png" alt="1581233244101"></p>
+<p><img src="/2020/02/09/CVE-2018-19777分析/1581233244101.png" alt="1581233244101"></p>
 <p><img src="/2020/02/09/CVE-2018-19777分析/1581232926334.png" alt="1581232926334"></p>
 <p>显而易见，达到了利用效果，但是如何利用的呢？</p>
 <h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>结合漏洞代码上方注释</p>
